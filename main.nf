@@ -109,6 +109,7 @@ log.info """
 */
 
 include { INFILE_HANDLING } from "./modules/local/infile_handling.nf"
+include { COMPARISON_LIST } from "./modules/local/comparison_list.nf"
 
 /*
 ========================================================================================
@@ -136,10 +137,16 @@ workflow {
         input_ch
     )
 
-    // ch_versions = ch_versions.mix(<process>.out.versions)
+    ch_versions = ch_versions.mix(INFILE_HANDLING.out.versions)
+
+    COMPARISON_LIST (
+        INFILE_HANDLING.out.asm
+    )
+
+    ch_versions = ch_versions.mix(COMPARISON_LIST.out.versions)
     
-    // PATTERN: Collate method version information
-    // ch_versions.collectFile(name: 'software_versions.yml', storeDir: params.logpath)
+    // PATTERN: Collate version information
+    ch_versions.collectFile(name: 'software_versions.yml', storeDir: params.logpath)
 }
 
 /*
