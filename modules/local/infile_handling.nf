@@ -31,7 +31,7 @@ process INFILE_HANDLING {
         # Check if total inputs are > 2
         total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
         if [[ ${total_inputs} -lt 2 ]]; then
-            echo 'ERROR: at least 2 genomes are required for batch analysis' >&2
+            msg 'ERROR: at least 2 genomes are required for batch analysis' >&2
         exit 1
         fi
 
@@ -59,11 +59,11 @@ process INFILE_HANDLING {
         if [[ $(find -L "$A" -type f -size +45k 2>/dev/null) ]]; then
             FNA+=("$A")
         else
-            echo "INFO: $A not >45 kB so it was not included in the analysis" >&2
+            msg "INFO: $A not >45 kB so it was not included in the analysis" >&2
         fi
         done
         if [ ${#FNA[@]} -lt 2 ]; then
-            echo 'ERROR: found <2 genome files >45 kB' >&2
+            msg 'ERROR: found <2 genome files >45 kB' >&2
         exit 1
         fi
 
