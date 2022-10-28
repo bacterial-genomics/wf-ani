@@ -11,10 +11,10 @@ process INFILE_HANDLING {
         path input
 
     output:
-        path input, emit: input
-        path assemblies, emit: asm
+        path "assemblies/*", emit: asm
         path ".command.out"
         path ".command.err"
+        path "versions.yml", emit: versions
         
     shell:
         '''
