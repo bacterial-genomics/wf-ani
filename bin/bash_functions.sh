@@ -53,3 +53,25 @@ verify_file_minimum_size()
   fi
 }
 
+find_combinations()
+{
+readarray -t COMBO_FILES < <(python3 - <<-EOF
+import itertools, os
+with open(os.getenv('genomes'), 'r') as ifh:
+    genome_filenames = [ln.rstrip('\\n') for ln in ifh]
+    print(genome_filenames)
+def iter_chunks(iterable, items_per_chunk=int(os.getenv('tasks_per_job'))):
+    while True:
+        iter_chunk = itertools.islice(iterable, items_per_chunk)
+        peek = next(iter_chunk)
+        yield itertools.chain([peek], iter_chunk)
+
+combos = itertools.combinations(genome_filenames, 2)
+for idx, chunk in enumerate(iter_chunks(combos), start=1):
+    outfile = os.path.join('pairs.' + str(idx) + '.fofn')
+    with open(outfile, 'w') as ofh:
+        ofh.write('\\n'.join('./assemblies/{}\\t./assemblies/{}'.format(j, k) for j, k in chunk))
+    print(outfile)
+EOF
+)
+}
