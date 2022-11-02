@@ -11,7 +11,8 @@ process INFILE_HANDLING {
         path input
 
     output:
-        path "assemblies/*", emit: asm
+        path "assemblies", emit: asm
+        path "assemblies/*"
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
