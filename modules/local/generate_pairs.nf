@@ -45,7 +45,7 @@ process GENERATE_PAIRS {
         fi
 
         pairs_file=$(find . -name *pairs* | rev | cut -d '/' -f 1 | rev)
-        pairs_file_length=$(awk '{print NR}' ${pairs_file})
+        pairs_file_length=$(awk 'END{print NR}' ${pairs_file})
         msg "INFO: Pairs file, '${pairs_file}', created with ${pairs_file_length} pairs"
 
         cat <<-END_VERSIONS > versions.yml
