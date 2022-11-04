@@ -5,7 +5,7 @@ process INFILE_HANDLING {
         pattern: ".command.*",
         saveAs: { filename -> "${basename}.${task.process}${filename}" }
 
-        container "ubuntu:focal"
+    container "ubuntu:focal"
 
     input:
         path input

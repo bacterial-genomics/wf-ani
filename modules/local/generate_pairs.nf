@@ -8,7 +8,7 @@ process GENERATE_PAIRS {
         pattern: ".command.*",
         saveAs: { filename -> "${basename}.${task.process}${filename}" }
 
-        container "snads/biopython@sha256:bb041f55fd45d0fb577656e2d1f1a9f477d3ba80878b3b42218adff3322ae06e"
+    container "snads/biopython@sha256:bb041f55fd45d0fb577656e2d1f1a9f477d3ba80878b3b42218adff3322ae06e"
 
     input:
         path asm
