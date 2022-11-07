@@ -111,6 +111,7 @@ log.info """
 include { INFILE_HANDLING } from "./modules/local/infile_handling.nf"
 include { GENERATE_PAIRS } from "./modules/local/generate_pairs.nf"
 include { ANI } from "./modules/local/ani.nf"
+include { SUMMARY } from "./modules/local/summary.nf"
 
 /*
 ========================================================================================
@@ -151,6 +152,10 @@ workflow {
 
     ANI (
         pairs_ch
+    )
+
+    SUMMARY (
+        ANI.out.stats
     )
     
     // PATTERN: Collate version information
