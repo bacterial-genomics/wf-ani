@@ -2,7 +2,7 @@ process ANI {
 
     publishDir "${params.outpath}",
         mode: "${params.publish_dir_mode}",
-        pattern: "*"
+        pattern: "ANI*/"
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
@@ -16,6 +16,9 @@ process ANI {
         tuple val(pair1), val(pair2), path(asm)
 
     output:
+        path "ANI*/"
+        path "ANI*/*"
+        path "ANI*/ani*stats.tab", emit: stats
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
@@ -48,10 +51,12 @@ process ANI {
         python ${run_ANI} -1 !{pair1} -2 !{pair2} --name1 ${B1} --name2 ${B2} -c !{task.cpus} \
         -o "ANI--${B1},${B2}"
 
-        #cat <<-END_VERSIONS > versions.yml
-        #"!{task.process}":
-        #    python: python
-        #END_VERSIONS
+        cat <<-END_VERSIONS > versions.yml
+        "!{task.process}":
+            python: $(python --version)
+            blast: $(blast -version | head -n 1 | awk 'NF>1{print $NF}' | cut -d '+' -f 1)
+            biopython: $(grep "version" /usr/local/lib/python*/dist-packages/Bio/__init__.py | head -n 1 | awk 'NF>1{print $NF}' | tr -d '"')
+        END_VERSIONS
 
 
         '''
