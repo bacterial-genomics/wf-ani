@@ -109,7 +109,8 @@ log.info """
 */
 
 include { INFILE_HANDLING } from "./modules/local/infile_handling.nf"
-include { COMPARISON_LIST } from "./modules/local/comparison_list.nf"
+include { GENERATE_PAIRS } from "./modules/local/generate_pairs.nf"
+include { ANI } from "./modules/local/ani.nf"
 
 /*
 ========================================================================================
@@ -131,6 +132,8 @@ workflow {
     input_ch = Channel.fromPath(params.inpath, checkIfExists: true)
     output_ch = Channel.fromPath(params.outpath)
     ch_versions = Channel.empty()
+    pairs_ch = Channel.empty()
+
 
     // PROCESS: Read files from input directory, validate and stage input files
     INFILE_HANDLING (
@@ -139,11 +142,16 @@ workflow {
 
     ch_versions = ch_versions.mix(INFILE_HANDLING.out.versions)
 
-    COMPARISON_LIST (
+    GENERATE_PAIRS (
         INFILE_HANDLING.out.asm
     )
 
-    ch_versions = ch_versions.mix(COMPARISON_LIST.out.versions)
+    ch_versions = ch_versions.mix(GENERATE_PAIRS.out.versions)
+    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map { row-> tuple(row[0], row[1]) }.combine( INFILE_HANDLING.out.asm )
+
+    ANI (
+        pairs_ch
+    )
     
     // PATTERN: Collate version information
     ch_versions.collectFile(name: 'software_versions.yml', storeDir: params.logpath)
