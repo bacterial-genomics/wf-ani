@@ -131,9 +131,9 @@ workflow {
 
     // SETUP: Define input, output, and dependency channels
     input_ch = Channel.fromPath(params.inpath, checkIfExists: true)
-    output_ch = Channel.fromPath(params.outpath)
     ch_versions = Channel.empty()
     pairs_ch = Channel.empty()
+    ani_stats_ch = Channel.empty()
 
 
     // PROCESS: Read files from input directory, validate and stage input files
@@ -148,15 +148,20 @@ workflow {
     )
 
     ch_versions = ch_versions.mix(GENERATE_PAIRS.out.versions)
-    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map { row-> tuple(row[0], row[1]) }.combine( INFILE_HANDLING.out.asm )
+    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map {row-> tuple(row[0], row[1])}.combine(INFILE_HANDLING.out.asm)
 
     ANI (
         pairs_ch
     )
 
+    ch_versions = ch_versions.mix(ANI.out.versions)
+    ani_stats_ch = ani_stats_ch.mix(ANI.out.stats).collect()
+
     SUMMARY (
-        ANI.out.stats
+        ani_stats_ch
     )
+
+    ch_versions = ch_versions.mix(SUMMARY.out.versions)
     
     // PATTERN: Collate version information
     ch_versions.collectFile(name: 'software_versions.yml', storeDir: params.logpath)
