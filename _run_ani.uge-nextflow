@@ -1,0 +1,13 @@
+#!/bin/bash -l
+
+module load nextflow
+
+nextflow \
+  -log /scicomp/scratch/$USER/nextflow_log.txt \
+  run \
+  -profile singularity,sge \
+  $LAB_HOME/workflows/wf-ani/main.nf \
+  --outpath $OUT \
+  --inpath $IN \
+  -w /scicomp/scratch/$USER/work \
+  -N $USER@cdc.gov
