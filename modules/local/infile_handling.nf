@@ -70,7 +70,7 @@ process INFILE_HANDLING {
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            ubuntu: $(cat /etc/issue)
+            ubuntu: $(cat /etc/issue | awk '{print $2}')
         END_VERSIONS
         '''
 }

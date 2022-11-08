@@ -50,7 +50,7 @@ process GENERATE_PAIRS {
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            ubuntu: $(cat /etc/issue)
+            python: $(python3 --version 2>&1 | awk '{print $2}')
         END_VERSIONS
         '''
 }

@@ -2,13 +2,13 @@ process ANI {
 
     publishDir "${params.outpath}",
         mode: "${params.publish_dir_mode}",
-        pattern: "ANI*/"
+        pattern: "ANI--*"
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
         saveAs: { filename -> "${basename}.${task.process}${filename}" }
 
-    label "process_medium"
+    label "process_high"
 
     container "gregorysprenger/blast-plus-biopython@sha256:3ac93e8a8ad2f2f80393fd8ca9102d1a466fcbeeb18da16e22ad6327e9b197c9"
 
@@ -16,9 +16,8 @@ process ANI {
         tuple val(pair1), val(pair2), path(asm)
 
     output:
-        path "ANI*/"
-        path "ANI*/*"
-        path "ANI*/ani*stats.tab", emit: stats
+        path "ANI--*"
+        path "ANI--*/ani*stats.tab", emit: stats
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
@@ -53,11 +52,9 @@ process ANI {
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            python: $(python --version)
-            blast: $(blast -version | head -n 1 | awk 'NF>1{print $NF}' | cut -d '+' -f 1)
-            biopython: $(grep "version" /usr/local/lib/python*/dist-packages/Bio/__init__.py | head -n 1 | awk 'NF>1{print $NF}' | tr -d '"')
+            python: $(python --version 2>&1 | awk '{print $2}')
+            biopython: $(python -c 'import Bio; print(Bio.__version__)' 2>&1)
+            blast: $(blastn -version | head -n 1 | awk '{print $2}')
         END_VERSIONS
-
-
         '''
 }
