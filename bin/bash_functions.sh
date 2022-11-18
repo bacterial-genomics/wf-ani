@@ -55,7 +55,7 @@ verify_file_minimum_size()
 
 find_combinations()
 {
-readarray -t COMBO_FILES < <(python3 - <<-EOF
+readarray -t COMBO_FILES < <(python - <<-EOF
 import itertools, os
 with open(os.getenv('genomes'), 'r') as ifh:
     genome_filenames = [ln.rstrip('\\n') for ln in ifh]
