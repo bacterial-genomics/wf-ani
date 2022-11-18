@@ -148,7 +148,7 @@ workflow {
     )
 
     ch_versions = ch_versions.mix(GENERATE_PAIRS.out.versions)
-    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map {row-> tuple(row[0], row[1])}.combine(INFILE_HANDLING.out.asm)
+    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map{row-> tuple(row[0], row[1])}.combine(INFILE_HANDLING.out.asm)
 
     ANI (
         pairs_ch
