@@ -64,7 +64,7 @@ process SUMMARY {
         
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            ubuntu: $(cat /etc/issue | awk '{print $2}')
+            ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
         END_VERSIONS
         '''
 }
