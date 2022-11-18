@@ -10,7 +10,7 @@ process ANI {
 
     label "process_high"
 
-    container "gregorysprenger/blast-plus-biopython@sha256:3ac93e8a8ad2f2f80393fd8ca9102d1a466fcbeeb18da16e22ad6327e9b197c9"
+    container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:
         tuple val(pair1), val(pair2), path(asm)

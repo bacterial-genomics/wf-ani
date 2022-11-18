@@ -8,7 +8,7 @@ process GENERATE_PAIRS {
         pattern: ".command.*",
         saveAs: { filename -> "${basename}.${task.process}${filename}" }
 
-    container "snads/biopython@sha256:bb041f55fd45d0fb577656e2d1f1a9f477d3ba80878b3b42218adff3322ae06e"
+    container "gregorysprenger/biopython@sha256:77a50d5d901709923936af92a0b141d22867e3556ef4a99c7009a5e7e0101cc1"
 
     input:
         path asm
@@ -50,7 +50,7 @@ process GENERATE_PAIRS {
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            python: $(python3 --version 2>&1 | awk '{print $2}')
+            python: $(python --version 2>&1 | awk '{print $2}')
         END_VERSIONS
         '''
 }
