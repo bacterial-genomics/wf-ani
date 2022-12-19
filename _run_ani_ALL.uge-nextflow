@@ -1,0 +1,56 @@
+#!/bin/bash -l
+
+module load nextflow
+
+nextflow \
+  -log /scicomp/scratch/${USER}/nextflow_log.txt \
+  run \
+  -profile singularity,sge \
+  ${HOME}/wf-ani/main.nf \
+  --outpath ${OUT} \
+  --inpath ${IN} \
+  -w /scicomp/scratch/${USER}/work \
+  -N ${USER}@cdc.gov
+
+# Check for errors and add to errors.tsv
+# Get nextflow run name
+run_name=$(grep "Launching" ${OUT}/log/ANI_*.o* | cut -d '[' -f 2 | cut -d ']' -f 1)
+
+# Read each line from nextflow log, find info, and add to errors.tsv
+while read -r line
+do
+    sample_name=$(grep "nf-" ${line}/.command.run | cut -d '(' -f 2 | cut -d ')' -f 1)
+    process=$(grep "nf-" ${line}/.command.run | awk -F 'nf-' '{print $2}' | sed -e 's/_(.*//')
+    error=$(tail -n 1 ${line}/.command.err | sed -e 's/\[[^][]*\]//g')
+
+    # If process for sample retried and succeeded, ignore, else add to errors.tsv
+    if [ $(ls ${OUT}/log/process_logs/${sample_name}.${process}* | wc -l) -ge 1 ]; then
+      continue
+    else
+      echo -e "${sample_name}\t${process}\t${error}\t${line}" >> ${OUT}/log/errors.tsv
+    fi
+done < <(nextflow log ${run_name} -filter 'status == "FAILED"')
+
+# If errors.tsv found, add column headers
+if [[ -f "${OUT}/log/errors.tsv" ]]; then
+  sed -i '1i Sample Name\tProcess\tError\tError Directory' ${OUT}/log/errors.tsv
+fi
+
+# Count lines in ANI.Summary.tab (removes header line from count)
+num_ani=$(awk 'END {print NR-1}' ${OUT}/ANI.Summary.tab)
+
+# E-mail completion status
+if [[ -f "${OUT}/ANI.Summary.tab" ]] && [[ -f "${OUT}/log/errors.tsv" ]]; then
+  echo -e "ANI summary finished on $(date)\n${OUT}" | mail \
+  -s "${num_ani} ANI samples $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/ANI.Summary.tab" \
+  -a "${OUT}/log/errors.tsv" \
+  "${USER}@cdc.gov"
+elif [[ -f "${OUT}/ANI.Summary.tab" ]]; then
+  echo -e "ANI summary finished on $(date)\n${OUT}" | mail \
+  -s "${num_ani} ANI samples $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/ANI.Summary.tab" \
+  "${USER}@cdc.gov"
+fi

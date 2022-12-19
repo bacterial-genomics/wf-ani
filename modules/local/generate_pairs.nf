@@ -6,16 +6,17 @@ process GENERATE_PAIRS {
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
-        saveAs: { filename -> "${basename}.${task.process}${filename}" }
+        saveAs: { filename -> "${task.process}${filename}" }
 
     container "gregorysprenger/biopython@sha256:77a50d5d901709923936af92a0b141d22867e3556ef4a99c7009a5e7e0101cc1"
 
     input:
         path asm
+        path query
 
     output:
         path "genomes.fofn"
-        path "pairs*.fofn", emit: pairs
+        path "pairs.*.fofn", emit: pairs
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
@@ -25,27 +26,54 @@ process GENERATE_PAIRS {
         source bash_functions.sh
 
         # Place assembly files into new variable
-        ASM=( !{asm}/* )
+        ASM=()
+        for file in !{asm}/*; do
+            ASM+=( $(basename ${file}) )
+        done
 
         # Generate list of pairwise comparisons
         genomes="genomes.fofn"
         printf "%s\n" "${ASM[@]}" > "${genomes}"
-        tasks_per_job=20000
 
-        # Create environment variables
-        export OUT genomes tasks_per_job
-        
-        # Use python3 to find all possible combinations of files
-        # Script placed into bash_functions.sh due to line indention errors
-        find_combinations
+        # Generate pairs
+        if [[ -f !{query} ]]; then
+            # If query is a file and not null,
+            # Append query to genomes.fofn
+            echo -e "assemblies/!{query}" >> ${genomes}
 
-        if [ ${#COMBO_FILES[@]} -eq 0 ]; then
-            msg 'ERROR: no file pairs to submit for analysis' >&2
-            exit 1
+            # Create pairs.fofn
+            for file in "${ASM[@]}"; do
+                echo -e "!{query}\t${file}" >> pairs.${#ASM[@]}.fofn
+            done
+
+            # Make sure there are file pairs to analyze
+            if [ $(wc -l pairs.${#ASM[@]}.fofn) -eq 0 ]; then
+                msg 'ERROR: no file pairs to submit for analysis' >&2
+                exit 1
+            fi
+
+            # Move query to assemblies folder for ANI process
+            mv !{query} assemblies
+
+        else
+            # If query is not a file
+            tasks_per_job=20000
+
+            # Create environment variables
+            export OUT genomes tasks_per_job
+            
+            # Use python3 to find all possible combinations of files
+            # Script placed into bash_functions.sh due to line indention errors
+            find_combinations
+
+            if [ ${#COMBO_FILES[@]} -eq 0 ]; then
+                msg 'ERROR: no file pairs to submit for analysis' >&2
+                exit 1
+            fi
         fi
 
-        pairs_file=$(find . -name *pairs* | rev | cut -d '/' -f 1 | rev)
-        pairs_file_length=$(awk 'END{print NR}' ${pairs_file})
+        pairs_file=$(basename pairs.*.fofn)
+        pairs_file_length=$(echo ${pairs_file} | cut -d '.' -f 2)
         msg "INFO: Pairs file, '${pairs_file}', created with ${pairs_file_length} pairs"
 
         cat <<-END_VERSIONS > versions.yml

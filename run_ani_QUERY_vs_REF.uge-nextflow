@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+#$ -cwd
+
+# This script is to run the wf-ani workflow on a QUERY vs REFERENCE PANEL on the UGE cluster
+
+# Define script usage
+
+usage() {
+  echo "
+Usage: ${0##*/} QueryInput ReferenceDirectory [OutputDirectory] [-h|--help]
+  
+Required:
+<QueryInput>        Single FastA or Genbank formatted file ending in:
+                      {fa,fas,fsa,fna,fasta} and {gb,gbk,gbf,gbff}
+                      with optional .gz compression will be analyzed.
+
+<InputDirectory>    All FastA and GenBank formatted files ending in:
+                      {fa,fas,fsa,fna,fasta} and {gb,gbk,gbf,gbff}
+                      with optional .gz compression will be analyzed.
+
+        Whitespace is forbidden in filenames.
+
+        Only files that exceed 45 kB in size within <QueryInput> and
+        <ReferenceDirectory> will be used for ANI comparisons.
+
+Optional:
+  -h | --help        Show this help message and exit.
+  <OutputDirectory>  Location for the output files, which
+                     includes job logfiles. Output files
+                     will be overwritten if already present.
+                     Default: current working directory.     
+  
+  "
+}
+
+# Check requirements
+[[ $1 == "--help" || $1 == "-h" ]] && { usage; exit 0; }
+if [[ $# -lt 1  || $# -gt 3 ]]; then
+  echo "ERROR: improper number ("$#") of arguments provided" >&2
+  usage
+  exit 1
+fi
+
+# I/O handling
+QUERY=$(readlink -f "$1")
+REFERENCE=$(readlink -f "$2")
+if [[ -z "$3" ]]; then
+  OUT="${PWD}"
+else
+  OUT=$(readlink -f "$3")
+fi
+
+# Set up tmp and cache directories for Singularity
+mkdir -p ${HOME}/tmp && export TMPDIR=${HOME}/tmp
+mkdir -p /scicomp/scratch/$USER/singularity.cache && export NXF_SINGULARITY_CACHEDIR=/scicomp/scratch/${USER}/singularity.cache
+
+# Get LAB_HOME or custom tmp/cache variables from .bashrc
+source ${HOME}/.bashrc
+
+# Color output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+RESET='\033[0m'
+
+# Add found files to an array
+found_files=( $(find ${REFERENCE} \
+      -maxdepth 1 -name "*.fa*" -o \
+      -name "*.fas*" -o -name "*.fsa*" -o \
+      -name "*.fna*" -o -name "*.fasta*" -o \
+      -name "*.gb*" -o -name "*.gbk*" -o \
+      -name "*.gbf*" -o -name "*.gbff*") )
+
+# Check to see if FastA/Genbank files are present in REFERENCE
+if [[ ${#found_files[@]} -ge 1 ]]; then
+  # Arrays for submissions
+  submitted=()
+
+  # Loop over find command for files
+  for line in "${found_files[@]}";
+  do
+    base=$(basename ${line} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1') # Remove _genomic and .extension from filenames
+    submitted+=(${base})
+  done
+
+# Give error message if files are not found
+else
+  echo -e "${RED}FastA/Genbank files are not found in ${REFERENCE}${RESET}"
+  exit 1
+fi
+
+# Make sure QUERY is in the proper format
+if [[ ${QUERY} =~ .*\.(fa.*$|fas.*$|fsa.*$|fna.*$|fasta.*$|gb.*$|gbk.*$|gbf.*$|gbff.*$) ]]; then
+  echo -n ""
+else
+  echo -e "${RED}$(basename ${QUERY}) does not meet required file format. Please use files ending in fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff. These may also be .gz compressed.${RESET}"
+fi
+
+# If FastA/Genbank files are able to be submitted, submit and display basenames
+if [[ ${#submitted[@]} -ge 1 ]]; then
+  # Submit Nextflow pipeline to HPC
+  qsub \
+    -v NXF_SINGULARITY_CACHEDIR=${NXF_SINGULARITY_CACHEDIR} \
+    -v TMPDIR=${TMPDIR} \
+    -v OUT=${OUT} \
+    -v QUERY=${QUERY} \
+    -v REFERENCE=${REFERENCE} \
+    -v LAB_HOME=${LAB_HOME} \
+    -o ${OUT}/log/ \
+    -e ${OUT}/log/ \
+    -M ${USER}@cdc.gov \
+    -m ba \
+    -N ANI_${#submitted[@]} \
+    -q all.q \
+    ${HOME}/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
+
+  # Count number of possible pairings
+  pairings=$(( $(( ${#submitted[@]}+1 ))*${#submitted[@]} /2 ))
+
+  # Display basename of files submitted
+  echo -e "\nInput directory: ${QUERY}"
+  echo -e "Output directory: ${OUT}\n"
+  echo -e "${GREEN}$(basename ${QUERY}) found and is being used as QUERY Sample.\n${RESET}"
+  echo -e "${GREEN}Submitted $(( ${#submitted[@]}+1 )) bidirectional ANI tasks as ${pairings} jobs.\n${RESET}"
+fi
+
+# Set up log directory in OUT directory
+mkdir -p ${OUT}/log

@@ -3,12 +3,13 @@ process INFILE_HANDLING {
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
-        saveAs: { filename -> "${basename}.${task.process}${filename}" }
+        saveAs: { filename -> "${task.process}${filename}" }
 
     container "ubuntu:focal"
 
     input:
         path input
+        path query
 
     output:
         path "assemblies", emit: asm
@@ -30,13 +31,18 @@ process INFILE_HANDLING {
         msg "INFO: ${#plaintext_asm[@]} plain text assemblies found"
 
         # Check if total inputs are > 2
-        total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
+        if [[ -f !{query} ]]; then
+            total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} + 1 ))
+        else
+            total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
+        fi
+
         if [[ ${total_inputs} -lt 2 ]]; then
             msg 'ERROR: at least 2 genomes are required for batch analysis' >&2
         exit 1
         fi
 
-        # Make tmp directory and move assemblies
+        # Make tmp directory and move files to assemblies dir
         mkdir assemblies
         for file in "${compressed_asm[@]}" "${plaintext_asm[@]}"; do
             cp ${file} assemblies
@@ -57,15 +63,21 @@ process INFILE_HANDLING {
         FNA=()
         for A in "${ASM[@]}"; do
         # TO-DO: file content corruption and format validation tests
-        if [[ $(find -L "$A" -type f -size +45k 2>/dev/null) ]]; then
-            FNA+=("$A")
-        else
-            msg "INFO: $A not >45 kB so it was not included in the analysis" >&2
-        fi
+            if [[ $(find -L "$A" -type f -size +45k 2>/dev/null) ]]; then
+                FNA+=("$A")
+            else
+                msg "INFO: $A not >45 kB so it was not included in the analysis" >&2
+            fi
         done
+
         if [ ${#FNA[@]} -lt 2 ]; then
             msg 'ERROR: found <2 genome files >45 kB' >&2
         exit 1
+        fi
+
+        # Check file size of query input
+        if [[ -f !{query} ]]; then
+            verify_file_minimum_size "!{query}" 'query' '45k'
         fi
 
         cat <<-END_VERSIONS > versions.yml
