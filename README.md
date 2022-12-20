@@ -5,12 +5,16 @@
     - Recognized file extesions are: fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff,   fa.gz, fas.gz, fsa.gz, fna.gz, fasta.gz, gb.gz, gbk.gz, gbf.gz, gbff.gz
 2. Create assemblies temp dir, move files and decompression
 3. Create a list of genomes and pairs and append to files genomes.fofn and pairs.fofn, respectively
-4. Perform ANI using (ANIb+.py)[https://github.com/chrisgulvik/genomics_scripts/blob/master/ANIb%2B.py] on each pair
+4. Perform ANI using [ANIb+.py](https://github.com/chrisgulvik/genomics_scripts/blob/master/ANIb%2B.py) on each pair
 5. Grab ani.stats.tab file generated from performing ANI on each pair and append to a Summary.ANI.tab file
+
+<br>
 
 ## Requirements
 - Nextflow
 - Docker or Singularity
+
+<br>
 
 ## Install
 ```
@@ -21,12 +25,15 @@ git clone https://github.com/chrisgulvik/wf-ani.git
 cd wf-ani
 ```
 
+<br>
+
 ## Run Workflow
-Before running workflow on actual data, the workflow should be ran on test data to make sure everything is working properly as well as downloads all dependencies (5~ mins on HPC):
+Run workflow on test data to verify workflow is working properly and to download all dependencies (~5 mins on HPC). Test data, [GCF000343165](https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_000343165.1/) and [GCF000342365](https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_000342365.1/), are located in subdirectory assets/test_data.
 
 ```
 nextflow run main.nf -profile singularity,test
 ```
+<br>
 
 To run the workflow replace INPUT_FILE, INPUT_DIR with the corresponding input files. Replace OUTPUT_DIR with the path to desired output. 
 Note: If no output directory is specified, output files will be placed in current directory.
@@ -48,11 +55,14 @@ nextflow run main.nf \
 --refdir INPUT_DIR \
 --outpath OUTPUT_DIR
 ```
+<br>
 
 ```
 # Help menu with all options
 nextflow run main.nf --help
 ```
+
+<br>
 
 ## Workflow Output
 ```
