@@ -106,7 +106,7 @@ if [[ ${#submitted[@]} -ge 1 ]]; then
   # Display basename of files submitted
   echo -e "\nInput directory: ${IN}"
   echo -e "Output directory: ${OUT}\n"
-  echo -e "${GREEN}Submitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} jobs.\n${RESET}"
+  echo -e "${GREEN}Submitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${RESET}"
 fi
 
 # Set up log directory in OUT directory
