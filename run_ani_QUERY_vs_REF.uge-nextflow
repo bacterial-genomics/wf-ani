@@ -113,14 +113,11 @@ if [[ ${#submitted[@]} -ge 1 ]]; then
     -q all.q \
     ${HOME}/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
 
-  # Count number of possible pairings
-  pairings=$(( $(( ${#submitted[@]}+1 ))*${#submitted[@]} /2 ))
-
   # Display basename of files submitted
   echo -e "\nInput directory: ${QUERY}"
   echo -e "Output directory: ${OUT}\n"
   echo -e "${GREEN}$(basename ${QUERY}) found and is being used as QUERY Sample.\n${RESET}"
-  echo -e "${GREEN}Submitted $(( ${#submitted[@]}+1 )) bidirectional ANI tasks as ${pairings} jobs.\n${RESET}"
+  echo -e "${GREEN}Submitted ${#submitted[@]} bidirectional ANI tasks.\n${RESET}"
 fi
 
 # Set up log directory in OUT directory
