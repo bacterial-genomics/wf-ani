@@ -16,7 +16,7 @@ process GENERATE_PAIRS {
 
     output:
         path "genomes.fofn"
-        path "pairs.*.fofn", emit: pairs
+        path "pairs.fofn", emit: pairs
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
@@ -43,11 +43,11 @@ process GENERATE_PAIRS {
 
             # Create pairs.fofn
             for file in "${ASM[@]}"; do
-                echo -e "!{query}\t${file}" >> pairs.${#ASM[@]}.fofn
+                echo -e "!{query}\t${file}" >> pairs.fofn
             done
 
             # Make sure there are file pairs to analyze
-            if [ $(wc -l pairs.${#ASM[@]}.fofn) -eq 0 ]; then
+            if [ $(wc -l pairs.fofn) -eq 0 ]; then
                 msg 'ERROR: no file pairs to submit for analysis' >&2
                 exit 1
             fi
@@ -72,9 +72,8 @@ process GENERATE_PAIRS {
             fi
         fi
 
-        pairs_file=$(basename pairs.*.fofn)
-        pairs_file_length=$(echo ${pairs_file} | cut -d '.' -f 2)
-        msg "INFO: Pairs file, '${pairs_file}', created with ${pairs_file_length} pairs"
+        pairs_file_length=$(awk 'END {print NR}' pairs.fofn)
+        msg "INFO: Pairs file, 'pairs.fofn', created with ${pairs_file_length} pairs"
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":

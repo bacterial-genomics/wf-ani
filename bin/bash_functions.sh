@@ -66,9 +66,8 @@ def iter_chunks(iterable, items_per_chunk=int(os.getenv('tasks_per_job'))):
         yield itertools.chain([peek], iter_chunk)
 
 combos = itertools.combinations(genome_filenames, 2)
-combo_length = ((len(genome_filenames)*(len(genome_filenames)-1))/2)
 for idx, chunk in enumerate(iter_chunks(combos), start=1):
-    outfile = os.path.join('pairs.' + str(combo_length) + '.fofn')
+    outfile = os.path.join('pairs.fofn')
     with open(outfile, 'w') as ofh:
         ofh.write('\\n'.join('{}\\t{}'.format(j, k) for j, k in chunk))
     print(outfile)
