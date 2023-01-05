@@ -6,7 +6,7 @@ nextflow \
   -log /scicomp/scratch/${USER}/nextflow_log.txt \
   run \
   -profile singularity,sge \
-  ${HOME}/wf-ani/main.nf \
+  ${LAB_HOME}/workflows/wf-ani/main.nf \
   --outpath ${OUT} \
   --query ${QUERY} \
   --refdir ${REFERENCE} \

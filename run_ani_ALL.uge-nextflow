@@ -98,7 +98,7 @@ if [[ ${#submitted[@]} -ge 1 ]]; then
     -m ba \
     -N ANI_${#submitted[@]} \
     -q all.q \
-    ${HOME}/wf-ani/_run_ani_ALL.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
 
   # Count number of possible pairings
   pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))

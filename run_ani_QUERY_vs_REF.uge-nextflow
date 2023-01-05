@@ -111,7 +111,7 @@ if [[ ${#submitted[@]} -ge 1 ]]; then
     -m ba \
     -N ANI_${#submitted[@]} \
     -q all.q \
-    ${HOME}/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
 
   # Display basename of files submitted
   echo -e "\nInput directory: ${QUERY}"
