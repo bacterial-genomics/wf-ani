@@ -47,12 +47,19 @@ process ANI {
         B2=$(echo !{pair2} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
         
         # Skip comparison if precomputed value exists
+        ANI=""
         if [ -s "!{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" ]; then
             echo "INFO: found precomputed !{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" >&2
             ANI=$(grep ',' "!{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" | cut -f 3 | sed 's/%//1')
         elif [ -s "!{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" ]; then
             echo "INFO: found precomputed !{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" >&2
             ANI=$(grep ',' "!{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" | cut -f 3 | sed 's/%//1')
+        fi
+        if [[ ! -z ${ANI} ]]; then
+            if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
+                echo "INFO: found ANI ${ANI} for ${B1},${B2}; skipping the comparison" >&2
+                exit 0
+            fi
         fi
 
         python ${run_ANI} -1 ${filepair1} -2 ${filepair2} --name1 ${B1} --name2 ${B2} -c !{task.cpus} \
