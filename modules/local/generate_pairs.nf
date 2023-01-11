@@ -60,7 +60,7 @@ process GENERATE_PAIRS {
             tasks_per_job=20000
 
             # Create environment variables
-            export OUT genomes tasks_per_job
+            export genomes tasks_per_job
             
             # Use python3 to find all possible combinations of files
             # Script placed into bash_functions.sh due to line indention errors
