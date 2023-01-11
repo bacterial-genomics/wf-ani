@@ -57,7 +57,7 @@ process INFILE_HANDLING {
         shopt -s nullglob
         ASM=( ./assemblies/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
         shopt -u nullglob
-        msg "INFO: ${#ASM[@]} assemblies found after gunzip (if needed)"
+        msg "INFO: Total number of genomes: ${#ASM[@]}"
 
         # Filter out and report unusually small genomes
         FNA=()
