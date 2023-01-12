@@ -75,9 +75,8 @@ process GENERATE_PAIRS {
         pairs_file_length=$(awk 'END {print NR}' pairs.fofn)
         msg "INFO: Pairs file, 'pairs.fofn', created with ${pairs_file_length} pairs"
 
-        cat <<-END_VERSIONS > versions.yml
-        "!{task.process}":
-            python: $(python --version 2>&1 | awk '{print $2}')
-        END_VERSIONS
+        # Add version info to versions.yml
+        echo "!{task.process}" >> versions.yml
+        echo "    python: $(python --version 2>&1 | awk '{print $2}')" >> versions.yml
         '''
 }
