@@ -57,10 +57,12 @@ process ANI {
         fi
         if [[ ! -z ${ANI} ]]; then
             if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
-                echo "INFO: found ANI ${ANI} for ${B1},${B2}; skipping the comparison" >&2
+                msg "INFO: found ANI ${ANI} for ${B1},${B2}; skipping the comparison" >&2
                 exit 0
             fi
         fi
+
+        msg "INFO: Performing ANI on ${B1} and ${B2}."
 
         python ${run_ANI} -1 ${filepair1} -2 ${filepair2} --name1 ${B1} --name2 ${B2} -c !{task.cpus} \
         -o "ANI--${B1},${B2}"

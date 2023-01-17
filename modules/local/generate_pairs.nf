@@ -43,7 +43,7 @@ process GENERATE_PAIRS {
 
             # Create pairs.fofn
             for file in "${ASM[@]}"; do
-                echo -e "!{query}\t${file}" >> pairs.fofn
+                echo -e "${file}\t!{query}" >> pairs.fofn
             done
 
             # Make sure there are file pairs to analyze
@@ -76,7 +76,7 @@ process GENERATE_PAIRS {
         msg "INFO: Pairs file, 'pairs.fofn', created with ${pairs_file_length} pairs"
 
         # Add version info to versions.yml
-        echo "!{task.process}" >> versions.yml
-        echo "    python: $(python --version 2>&1 | awk '{print $2}')" >> versions.yml
+        echo -e "!{task.process}" >> versions.yml
+        echo -e "    python: $(python --version 2>&1 | awk '{print $2}')" >> versions.yml
         '''
 }

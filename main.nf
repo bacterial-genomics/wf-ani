@@ -185,7 +185,6 @@ workflow {
         input_ch = Channel.fromPath(params.refdir, checkIfExists: true)
     } else {
         input_ch = Channel.fromPath(params.inpath, checkIfExists: true)
-
     }
 
     // SETUP: Define optional input channels
