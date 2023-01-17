@@ -28,7 +28,7 @@ cd wf-ani
 <br>
 
 ## Run Workflow
-Run workflow on test data to verify workflow is working properly and to download all dependencies (~5 mins on HPC). Test data, [GCF000343165](https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_000343165.1/) and [GCF000342365](https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_000342365.1/), are located in subdirectory assets/test_data.
+Run workflow on test data to verify workflow is working properly and to download all dependencies (~5 mins on HPC). Test data are located within the workflow's assets/test_data directory. Test data is from the paper [Genotypic differences between strains of the opportunistic pathogen Corynebacterium bovis isolated from humans, cows, and rodents](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0209231).
 
 ```
 nextflow run main.nf -profile singularity,test
@@ -71,7 +71,7 @@ cat OUTPUT_DIR/ANI.Summary.tab
 ```
 | Sample | Sample | Fragments_Used_for_Bidirectional_Calc[#] | Bidirectional_ANI[%] | Bidirectional_StDev[%] | Fragments_Used_for_Unidirectional_Calc[#] | Unidirectional_ANI[%] | Unidirectional_StDev[%] | Fragments_Used_for_Unidirectional_Calc[#]  | Unidirectional_ANI[%] | Unidirectional_StDev[%]
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-| GCF000343165 | GCF000342365 | 9509 | 98.798 | 1.496 | 20366 | 98.690 | 1.829 | 20346 | 98.652 | 2.083 |
+| 4828 | DSM20582 | 5052 | 99.829 | 0.995 | 10182 | 99.783 | 1.428 | 10994 | 99.796 | 1.254 |
 
 <br>
 
