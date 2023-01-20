@@ -47,7 +47,7 @@ process GENERATE_PAIRS {
             done
 
             # Make sure there are file pairs to analyze
-            if [ $(wc -l pairs.fofn) -eq 0 ]; then
+            if [ $(wc -l pairs.fofn | cut -d ' ' -f 1) -eq 0 ]; then
                 msg 'ERROR: no file pairs to submit for analysis' >&2
                 exit 1
             fi
