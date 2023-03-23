@@ -45,7 +45,6 @@ def helpMessage() {
       -profile conda       TODO: this is not implemented yet.
     Other options:
       -resume              Re-start a workflow using cached results. May not behave as expected with containerization profiles docker or singularity.
-      -stub                Use example output files for any process with an uncommented stub block. For debugging/testing purposes.
       -name                Name for the pipeline run. If not specified, Nextflow will automatically generate a random mnemonic
     """.stripIndent()
 }
@@ -159,10 +158,10 @@ if (params.query && params.refdir && !params.inpath) {
 ========================================================================================
 */
 
-include { INFILE_HANDLING } from "./modules/local/infile_handling.nf"
-include { GENERATE_PAIRS } from "./modules/local/generate_pairs.nf"
-include { ANI } from "./modules/local/ani.nf"
-include { SUMMARY } from "./modules/local/summary.nf"
+include { INFILE_HANDLING_UNIX } from "./modules/local/infile_handling_unix/main.nf"
+include { GENERATE_PAIRS_BIOPYTHON } from "./modules/local/generate_pairs_biopython/main.nf"
+include { ANI_BLAST_BIOPYTHON } from "./modules/local/ani_blast_biopython/main.nf"
+include { ANI_SUMMARY_UNIX } from "./modules/local/ani_summary_unix/main.nf"
 
 /*
 ========================================================================================
@@ -190,51 +189,50 @@ workflow {
     // SETUP: Define optional input channels
     query_ch = file(params.query) // Set to null. Overwritten if parameter query is used.
 
-
     // SETUP: Define dependency channels
     ch_versions = Channel.empty()
     pairs_ch = Channel.empty()
     ani_stats_ch = Channel.empty()
 
     // PROCESS: Read files from input directory, validate and stage input files
-    INFILE_HANDLING (
+    INFILE_HANDLING_UNIX (
         input_ch,
         query_ch
     )
 
     // Collect version info
-    ch_versions = ch_versions.mix(INFILE_HANDLING.out.versions)
+    ch_versions = ch_versions.mix(INFILE_HANDLING_UNIX.out.versions)
 
     // PROCESS: Append files to genomes.fofn and then create pairing and append to pairs.fofn
-    GENERATE_PAIRS (
-        INFILE_HANDLING.out.asm,
+    GENERATE_PAIRS_BIOPYTHON (
+        INFILE_HANDLING_UNIX.out.asm_files,
         query_ch
     )
 
     // Collect version info
-    ch_versions = ch_versions.mix(GENERATE_PAIRS.out.versions)
+    ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
 
     // Collect pairs.fofn and assemblies directory. Combine each row of pairs.fofn with assemblies directory.
-    pairs_ch = pairs_ch.mix(GENERATE_PAIRS.out.pairs).splitCsv(header:false, sep:'\t').map{row-> tuple(row[0], row[1])}.combine(INFILE_HANDLING.out.asm)
+    pairs_ch = pairs_ch.mix(GENERATE_PAIRS_BIOPYTHON.out.ani_pairs).splitCsv(header:false, sep:'\t').map{row-> tuple(row[0], row[1])}.combine(INFILE_HANDLING_UNIX.out.asm_files)
 
     // PROCESS: Perform ANI on each pair
-    ANI (
+    ANI_BLAST_BIOPYTHON (
         pairs_ch
     )
 
     // Collect version info
-    ch_versions = ch_versions.mix(ANI.out.versions)
+    ch_versions = ch_versions.mix(ANI_BLAST_BIOPYTHON.out.versions)
 
     // Collect all ANI stats.tab files and concatenate into one
-    ani_stats_ch = ani_stats_ch.mix(ANI.out.stats).collect()
+    ani_stats_ch = ani_stats_ch.mix(ANI_BLAST_BIOPYTHON.out.ani_stats).collect()
 
     // PROCESS: Summarize ANI stats into one file
-    SUMMARY (
+    ANI_SUMMARY_UNIX (
         ani_stats_ch
     )
 
     // Collect version info
-    ch_versions = ch_versions.mix(SUMMARY.out.versions)
+    ch_versions = ch_versions.mix(ANI_SUMMARY_UNIX.out.versions)
     
     // PATTERN: Collate version information
     ch_versions.collectFile(name: 'software_versions.yml', storeDir: params.logpath)
@@ -278,5 +276,3 @@ workflow.onError {
                   """.stripMargin()
     log.info err_msg
 }
-
-

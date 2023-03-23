@@ -1,12 +1,15 @@
 #!/bin/bash -l
 
-module load nextflow
+SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
 
+module load nextflow
 nextflow \
-  -log /scicomp/scratch/${USER}/nextflow_log.txt \
+  -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
   run \
+  ${HOME}/wf-ani/main.nf \
+  -ansi-log false \
   -profile singularity,sge \
-  ${LAB_HOME}/workflows/wf-ani/main.nf \
+  -resume \
   --outpath ${OUT} \
   --inpath ${IN} \
   -w /scicomp/scratch/${USER}/work \
@@ -52,5 +55,11 @@ elif [[ -f "${OUT}/ANI.Summary.tab" ]]; then
   -s "${num_ani} ANI samples $(basename "${OUT}") [HPC]" \
   -S smtp="smtpgw.cdc.gov" \
   -a "${OUT}/ANI.Summary.tab" \
+  "${USER}@cdc.gov"
+elif [[ -f "${OUT}/log/errors.tsv" ]]; then
+  echo -e "ANI could not be completed on $(date)\n${OUT}" | mail \
+  -s "No ANI results found $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/log/errors.tsv" \
   "${USER}@cdc.gov"
 fi

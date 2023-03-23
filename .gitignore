@@ -1,7 +1,8 @@
 .nextflow*
 work/
 results/
+log/
 .log
 *.img
-*.gz
 assets/*.img
+*test*

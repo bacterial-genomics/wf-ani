@@ -1,18 +1,18 @@
-process INFILE_HANDLING {
+process INFILE_HANDLING_UNIX {
 
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
         saveAs: { filename -> "${task.process}${filename}" }
 
-    container "ubuntu:focal"
+    container "ubuntu:jammy"
 
     input:
         path input
-        path query
+        path query_input
 
     output:
-        path "assemblies", emit: asm
+        path "assemblies", emit: asm_files
         path "assemblies/*"
         path ".command.out"
         path ".command.err"
@@ -27,62 +27,66 @@ process INFILE_HANDLING {
         compressed_asm=( "!{input}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}.gz )
         plaintext_asm=( "!{input}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
         shopt -u nullglob
+        
         msg "INFO: ${#compressed_asm[@]} compressed assemblies found"
         msg "INFO: ${#plaintext_asm[@]} plain text assemblies found"
 
-        # Check if total inputs are > 2
-        if [[ -f !{query} ]]; then
-            total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} + 1 ))
+        # Modify total_inputs if !{query_input} is present
+        if [[ -f !{query_input} ]]; then
+          total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} + 1 ))
         else
-            total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
+          total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
         fi
 
+        # Check if total inputs are > 2
         if [[ ${total_inputs} -lt 2 ]]; then
-            msg 'ERROR: at least 2 genomes are required for batch analysis' >&2
+          msg 'ERROR: At least 2 genomes are required for batch analysis' >&2
         exit 1
         fi
 
-        # Make tmp directory and move files to assemblies dir
+        # Make assemblies directory and move files to assemblies dir
         mkdir assemblies
         for file in "${compressed_asm[@]}" "${plaintext_asm[@]}"; do
-            cp ${file} assemblies
+          cp ${file} assemblies
         done
 
         # Decompress files
         if [[ ${#compressed_asm[@]} -ge 1 ]]; then
-            gunzip ./assemblies/*.gz
+          gunzip ./assemblies/*.gz
         fi
 
         # Get all assembly files after gunzip
         shopt -s nullglob
         ASM=( ./assemblies/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
         shopt -u nullglob
+
         msg "INFO: Total number of genomes: ${#ASM[@]}"
 
         # Filter out and report unusually small genomes
         FNA=()
         for A in "${ASM[@]}"; do
         # TO-DO: file content corruption and format validation tests
-            if [[ $(find -L "$A" -type f -size +45k 2>/dev/null) ]]; then
-                FNA+=("$A")
-            else
-                msg "INFO: $A not >45 kB so it was not included in the analysis" >&2
-            fi
+          if [[ $(find -L "$A" -type f -size +"!{params.min_filesize_assembly_input_dir}" 2>/dev/null) ]]; then
+            FNA+=("$A")
+          else
+            msg "INFO: $(basename ${A}) not >!{params.min_filesize_assembly_input_dir}B so it was not included in the analysis" >&2
+          fi
         done
 
+        # Check if total inputs are > 2
         if [ ${#FNA[@]} -lt 2 ]; then
-            msg 'ERROR: found <2 genome files >45 kB' >&2
-        exit 1
+          msg 'ERROR: Found <2 genome files >!{params.min_filesize_assembly_input_dir}B' >&2
+          exit 1
         fi
 
         # Check file size of query input
-        if [[ -f !{query} ]]; then
-            verify_file_minimum_size "!{query}" 'query' '45k'
+        if [[ -f !{query_input} ]]; then
+          verify_minimum_file_size "!{query_input}" 'Query input file' "!{params.min_filesize_query_input}"
         fi
 
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
-            ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
+          ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
         END_VERSIONS
         '''
 }

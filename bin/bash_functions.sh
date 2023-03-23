@@ -29,27 +29,36 @@ check_if_file_exists_allow_seconds() {
   return 0
 }
 
-verify_file_minimum_size()
+verify_minimum_file_size()
 {
-  # $1=filename
-  # $2=file description
-  # $3=size in Bytes (requires c, k, M, or G prefix)
+  # Boolean test to ensure the filepath is a file, is non-zero size, and
+  #  is at least the minimum specified size (in Bytes).
+
+  # Returns:
+  #  0: (true) file is at least the minimum specified size
+  #  1: (false) file is smaller than the specified size
+
+  # Parameters:
+  #  $1=filename
+  #  $2=file description
+  #  $3=minimum size in Bytes
+  #   (optionally can specify k, M, or G suffix after a number for big numbers)
+
   if [ -f  "${1}" ]; then
     if [ -s  "${1}" ]; then
       if [[ $(find -L "${1}" -type f -size +"${3}") ]]; then
-        return
+        return 0
       else
-        size=$(echo ${3} | sed 's/c//g')
-        msg "ERROR: ${2} file ${1} present but too small (less than ${size} bytes)" >&2
-        false
+        msg "ERROR: ${2} file ${1} present but too small (less than ${3})" >&2
+        return 1
       fi
     else
       msg "ERROR: ${2} file ${1} present but empty" >&2
-      false
+      return 1
     fi
   else
     msg "ERROR: ${2} file ${1} absent" >&2
-    false
+    return 1
   fi
 }
 
