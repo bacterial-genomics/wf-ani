@@ -28,7 +28,7 @@ process ANI_BLAST_BIOPYTHON {
         base1=pair1.split('\\.')[0].split('_genomic')[0]; 
         base2=pair2.split('\\.')[0].split('_genomic')[0];
 
-        // Set bidirectional_ani_script parameters
+        // Set blastn_ani_script parameters
         ani_blast_params = "-f ${params.min_fraction_alignment_percentage}"
         if (params.min_fragment_percent_identity != '30.0') {
             ani_blast_params += " -i ${params.min_fragment_percent_identity}"
@@ -58,8 +58,8 @@ process ANI_BLAST_BIOPYTHON {
         source bash_functions.sh
 
         # Get ANIb+.py and check if it exists
-        bidrectional_ani_script="${DIR}/ANIb+.py"
-        if ! check_if_file_exists_allow_seconds ${bidrectional_ani_script} '60'; then
+        blastn_ani_script="${DIR}/ANIb+.py"
+        if ! check_if_file_exists_allow_seconds ${blastn_ani_script} '60'; then
           exit 1
         fi
 
@@ -78,22 +78,22 @@ process ANI_BLAST_BIOPYTHON {
         # Skip comparison if precomputed value exists
         ANI=""
         if [ -s "!{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" ]; then
-          echo "INFO: found precomputed !{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" >&2
+          msg "INFO: Found precomputed !{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" >&2
           ANI=$(grep ',' "!{params.outpath}/ANI--${B1},${B2}/ani.${B1},${B2}.stats.tab" | cut -f 3 | sed 's/%//1')
         elif [ -s "!{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" ]; then
-          echo "INFO: found precomputed !{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" >&2
+          msg "INFO: Found precomputed !{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" >&2
           ANI=$(grep ',' "!{params.outpath}/ANI--${B2},${B1}/ani.${B2},${B1}.stats.tab" | cut -f 3 | sed 's/%//1')
         fi
         if [[ ! -z ${ANI} ]]; then
           if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
-            msg "INFO: found ANI ${ANI} for ${B1},${B2}; skipping the comparison" >&2
+            msg "INFO: Found ANI ${ANI} for ${B1},${B2}; skipping the comparison" >&2
             exit 0
           fi
         fi
 
         msg "INFO: Performing ANI on ${B1} and ${B2}."
 
-        python ${bidrectional_ani_script} \
+        python ${blastn_ani_script} \
           -1 ${filepair1} \
           -2 ${filepair2} \
           --name1 ${B1} \
@@ -103,7 +103,7 @@ process ANI_BLAST_BIOPYTHON {
           !{ani_blast_params}
 
         cat <<-END_VERSIONS > versions.yml
-        "!{task.process}":
+        "!{task.process} (${B1}_${B2})":
           python: $(python --version 2>&1 | awk '{print $2}')
           biopython: $(python -c 'import Bio; print(Bio.__version__)' 2>&1)
           blast: $(blastn -version | head -n 1 | awk '{print $2}')

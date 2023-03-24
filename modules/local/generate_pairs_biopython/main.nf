@@ -78,6 +78,7 @@ process GENERATE_PAIRS_BIOPYTHON {
         cat <<-END_VERSIONS > versions.yml
         "!{task.process}":
           python: $(python --version 2>&1 | awk '{print $2}')
+          biopython: $(python -c 'import Bio; print(Bio.__version__)' 2>&1)
         END_VERSIONS
         '''
 }

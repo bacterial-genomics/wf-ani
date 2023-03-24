@@ -288,9 +288,9 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -m ba \
-    -N ASM_${#submitted[@]} \
+    -N ANI_${#submitted[@]} \
     -q all.q \
-    ${HOME}/wf-ani/_run_ani_ALL.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
 
   # Count number of possible pairings
   pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))
@@ -315,11 +315,11 @@ elif [[ ${#submitted[@]} -ge 1 ]] && \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -m ba \
-    -N ASM_${#submitted[@]} \
+    -N ANI_${#submitted[@]} \
     -q all.q \
     -l max_runtime=72:00:00 \
     -l h_vmem=${task.memory.toString().replaceAll(/[\sB]/,'')} \
-    ${HOME}/wf-ani/_run_ani_ALL.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
 
   # Count number of possible pairings
   pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))

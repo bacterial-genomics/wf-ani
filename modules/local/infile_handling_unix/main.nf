@@ -8,7 +8,7 @@ process INFILE_HANDLING_UNIX {
     container "ubuntu:jammy"
 
     input:
-        path input
+        path input_dir
         path query_input
 
     output:
@@ -21,11 +21,11 @@ process INFILE_HANDLING_UNIX {
     shell:
         '''
         source bash_functions.sh
-        
+                
         # Get input data
         shopt -s nullglob
-        compressed_asm=( "!{input}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}.gz )
-        plaintext_asm=( "!{input}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
+        compressed_asm=( "!{input_dir}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}.gz )
+        plaintext_asm=( "!{input_dir}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
         shopt -u nullglob
         
         msg "INFO: ${#compressed_asm[@]} compressed assemblies found"
@@ -33,6 +33,7 @@ process INFILE_HANDLING_UNIX {
 
         # Modify total_inputs if !{query_input} is present
         if [[ -f !{query_input} ]]; then
+          verify_minimum_file_size "!{query_input}" 'Query input file' "!{params.min_filesize_query_input}"
           total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} + 1 ))
         else
           total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
@@ -77,11 +78,6 @@ process INFILE_HANDLING_UNIX {
         if [ ${#FNA[@]} -lt 2 ]; then
           msg 'ERROR: Found <2 genome files >!{params.min_filesize_assembly_input_dir}B' >&2
           exit 1
-        fi
-
-        # Check file size of query input
-        if [[ -f !{query_input} ]]; then
-          verify_minimum_file_size "!{query_input}" 'Query input file' "!{params.min_filesize_query_input}"
         fi
 
         cat <<-END_VERSIONS > versions.yml

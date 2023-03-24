@@ -246,7 +246,7 @@ fi
 # Add basename of FastA/Genbank files to $submitted
 submitted=()
 for (( i=0; i<${#found_files[@]}; i++ )); do
-  # Remove _genomic and .extension from filenames
+  # Remove _genomic and .extension from fiqlenames
   base=$(basename ${i} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
   if [[ "${submitted[*]}" =~ " ${base} " ]]; then
     echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
@@ -302,17 +302,14 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -m ba \
-    -N ASM_${#submitted[@]} \
+    -N ANI_${#submitted[@]} \
     -q all.q \
-    ${HOME}/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
-
-  # Count number of possible pairings
-  pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
 
   # Display input/output and number of submissions
   echo -e "${GREEN_TXT}\nInput directory:${COLOR_OFF} ${REFERENCE}"
   echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
-  echo -e "${GREEN_TXT}\nSubmitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${COLOR_OFF}"
+  echo -e "${GREEN_TXT}\nSubmitted ${#submitted[@]} bidirectional ANI tasks as ${#submitted[@]} job(s).\n${COLOR_OFF}"
 
 elif [[ ${#submitted[@]} -ge 1 ]] && \
   [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
@@ -330,19 +327,16 @@ elif [[ ${#submitted[@]} -ge 1 ]] && \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -m ba \
-    -N ASM_${#submitted[@]} \
+    -N ANI_${#submitted[@]} \
     -q all.q \
     -l max_runtime=72:00:00 \
     -l h_vmem=${task.memory.toString().replaceAll(/[\sB]/,'')} \
-    ${HOME}/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
-
-  # Count number of possible pairings
-  pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_QUERY_vs_REF.uge-nextflow
 
   # Display input/output and number of submissions
   echo -e "${GREEN_TXT}\nInput directory:${COLOR_OFF} ${REFERENCE}"
   echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
-  echo -e "${GREEN_TXT}\nSubmitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${COLOR_OFF}"
+  echo -e "${GREEN_TXT}\nSubmitted ${#submitted[@]} bidirectional ANI tasks as ${#submitted[@]} job(s).\n${COLOR_OFF}"
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
