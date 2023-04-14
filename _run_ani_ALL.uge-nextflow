@@ -2,13 +2,22 @@
 
 SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
 
+# Set profile
+# Get node number - <=230 = biolinux, >=231 = rosalind
+NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
+if [[ ${NODE_NUM} -ge 231 ]]; then
+  HPC='rosalind'
+else
+  HPC='aspen'
+fi
+
 module load nextflow
 nextflow \
   -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
   run \
   ${LAB_HOME}/workflows/wf-ani/main.nf \
   -ansi-log false \
-  -profile singularity,sge \
+  -profile singularity,${HPC} \
   -resume \
   --outpath ${OUT} \
   --inpath ${IN} \
@@ -27,7 +36,7 @@ do
   error=$(tail -n 1 ${line}/.command.err | sed -e 's/\[[^][]*\]//g')
 
   # If process for sample retried and succeeded, ignore, else add to errors.tsv
-  if [[ -f $(ls ${OUT}/log/process_logs/${sample_name}.${process}*out | wc -l) ]] \
+  if [[ -f "$(ls ${OUT}/log/process_logs/${sample_name}.${process}*out | wc -l)" ]] \
   && [[ $(cat ${line}/.exitcode) = @(143|137|104|134|139|71|255) ]]; then
     continue
   else
@@ -35,29 +44,34 @@ do
   fi
 done < <(nextflow log ${run_name} -filter 'status == "FAILED"')
 
-
 # If errors.tsv found, add column headers
 if [[ -f "${OUT}/log/errors.tsv" ]]; then
   sed -i '1i Sample Name\tProcess\tError\tError Directory' ${OUT}/log/errors.tsv
 fi
 
-# Count lines in ANI.Summary.tab (removes header line from count)
-num_results=$(awk 'END {print NR-1}' ${OUT}/ANI.Summary.tab)
-
 # E-mail completion status
-if [[ -f "${OUT}/ANI.Summary.tab" ]] && [[ -f "${OUT}/log/errors.tsv" ]]; then
+if [[ -f "${OUT}/ANI.Summary.tab" ]] && \
+  [[ -f "${OUT}/log/errors.tsv" ]]; then
+  # Count lines in ANI.Summary.tab (removes header line from count)
+  num_results=$(awk 'END {print NR-1}' ${OUT}/ANI.Summary.tab)
+
   echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
   -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
   -S smtp="smtpgw.cdc.gov" \
   -a "${OUT}/ANI.Summary.tab" \
   -a "${OUT}/log/errors.tsv" \
   "${USER}@cdc.gov"
+
 elif [[ -f "${OUT}/ANI.Summary.tab" ]]; then
+  # Count lines in ANI.Summary.tab (removes header line from count)
+  num_results=$(awk 'END {print NR-1}' ${OUT}/ANI.Summary.tab)
+
   echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
   -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
   -S smtp="smtpgw.cdc.gov" \
   -a "${OUT}/ANI.Summary.tab" \
   "${USER}@cdc.gov"
+
 elif [[ -f "${OUT}/log/errors.tsv" ]]; then
   echo -e "ANI comparisons could not be completed on $(date)\n${OUT}" | mail \
   -s "No ANI results $(basename "${OUT}") [HPC]" \

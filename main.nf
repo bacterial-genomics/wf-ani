@@ -246,33 +246,33 @@ workflow {
 
 workflow.onComplete {
     log.info """
-                |=====================================
-                |Pipeline Execution Summary
-                |=====================================
-                |Workflow Version : ${version}
-                |Nextflow Version : ${nextflow.version}
-                |Command Line     : ${workflow.commandLine}
-                |Resumed          : ${workflow.resume}
-                |Completed At     : ${workflow.complete}
-                |Duration         : ${workflow.duration}
-                |Success          : ${workflow.success}
-                |Exit Code        : ${workflow.exitStatus}
-                |Launch Dir       : ${workflow.launchDir}
-                |=====================================
-             """.stripMargin()
+        |=====================================
+        |Pipeline Execution Summary
+        |=====================================
+        |Workflow Version : ${version}
+        |Nextflow Version : ${nextflow.version}
+        |Command Line     : ${workflow.commandLine}
+        |Resumed          : ${workflow.resume}
+        |Completed At     : ${workflow.complete}
+        |Duration         : ${workflow.duration}
+        |Success          : ${workflow.success}
+        |Exit Code        : ${workflow.exitStatus}
+        |Launch Dir       : ${workflow.launchDir}
+        |=====================================
+        """.stripMargin()
 }
 
 workflow.onError {
     def err_msg = """
-                     |=====================================
-                     |Error summary
-                     |=====================================
-                     |Completed at : ${workflow.complete}
-                     |exit status  : ${workflow.exitStatus}
-                     |workDir      : ${workflow.workDir}
-                     |Error Report :
-                     |${workflow.errorReport ?: '-'}
-                     |=====================================
-                  """.stripMargin()
+        |=====================================
+        |Error summary
+        |=====================================
+        |Completed at : ${workflow.complete}
+        |exit status  : ${workflow.exitStatus}
+        |workDir      : ${workflow.workDir}
+        |Error Report :
+        |${workflow.errorReport ?: '-'}
+        |=====================================
+    """.stripMargin()
     log.info err_msg
 }

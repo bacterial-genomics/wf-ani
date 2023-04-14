@@ -14,7 +14,7 @@ process ANI_BLAST_BIOPYTHON {
     container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:
-        tuple val(pair1), val(pair2), path(asm)
+        tuple val(filename1), val(filename2), path(filepair1), path(filepair2)
 
     output:
         path "ANI--*"
@@ -25,8 +25,8 @@ process ANI_BLAST_BIOPYTHON {
         
     shell:
         // Get basename of pair1 and pair2 to add to .command.out/err log files
-        base1=pair1.split('\\.')[0].split('_genomic')[0]; 
-        base2=pair2.split('\\.')[0].split('_genomic')[0];
+        base1=filename1.split('\\.')[0].split('_genomic')[0]; 
+        base2=filename2.split('\\.')[0].split('_genomic')[0];
 
         // Set blastn_ani_script parameters
         ani_blast_params = "-f ${params.min_fraction_alignment_percentage}"
@@ -62,18 +62,14 @@ process ANI_BLAST_BIOPYTHON {
         if ! check_if_file_exists_allow_seconds ${blastn_ani_script} '60'; then
           exit 1
         fi
-
-        # Make variable path of pair1 and pair2
-        filepair1="!{asm}/!{pair1}"
-        filepair2="!{asm}/!{pair2}"
-        
+       
         # Verify input files exist and not empty
-        verify_minimum_file_size "${filepair1}" 'ANI filepair 1' "!{params.min_filesize_filepair1}"
-        verify_minimum_file_size "${filepair2}" 'ANI filepair 2' "!{params.min_filesize_filepair2}"
+        verify_minimum_file_size "!{filepair1}" 'Input sequence' "!{params.min_filesize_filepair1}"
+        verify_minimum_file_size "!{filepair2}" 'Input sequence' "!{params.min_filesize_filepair2}"
 
         # When sample basename variable not given, grab from filename
-        B1=$(echo !{pair1} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
-        B2=$(echo !{pair2} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
+        B1=$(echo !{filename1} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
+        B2=$(echo !{filename2} | sed 's/\\.[^.]*$//1' | sed 's/_genomic//1')
         
         # Skip comparison if precomputed value exists
         ANI=""
@@ -94,8 +90,8 @@ process ANI_BLAST_BIOPYTHON {
         msg "INFO: Performing ANI on ${B1} and ${B2}."
 
         python ${blastn_ani_script} \
-          -1 ${filepair1} \
-          -2 ${filepair2} \
+          -1 !{filepair1} \
+          -2 !{filepair2} \
           --name1 ${B1} \
           --name2 ${B2} \
           -c !{task.cpus} \

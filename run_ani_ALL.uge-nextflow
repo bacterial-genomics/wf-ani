@@ -172,7 +172,7 @@ if [[ ${IN} =~ ^.+[A-Z]\:.+ ]]; then
      -type f \
      -readable \
      -regextype posix-extended \
-     -regex ".+\.(fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" \
+     -regex ".+\.(fa|fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" \
      2> /dev/null \
      | wc -l)
     if [[ ${cnt_read_files} -ge 1 ]]; then
@@ -230,7 +230,7 @@ found_files=( $(find -L ${IN} \
      -type f \
      -readable \
      -regextype posix-extended \
-     -regex ".+\.(fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" ))
+     -regex ".+\.(fa|fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" ))
   
 # Require at least 2 FastA/Genbank files
 if [ ${#found_files[@]} -lt 2 ]; then
@@ -255,7 +255,7 @@ if [[ ${#submitted[@]} -ge 10 ]]; then
   echo -e "${YELLOW_TXT}\nWARNING: ${#submitted[@]} samples have been identified:\n${COLOR_OFF}"
   for f in ${submitted[@]}; do
     echo -e "${YELLOW_TXT}${f}${COLOR_OFF}"
-  done
+  done | xargs -L3 | column -t
   
   # Prompt user to verify submission of large sample set
   echo -e "${RED_BG}"
@@ -269,13 +269,57 @@ if [[ ${#submitted[@]} -ge 10 ]]; then
   fi
 fi
 
+# Count number of possible pairings
+pairings="$(( ${#submitted[@]} * $(( ${#submitted[@]}-1 )) /2 ))"
+
+# Prompt user if >300,000 comparisons as it may not complete on Rosalind HPC
+if [[ ${pairings} -ge 300000 ]]; then
+  echo -e "${YELLOW_TXT}\nWARNING: ${pairings} comparisons have been identified.\n${COLOR_OFF}"
+
+  # Prompt user to verify submission of large sample set
+  echo -e "${RED_BG}"
+  read -p "Do you want to continue submitting ${pairings} comparisons? (yes|no) " -n 1 -r
+  echo -e "${COLOR_OFF}"
+  if [[ $REPLY =~ ^[yY] ]]; then
+    echo -e "\nContinuing to submit ${pairings} comparisons...\n"
+  else
+    echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
+    exit 0
+  fi
+fi
+
 # Get node number - <=230 = biolinux, >=231 = rosalind
-NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
+if [[ "node" =~ ${HOSTNAME%%.*} ]]; then
+  NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/[a-zA-Z]*//1')
+else
+  NODE_NUM=""
+fi
 
 # If FastA/Genbank files are able to be submitted, submit and submission info
 if [[ ${#submitted[@]} -ge 2 ]] && \
-  [[ ${HOSTNAME%%.*} == 'biolinux' || 'login02' ]] || \
-  [[ ${NODE_NUM} -le 230 ]]; then
+  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
+  [[ ${NODE_NUM} != "" && ${NODE_NUM} -ge 231 ]]; then
+  # Submit Nextflow pipeline to Rosalind HPC
+  qsub \
+    -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
+    -v OUT=${OUT} \
+    -v IN=${IN} \
+    -v LAB_HOME=${LAB_HOME} \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
+    -M ${USER}@cdc.gov \
+    -m ba \
+    -N ANI_${#submitted[@]} \
+    -q long.q \
+    -l max_runtime=670:00:00 \
+    ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
+  echo "rosalind"
+
+elif [[ ${#submitted[@]} -ge 2 ]] && \
+  [[ "${HOSTNAME%%.*}" == 'biolinux' || 'login02' ]] || \
+  [[ ${NODE_NUM} != "" && ${NODE_NUM} -le 230 ]]; then
   # Submit Nextflow pipeline to Aspen HPC
   qsub \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
@@ -291,47 +335,17 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -N ANI_${#submitted[@]} \
     -q all.q \
     ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
-
-  # Count number of possible pairings
-  pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))
-
-  # Display input/output and number of submissions
-  echo -e "${GREEN_TXT}\nInput directory:${COLOR_OFF} ${IN}"
-  echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
-  echo -e "${GREEN_TXT}Submitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${COLOR_OFF}"
-
-elif [[ ${#submitted[@]} -ge 1 ]] && \
-  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
-  [[ ${NODE_NUM} -ge 231 ]]; then
-  # Submit Nextflow pipeline to Rosalind HPC
-  qsub \
-    -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
-    -v OUT=${OUT} \
-    -v IN=${IN} \
-    -v LAB_HOME=${LAB_HOME} \
-    -o ${OUT}/log \
-    -e ${OUT}/log \
-    -M ${USER}@cdc.gov \
-    -m ba \
-    -N ANI_${#submitted[@]} \
-    -q all.q \
-    -l max_runtime=72:00:00 \
-    -l h_vmem=${task.memory.toString().replaceAll(/[\sB]/,'')} \
-    ${LAB_HOME}/workflows/wf-ani/_run_ani_ALL.uge-nextflow
-
-  # Count number of possible pairings
-  pairings=$(( ${#submitted[@]}*$(( ${#submitted[@]}-1 )) /2 ))
-
-  # Display input/output and number of submissions
-  echo -e "${GREEN_TXT}\nInput directory:${COLOR_OFF} ${IN}"
-  echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
-  echo -e "${GREEN_TXT}Submitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${COLOR_OFF}"
+  echo "submitted biolinx"
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
+  exit 1
 fi
+
+# Display input/output and number of submissions
+echo -e "${GREEN_TXT}\nInput directory:${COLOR_OFF} ${IN}"
+echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
+echo -e "${GREEN_TXT}Submitted ${#submitted[@]} bidirectional ANI tasks as ${pairings} job(s).\n${COLOR_OFF}"
 
 # Set up log directory in OUT directory
 mkdir -p ${OUT}/log

@@ -12,8 +12,8 @@ process INFILE_HANDLING_UNIX {
         path query_input
 
     output:
-        path "assemblies", emit: asm_files
-        path "assemblies/*"
+        path "assemblies"
+        path "assemblies/*", emit: asm_files
         path ".command.out"
         path ".command.err"
         path "versions.yml", emit: versions
@@ -42,7 +42,7 @@ process INFILE_HANDLING_UNIX {
         # Check if total inputs are > 2
         if [[ ${total_inputs} -lt 2 ]]; then
           msg 'ERROR: At least 2 genomes are required for batch analysis' >&2
-        exit 1
+          exit 1
         fi
 
         # Make assemblies directory and move files to assemblies dir

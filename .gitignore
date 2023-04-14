@@ -1,8 +1,6 @@
 .nextflow*
 work/
-results/
+results*/
 log/
-.log
-*.img
+*.log
 assets/*.img
-*test*

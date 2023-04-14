@@ -27,23 +27,23 @@ process GENERATE_PAIRS_BIOPYTHON {
 
         # Place assembly files into new variable
         ASM=()
-        for file in !{asm_files}/*; do
+        for file in !{asm_files}; do
           ASM+=( $(basename ${file}) )
         done
 
         # Generate list of pairwise comparisons
         genomes="genomes.fofn"
-        printf "%s\n" "${ASM[@]}" > "${genomes}"
+        printf "%s\n" "${ASM[@]%.*}" > "${genomes}"
 
         # Generate pairs
-        if [[ -f !{query_input} ]]; then
+        if [[ -f "!{query_input}" ]]; then
           # If query is a file and not null,
           # Append query to genomes.fofn
-          echo -e "assemblies/!{query_input}" >> ${genomes}
+          echo -e "!{query_input}" >> ${genomes}
 
           # Create pairs.fofn
           for file in "${ASM[@]}"; do
-            echo -e "${file}\t!{query_input}" >> pairs.fofn
+            echo -e "${file%.*}\t!{query_input}" >> pairs.fofn
           done
 
           # Make sure there are file pairs to analyze
@@ -56,7 +56,7 @@ process GENERATE_PAIRS_BIOPYTHON {
           mv !{query_input} assemblies
 
         else
-          # If query is not a file
+          # If query_input is not a file
           tasks_per_job="!{params.tasks_per_job}"
 
           # Create environment variables
