@@ -1,105 +1,142 @@
 # Average Nucleotide Identity (ANI) Workflow
 
-## Workflow Overview
-1. Identify all FastA or Genbank files in a given input path
-    - Recognized file extesions are: fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff,   fa.gz, fas.gz, fsa.gz, fna.gz, fasta.gz, gb.gz, gbk.gz, gbf.gz, gbff.gz
-2. Create assemblies temp dir, move files and decompression
-3. Create a list of genomes and pairs and append to files genomes.fofn and pairs.fofn, respectively
-4. Perform ANI using [ANIb+.py](https://github.com/chrisgulvik/genomics_scripts/blob/master/ANIb%2B.py) on each pair
-5. Grab ani.stats.tab file generated from performing ANI on each pair and append to a Summary.ANI.tab file
 
-<br>
+![workflow](docs/images/simplified_workflow_v1.0.0.svg)
 
-## Requirements
-- Nextflow
-- Docker or Singularity
+*General schematic of the steps in the workflow*
 
-<br>
-
-## Install
+## Quick Start: Test
+Run the built-in test set to confirm all parts are working as-expected. It will also download all dependencies to make subsequent runs much faster.
 ```
-# Download github repository. This creates a directory called 'wf-ani' that contains the workflow.
-git clone https://github.com/chrisgulvik/wf-ani.git
-
-# Enter the directory of the workflow
-cd wf-ani
+nextflow run \
+  wf-ani \
+  -r v1.0.0 \
+  -profile YOURPROFILE,test
 ```
 
-<br>
+Test data [CP024957](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/804/165/GCF_002804165.1_ASM280416v1/GCF_002804165.1_ASM280416v1_genomic.fna.gz) and [2BA6PG](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/024/297/125/GCF_024297125.1_ASM2429712v1/GCF_024297125.1_ASM2429712v1_genomic.fna.gz) are from [Dataset of the complete genome of Streptomyces cavourensis strain 2BA6PGT isolated from sediment from the bottom of the salt lake Verkhnee Beloe (Buryatia, Russia)](https://www.sciencedirect.com/science/article/pii/S2352340922010800), where the expected output is `98.9%`.
 
-## Run Workflow
-Run workflow on test data to verify workflow is working properly and to download all dependencies (~5 mins on HPC). Test data are located within the workflow's assets/test_data directory. Test data is from the paper [Genotypic differences between strains of the opportunistic pathogen Corynebacterium bovis isolated from humans, cows, and rodents](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0209231).
-
+## Quick Start: Run
+Example command on genomes in "input-directory" data directory with singularity:
 ```
-nextflow run main.nf -profile singularity,test
-```
-<br>
-
-To run the workflow replace INPUT_FILE, INPUT_DIR with the corresponding input files. Replace OUTPUT_DIR with the path to desired output. 
-Note: If no output directory is specified, output files will be placed in current directory.
-Note: If output directory is not empty, output files will be added/overwritten.
-
-```
-# Run with Singularity -- replace with Docker if using Docker
-
-# Run ANI on all files in a directory
-nextflow run main.nf \
--profile singularity \
---inpath INPUT_DIR \
---outpath OUTPUT_DIR
-
-# Run ANI on a QUERY vs REFERENCE panel
-nextflow run main.nf \
--profile singularity \
---query INPUT_FILE \
---refdir INPUT_DIR \
---outpath OUTPUT_DIR
-```
-<br>
-
-```
-# Help menu with all options
-nextflow run main.nf --help
+nextflow run \
+  wf-ani \
+  -r v1.0.0 \
+  -profile singularity \
+  --inpath input-directory \
+  --outpath my-results
 ```
 
-<br>
-
-## Workflow Output
+Example command on query "query-file" genome on genomes in "input-directory" data directory with singularity:
 ```
-# View output summary file
-cat OUTPUT_DIR/ANI.Summary.tab
-```
-| Sample | Sample | Fragments_Used_for_Bidirectional_Calc[#] | Bidirectional_ANI[%] | Bidirectional_StDev[%] | Fragments_Used_for_Unidirectional_Calc[#] | Unidirectional_ANI[%] | Unidirectional_StDev[%] | Fragments_Used_for_Unidirectional_Calc[#]  | Unidirectional_ANI[%] | Unidirectional_StDev[%]
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-| 4828 | DSM20582 | 5052 | 99.829 | 0.995 | 10182 | 99.783 | 1.428 | 10994 | 99.796 | 1.254 |
-
-<br>
-
-## Quick Start for UGE Users
-Set LAB_HOME environment variable:
-```
-echo "export LAB_HOME=/PATH/TO/LAB/HOME/" >> ~/.bashrc
+nextflow run \
+  wf-ani \
+  -r v1.0.0 \
+  -profile singularity \
+  --query query-file \
+  --refdir input-directory \
+  --outpath my-results
 ```
 
-Add Singularity environment variables to .bashrc
+## Contents
+- [Introduction](#Introduction)
+- [Installation](#Installation)
+- [Output File Structure](#Output-File-Structure)
+- [Parameters](#parameters)
+- [Quick Start](#Quick-Start-Test)
+- [Resource Managers](#Resource-Managers)
+- [Troubleshooting](#Troubleshooting)
+- [Usage](#usage)
+- [Workflow](#Workflow)
+
+## Introduction
+This workflow performs average nucleotide identity on genomes by fragmenting the genome sequence, searching the nucleotide sequence, gathering the alignment and performing identity calculation.
+
+This procedure can be used on all FastA and Genbank files that have the extension `fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff` with optional gzip compression.
+
+## Installation
+- [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) `>=21.10.3`
+- [Docker](https://docs.docker.com/engine/installation/) or [Singularity](https://www.sylabs.io/guides/3.0/user-guide/) `>=3.8.0`
+- [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) is currently unsupported
+
+## Usage
+Run ANI on all samples in a directory:
 ```
-SINGULARITY_BASE=/scicomp/scratch/$USER
-export SINGULARITY_TMPDIR=$SINGULARITY_BASE/singularity.tmp
-export SINGULARITY_CACHEDIR=$SINGULARITY_BASE/singularity.cache
-export NXF_SINGULARITY_CACHEDIR=$SINGULARITY_BASE/singularity.cache
-mkdir -pv $SINGULARITY_TMPDIR $SINGULARITY_CACHEDIR
+nextflow run wf-ani -profile <docker|singularity> --inpath <input directory> --outpath <directory for results>
 ```
 
-Reload bashrc file
+Run ANI on a Query vs Reference directory:
 ```
-source ~/.bashrc
+nextflow run wf-ani -profile <docker|singularity> --query <input query file> --refdir <input directory> --outpath <directory for results>
 ```
 
-Run wrapper scripts to simplify workflow:
-```
-# Run ANI on ALL vs ALL
-run_ani_ALL.uge-nextflow INPUT_DIR OUTPUT_DIR
+## Parameters
+Note the "`--`" long name arguments (e.g., `--help`, `--inpath`, `--outpath`) are generally specific to this workflow's options, whereas "`-`" long name options (e.g., `-help`, `-latest`, `-profile`) are general nextflow options.
 
-# Run ANI on QUERY vs REFERENCE panel
-run_ani_QUERY_vs_REF.uge-nextflow INPUT_QUERY_FILE INPUT_REF_DIR OUTPUT_DIR
+These are the most pertinent options for this workflow:
 ```
+  --inpath             Path to input data directory containing FastA/Genbank files. Recognized extensions are: fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff with optional gzip compression.
+
+  --query              Path to query input data file that is FastA or Genbank. Recognized extensions are: fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff with optional gzip compression.
+
+  --inpath             Path to input data directory containing FastA/Genbank files. Recognized extensions are: fa, fas, fsa, fna, fasta, gb, gbk, gbf, gbff with optional gzip compression.
+
+  --outpath            The output directory where the results will be saved.
+
+  -profile singularity Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
+
+  -profile docker      Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available.
+```
+
+View help menu of all workflow options:
+```
+nextflow run \
+ wf-ani \
+ -r v1.0.0 \
+ --help
+```
+
+## Resource Managers
+The most well-tested and supported is a Univa Grid Engine (UGE) job scheduler with Singularity for dependency handling.
+
+1. UGE/SGE 
+    - Additional tips for UGE processing are [here](docs/HPC-UGE-scheduler.md).
+1. no scheduler
+
+    - It has also been confirmed to work on desktop and laptop environments without a job scheduler using Docker with more tips [here](docs/local-device.md).
+
+## Output File Structure
+| Output Directory | Filename | Explanation |
+| ---------------- | ---------------- | ---------------- |
+| **Main output directory** | | **Main output directory**
+| | ANI.Summary.tab | Bidirectional summary of all samples |
+| | genomes.fofn | List of all input genomes |
+| | pairs.fofn | List of all pairings of genomes in genomes.fofn |
+| | nextflow_log.<job_ID>.txt | Log output from Nextflow |
+| **ANI--\<Pair1\>,\<Pair2\>** | | **ANI Output of \<Pair1\> and \<Pair2\>** |
+| | ani.\<Pair1\>,\<Pair2\>.stats.tab | ANI of each pair and their combined bidirectional ANI |
+| | blast.\<Pair1\>,\<Pair2\>.tab | BLAST output of each fragment of \<Pair2\> vs reference \<Pair2\> |
+| | blast.\<Pair1\>,\<Pair2\>.filt.tab | Filtered BLAST output |
+| | blast.\<Pair1\>,\<Pair2\>.filt.two-way.tab | Filtered bidirectional BLAST output |
+| **log** | | **Log files** |
+| | ASM_\<Number of Samples\>.o\<Submission Number\> | HPC output report |
+| | ASM_\<Number of Samples\>.e\<Submission Number\> | HPC error report |
+| | pipeline_dag.\<YYYY-MM-DD_HH-MM-SS\>.html | Direct acrylic graph of workflow |
+| | report.\<YYYY-MM-DD_HH-MM-SS\>.html | Nextflow summary report of workflow |
+| | timeline.\<YYYY-MM-DD_HH-MM-SS\>.html | Nextflow execution timeline of each process in workflow |
+| | trace.\<YYYY-MM-DD_HH-MM-SS\>.txt | Nextflow execution tracing of workflow, which includes percent of CPU and memory usage |
+| | software_versions.yml | Versions of software used in each process |
+| | errors.tsv | Errors file if errors exist and summarizes the errors |
+| **log/process_logs** | | **Process log files** |
+| | \<SampleName\>.\<ProcessName\>.command.out | Standard output for \<SampleName\> during process \<ProcessName\> |
+| | \<SampleName\>.\<ProcessName\>.command.err | Standard error for \<SampleName\> during process \<ProcessName\> |
+
+
+## Workflow
+The complete directed acyclic graph (DAG) this workflow performs is this:
+![full-workflow](docs/images/workflow_dag_v1.0.0.svg)
+
+## Troubleshooting
+Q: It failed, how do I find out what went wrong?
+
+A: View file contents in the `<outpath>/log` directory.
