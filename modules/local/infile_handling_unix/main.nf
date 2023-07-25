@@ -8,81 +8,51 @@ process INFILE_HANDLING_UNIX {
     container "ubuntu:jammy"
 
     input:
-        path input_dir
-        path query_input
+    tuple val(meta), path(input)
 
     output:
-        path "assemblies"
-        path "assemblies/*", emit: asm_files
-        path ".command.out"
-        path ".command.err"
-        path "versions.yml", emit: versions
-        
+    path ".command.out"
+    path ".command.err"
+    path "genomes.fofn"           , emit: genomes
+    path "versions.yml"           , emit: versions
+    path "assemblies/*"           , emit: asm_files
+    path "Initial_Input_Files.tsv", emit: qc_input_filecheck
+
     shell:
-        '''
-        source bash_functions.sh
-                
-        # Get input data
-        shopt -s nullglob
-        compressed_asm=( "!{input_dir}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}.gz )
-        plaintext_asm=( "!{input_dir}"/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
-        shopt -u nullglob
-        
-        msg "INFO: ${#compressed_asm[@]} compressed assemblies found"
-        msg "INFO: ${#plaintext_asm[@]} plain text assemblies found"
+    // Remove spaces from meta.id and get file extension
+    prefix="${meta.id}".replaceAll(' ', '_');
+    extension="${input}".split('\\.')[1..2].join('.');
+    '''
+    source bash_functions.sh
 
-        # Modify total_inputs if !{query_input} is present
-        if [[ -f !{query_input} ]]; then
-          verify_minimum_file_size "!{query_input}" 'Query input file' "!{params.min_filesize_query_input}"
-          total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} + 1 ))
-        else
-          total_inputs=$(( ${#compressed_asm[@]} + ${#plaintext_asm[@]} ))
-        fi
+    # Rename input files to prefix and move to assemblies dir
+    mkdir assemblies
+    cp !{input} assemblies/"!{prefix}.!{extension}"
 
-        # Check if total inputs are > 2
-        if [[ ${total_inputs} -lt 2 ]]; then
-          msg 'ERROR: At least 2 genomes are required for batch analysis' >&2
-          exit 1
-        fi
+    # gunzip all files that end in .{gz,Gz,GZ,gZ}
+    find -L assemblies/ -type f -name '*.[gG][zZ]' -exec gunzip -f {} +
 
-        # Make assemblies directory and move files to assemblies dir
-        mkdir assemblies
-        for file in "${compressed_asm[@]}" "${plaintext_asm[@]}"; do
-          cp ${file} assemblies
-        done
+    # Filter out small genomes
+    msg "Checking input file sizes.."
+    for file in assemblies/*; do
+      if [[ $(find -L "${file}" -type f -size +"!{params.min_input_filesize}" 2>/dev/null) ]]; then
+        echo -e "$(basename ${file})\tInitial_Input File\tPASS" \
+        >> Initial_Input_Files.tsv
 
-        # Decompress files
-        if [[ ${#compressed_asm[@]} -ge 1 ]]; then
-          gunzip ./assemblies/*.gz
-        fi
+        # Generate list of genomes
+        echo -e "$(basename ${file})" >> genomes.fofn
+      else
+        echo -e "$(basename ${file})\tInitial_Input File\tFAIL" \
+        >> Initial_Input_Files.tsv
 
-        # Get all assembly files after gunzip
-        shopt -s nullglob
-        ASM=( ./assemblies/*.{fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} )
-        shopt -u nullglob
+        msg "INFO: $(basename ${file}) not >!{params.min_input_filesize} so it was not included in the analysis"
+        rm ${file}
+      fi
+    done
 
-        msg "INFO: Total number of genomes: ${#ASM[@]}"
-
-        # Filter out and report unusually small genomes
-        FNA=()
-        for A in "${ASM[@]}"; do
-        # TO-DO: file content corruption and format validation tests
-          if [[ $(find -L "$A" -type f -size +"!{params.min_filesize_assembly_input_dir}" 2>/dev/null) ]]; then
-            FNA+=("$A")
-          else
-            msg "INFO: $(basename ${A}) not >!{params.min_filesize_assembly_input_dir}B so it was not included in the analysis" >&2
-          fi
-        done
-
-        # Check if total inputs are > 2
-        if [ ${#FNA[@]} -lt 2 ]; then
-          msg 'ERROR: Found <2 genome files >!{params.min_filesize_assembly_input_dir}B' >&2
-          exit 1
-        fi
-
-        cat <<-END_VERSIONS > versions.yml
-        "!{task.process}":
-          ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
-        END_VERSIONS
-        '''
+    cat <<-END_VERSIONS > versions.yml
+    "!{task.process}":
+      ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
+    END_VERSIONS
+    '''
 }

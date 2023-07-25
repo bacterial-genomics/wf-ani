@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/gregorysprenger/wf-ani/master/assets/schema_input.json",
+    "title": "wf-ani pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sample": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces"
+            },
+            "file": {
+                "type": "string",
+                "pattern": "^\\S+\\.(fasta|fas|fa|fsa|fna|gbff|gbf|gbk|gb)(.gz)?$",
+                "errorMessage": "FastA or Genbank file must be provided, cannot contain spaces and must have extension one of the following extensions {fa,fas,fsa,fna,fasta} and {gb,gbk,gbf,gbff} with option .gz compression."
+            }
+        },
+        "required": ["sample", "file"]
+    }
+}

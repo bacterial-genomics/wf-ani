@@ -1,0 +1,402 @@
+#!/usr/bin/env bash
+#$ -cwd
+
+# This wrapper script manages job submission of
+#  the wf-ani QUERY vs REFERENCE PANEL on the UGE scheduler.
+SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
+
+# Define script usage
+
+usage() {
+  echo "
+Usage: ${0##*/} QueryInput ReferenceDirectory [OutputDirectory] [-h|--help]
+
+Required:
+<QueryInput>          Path to a single FastA or Genbank formatted file ending in:
+                      {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}
+                      with optional .gz compression will be analyzed.
+
+<ReferenceDirectory>  Path to FastA and GenBank formatted files ending in:
+                      {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}
+                      with optional .gz compression will be analyzed.
+
+  Sample names are extracted from file names, omitting file extensions.
+  Make sure file names are descriptive and concise.
+  WARNING: Whitespace is forbidden in filenames.
+
+  Only files that exceed 45 kB in size within <QueryInput> and
+  <ReferenceDirectory> will be used for ANI comparisons.
+
+Optional:
+  -h | --help         Show this help message and exit.
+  <OutputDirectory>   Location for the output files, which
+                      includes job logfiles. Output files
+                      will be overwritten if already present.
+                      Default: current working directory.
+  "
+}
+
+# Color output for success, warnings, and errors to catch user's attention
+GREEN_TXT='\033[0;32m'
+RED_TXT='\033[0;31m'
+YELLOW_TXT='\033[0;93m'
+RED_BG='\033[41m'
+COLOR_OFF='\033[0m'
+
+# Allow user to re-specify the output path
+prompt_new_outpath() {
+  echo -e "${RED_BG}"
+  read -p "Would you like to use a different output path? (yes|no) " -n 1 -r
+  echo -e "${COLOR_OFF}"
+
+  if [[ $REPLY =~ ^[yY] ]]; then
+    echo -e "${RED_BG}"
+    read -p "Enter new Output path: " _new_outpath
+    echo -e "${COLOR_OFF}"
+
+    OUT="$(readlink -f ${_new_outpath})"
+  else
+    echo -e "${RED_TXT}\nYou can re-run this workflow with a new output path."
+    echo -e "Submission was cancelled.\n ${COLOR_OFF}"
+    exit 0
+  fi
+}
+
+# Check if there is a possibility data will be overwritten
+prompt_if_previous_nextflow_run() {
+  # Parameters:
+  #  $1 = file path
+  #  $2 = filename (no path) to search for
+  if [ -f $(find "${1}" -maxdepth 1 -name "${2}*" | grep -q '.') ]; then
+    echo -e "${YELLOW_TXT}\nThis workflow has been ran in output path before."
+    echo -e "Processing samples will overwrite older data."
+    echo -e "If you have jobs in queue this could be confusing.\n ${COLOR_OFF}"
+
+    echo -e "${RED_BG}"
+    read -p "Do you want to continue? (yes|no) " -n 1 -r
+    echo -e "${COLOR_OFF}"
+
+    if [[ $REPLY =~ ^[yY] ]]; then
+      # Continue submission if user wants to possibly overwrite data
+      echo -e "${YELLOW_TXT}\nData in ${1} will be overwritten."
+      echo -e "Continuing to submit samples...${COLOR_OFF}"
+    else
+      # If user doesn't want to continue, ask for a different output path
+      prompt_new_outpath
+      prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
+    fi
+  fi
+}
+
+# Check argument requirements
+[[ $1 == "--help" || $1 == "-h" ]] && { usage; exit 0; }
+if [[ $# -lt 2  || $# -gt 4 ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} improper number ("$#") of arguments provided" >&2
+  usage
+  exit 1
+fi
+
+# Confirm we are on a host that can submit jobs
+if [ ${HOSTNAME%%.*} == 'biolinux' ] || \
+  [ ${HOSTNAME%%.*} == 'login02' ] || \
+  [ ${HOSTNAME%%.*} == 'rosalind01' ] || \
+  [ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]; then
+  :
+else
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} must be on aspen, rosalind, or biolinux" >&2
+  exit 1
+fi
+
+# I/O handling
+if [[ $1 =~ .+[[:space:]].+ ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} whitespace in $1 path unsupported" >&2
+  exit 1
+fi
+if [[ $2 =~ .+[[:space:]].+ ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} whitespace in $2 path unsupported" >&2
+  exit 1
+fi
+QUERY=$(readlink -f "$1")
+REFERENCE=$(readlink -f "$2")
+if [[ -z "$3" ]]; then
+  OUT="${PWD}"
+else
+  OUT=$(readlink -f "$3")
+fi
+
+# Get LAB_HOME or custom tmp/cache variables from user's ~/.bashrc,
+#  while still enabling fancy people to override these from their
+#  current working environment too.
+source ${HOME}/.bashrc
+if [[ -z "${LAB_HOME}" ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${LAB_HOME} not set" >&2
+  exit 1
+fi
+
+# Check if Singularity environment variables are set,
+#  and confirm the user has write access.
+#  We expect these 2 paths to already exist.
+if [[ -z ${SINGULARITY_CACHEDIR} ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} \$SINGULARITY_CACHEDIR not set" >&2
+  exit 1
+else
+  if [[ ! -d ${SINGULARITY_CACHEDIR} ]] || [[ ! -w ${SINGULARITY_CACHEDIR} ]]; then
+    echo -e "${RED_TXT}ERROR:${COLOR_OFF} \$SINGULARITY_CACHEDIR ${SINGULARITY_CACHEDIR} not writeable for ${USER}" >&2
+    exit 1
+  fi
+fi
+if [[ -z ${SINGULARITY_TMPDIR} ]]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} \$SINGULARITY_TMPDIR not set" >&2
+  exit 1
+else
+  if [[ ! -d ${SINGULARITY_TMPDIR} ]] || [[ ! -w ${SINGULARITY_TMPDIR} ]]; then
+    echo -e "${RED_TXT}ERROR:${COLOR_OFF} \$SINGULARITY_TMPDIR ${SINGULARITY_TMPDIR} not writeable for ${USER}" >&2
+    exit 1
+  fi
+fi
+
+# If Windows-style mount point (e.g., "Z:\Streptobacillus\Assemblies") given as a
+#  path, check both user's home, lab home, and group as possible mount areas
+#  to determine if files exist in 1 but not the others.
+if [[ ${REFERENCE} =~ ^.+[A-Z]\:.+ ]]; then
+  path_slashes_replaced="$(echo "${REFERENCE}" | cut -d ':' -f 2 | sed 's/\\/\//g')"
+  user_home="${HOME}"/"${path_slashes_replaced}"
+  user_group_main="/scicomp${path_slashes_replaced}" # Dropped slash between scicomp and var
+  user_group_branch="/scicomp/groups/OID/NCEZID/DHCPP/BSPB/${path_slashes_replaced}"
+  lab_home="${LAB_HOME}"/"${path_slashes_replaced}"
+  paths=(
+    "${user_home}"
+    "${user_group_main}"
+    "${user_group_branch}"
+    "${lab_home}"
+    )
+  for path in "${paths[@]}"; do
+    cnt_read_files=$(find -L "${path}" \
+      -maxdepth 2 \
+      -type f \
+      -readable \
+      -regextype posix-extended \
+      -regex ".+\.(fa|fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" \
+      2> /dev/null \
+      | wc -l)
+    if [[ ${cnt_read_files} -ge 1 ]]; then
+        echo -e "${YELLOW_TXT}\n${cnt_read_files} FastA/Genbank files found in: ${path}${COLOR_OFF}"
+        echo -e "${RED_BG}"
+        read -p "Use ${path} as Reference Directory? (yes|no) " -n 1 -r
+        echo -e "${COLOR_OFF}"
+        if [[ $REPLY =~ ^[yY] ]]; then
+          REFERENCE="${path}"
+        else
+          exit 0
+        fi
+        break
+    fi
+  done
+fi
+
+if [[ ${QUERY} =~ ^.+[A-Z]\:.+ ]]; then
+  path_slashes_replaced="$(echo "${QUERY}" | cut -d ':' -f 2 | sed 's/\\/\//g')"
+  filename="$(basename ${path_slashes_replaced})"
+  user_home="${HOME}"/"${path_slashes_replaced}"
+  user_group_main="/scicomp${path_slashes_replaced}" # Dropped slash between scicomp and var
+  user_group_branch="/scicomp/groups/OID/NCEZID/DHCPP/BSPB/${path_slashes_replaced}"
+  lab_home="${LAB_HOME}"/"${path_slashes_replaced}"
+  paths=(
+    "${user_home}"
+    "${user_group_main}"
+    "${user_group_branch}"
+    "${lab_home}"
+    )
+  for path in "${paths[@]}"; do
+    cnt_read_files=$(find -L "${path}" \
+      -maxdepth 2 \
+      -type f \
+      -readable \
+      -name ${filename} \
+      2> /dev/null \
+      | wc -l)
+    if [[ ${cnt_read_files} -ge 1 ]]; then
+        echo -e "${YELLOW_TXT}\n${cnt_read_files} FastA/Genbank file found with name ${filename} in: ${path}${COLOR_OFF}"
+        echo -e "${RED_BG}"
+        read -p "Use ${path}/${filename} as Query Input? (yes|no) " -n 1 -r
+        echo -e "${COLOR_OFF}"
+        if [[ $REPLY =~ ^[yY] ]]; then
+          QUERY="${path}/${filename}"
+        else
+          exit 0
+        fi
+        break
+    fi
+  done
+fi
+
+# Make sure QUERY is in the proper format
+if [[ ${QUERY} =~ ^.*\.(fa|fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$) ]]; then
+  echo -e "\nFound query input $(basename ${QUERY}). Continuing..\n"
+else
+  echo -e "${RED_TXT}$(basename ${QUERY}) does not meet required file format."
+  echo -e "Please use files ending in fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff (may also be .gz compressed).${COLOR_OFF}"
+fi
+
+# For now, just output into shared LAB_HOME area
+if [[ ${OUT} =~ ^.+[A-Z]\:.+ ]]; then
+  echo -e "${YELLOW_TXT}\nWindows hard mount path detected as Output Directory ${COLOR_OFF}"
+  proposed_outpath="${LAB_HOME}"/"$(date '+%Y-%b-%d_%a_%H:%M:%S')"
+
+  echo -e "${RED_BG}"
+  read -p "Use ${proposed_outpath} as Output Directory? (yes|no) " -n 1 -r
+  echo -e "${COLOR_OFF}"
+
+  if [[ $REPLY =~ ^[yY] ]]; then
+    OUT="${path}"
+  else
+    echo -e "${RED_TXT}\nOkay, bad autoselection? Re-run with a different specified path ${COLOR_OFF}\n"
+    exit 0
+  fi
+fi
+
+# Check for specific nextflow logfile for this workflow, which
+#  means this nextflow workflow has been ran before in the specified outpath.
+if [ -d "${OUT}/log" ] && \
+  [ -f $(find "${OUT}" -maxdepth 1 -name "nextflow_log*" | grep -q '.') ]; then
+  prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
+fi
+
+# Also check for unsupported behavior combining legacy bash and newer nextflow
+if [ -d "${OUT}/.log" ] && \
+  [ -f "${OUT}/.log/batch-ani.job_ids.txt" ] && \
+  [ -f "${OUT}/.log/batch-ani.log.txt" ]; then
+  echo -e "${RED_TXT}Legacy bash workflow detected in ${OUT}"
+  echo -e "Combining data from that and this nextflow pipeline is unsupported."
+  echo -e "Use a different output path. ${COLOR_OFF}"
+  exit 1
+fi
+
+# Add found input files to an array
+found_files=( $(find -L ${REFERENCE} \
+  -maxdepth 1 \
+  -type f \
+  -readable \
+  -regextype posix-extended \
+  -regex ".+\.(fa|fas|fsa|fna|fasta|gb|gbk|gbf|gbff)($|\.gz$)" ))
+
+# Require at least 2 FastA/Genbank files
+if [ ${#found_files[@]} -lt 1 ]; then
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} no FastA/Genbank files found" >&2
+  exit 1
+fi
+
+# Add basename of FastA/Genbank files to $submitted
+submitted=()
+for (( i=0; i<${#found_files[@]}; i++ )); do
+  # Remove _genomic and .extension from filenames
+  ifh=${found_files[i]}
+  base=$(basename ${ifh} | sed 's/[.].*//g' | sed 's/_genomic//1')
+  if [[ "${submitted[*]}" =~ " ${base} " ]]; then
+    echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
+    exit 1
+  fi
+  submitted+=(${base})
+done
+
+# Prompt user if >10 samples to prevent accidentally performing ANI on too many
+if [[ ${#submitted[@]} -ge 10 ]]; then
+  echo -e "${YELLOW_TXT}\nWARNING: ${#submitted[@]} samples have been identified:\n${COLOR_OFF}"
+  for f in ${submitted[@]}; do
+    echo -e "${YELLOW_TXT}${f}${COLOR_OFF}"
+  done | xargs -L3 | column -t
+
+  # Prompt user to verify submission of large sample set
+  echo -e "${RED_BG}"
+  read -p "Do you want to continue submitting ${#submitted[@]} samples? (yes|no) " -n 1 -r
+  echo -e "${COLOR_OFF}"
+  if [[ $REPLY =~ ^[yY] ]]; then
+    echo -e "\nContinuing to submit ${#submitted[@]} samples...\n"
+  else
+    echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
+    exit 0
+  fi
+fi
+
+# Prompt user if >300,000 comparisons as it may not complete on Rosalind HPC
+if [[ ${#submitted[@]} -ge 300000 ]]; then
+  echo -e "${YELLOW_TXT}\nWARNING: ${#submitted[@]} comparisons have been identified.\n${COLOR_OFF}"
+
+  # Prompt user to verify submission of large sample set
+  echo -e "${RED_BG}"
+  read -p "Do you want to continue submitting ${#submitted[@]} comparisons? (yes|no) " -n 1 -r
+  echo -e "${COLOR_OFF}"
+  if [[ $REPLY =~ ^[yY] ]]; then
+    echo -e "\nContinuing to submit ${#submitted[@]} comparisons...\n"
+  else
+    echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
+    exit 0
+  fi
+fi
+
+# Get node number - <=230 = biolinux, >=231 = rosalind
+NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
+
+# If FastQ files are able to be submitted, submit and display basenames
+if [[ ${#submitted[@]} -ge 2 ]] && \
+  [[ ${HOSTNAME%%.*} == 'biolinux' || 'login02' ]] || \
+  [[ ${NODE_NUM} -le 230 ]]; then
+  # Submit Nextflow pipeline to Aspen HPC
+  qsub \
+    -v OUT=${OUT} \
+    -v QUERY=${QUERY} \
+    -v REFERENCE=${REFERENCE} \
+    -m ba \
+    -q all.q \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
+    -M ${USER}@cdc.gov \
+    -v LAB_HOME=${LAB_HOME} \
+    -N ANI_${#submitted[@]} \
+    -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
+    -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    ${LAB_HOME}/workflows/wf-ani/_run_fastANI_QUERY_vs_REF.uge-nextflow
+
+elif [[ ${#submitted[@]} -ge 2 ]] && \
+  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
+  [[ ${NODE_NUM} -ge 231 ]]; then
+  # Submit Nextflow pipeline to Rosalind HPC
+  qsub \
+    -v OUT=${OUT} \
+    -v QUERY=${QUERY} \
+    -v REFERENCE=${REFERENCE} \
+    -m ba \
+    -q all.q \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
+    -M ${USER}@cdc.gov \
+    -v LAB_HOME=${LAB_HOME} \
+    -N ANI_${#submitted[@]} \
+    -l max_runtime=72:00:00 \
+    -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
+    -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
+    ${LAB_HOME}/workflows/wf-ani/_run_fastANI_QUERY_vs_REF.uge-nextflow
+
+else
+  echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
+  exit 1
+fi
+
+# Add Query basename to submitted array
+query_base=$(basename ${QUERY} | sed 's/[.].*//g' | sed 's/_genomic//1')
+submitted+=(${query_base})
+
+# Display basename of FastQ files submitted
+echo -e "${GREEN_TXT}\nQuery input:${COLOR_OFF} ${QUERY}"
+echo -e "${GREEN_TXT}Reference directory:${COLOR_OFF} ${REFERENCE}"
+echo -e "${GREEN_TXT}Output directory:${COLOR_OFF} ${OUT}"
+echo -e "${GREEN_TXT}\nGenerating ANI comparisons for:"
+for elem in "${submitted[@]}"; do
+  echo "${elem}"
+done | xargs -L3 | column -t
+echo -e "${COLOR_OFF}"
+
+# Set up log directory in OUT directory
+mkdir -p ${OUT}/log
