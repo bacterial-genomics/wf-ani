@@ -27,7 +27,7 @@ process INFILE_HANDLING_UNIX {
 
     # Rename input files to prefix and move to assemblies dir
     mkdir assemblies
-    cp !{input} assemblies/"!{prefix}"
+    cp !{input} assemblies/"!{prefix}.!{extension}"
 
     # gunzip all files that end in .{gz,Gz,GZ,gZ}
     find -L assemblies/ -type f -name '*.[gG][zZ]' -exec gunzip -f {} +
@@ -35,19 +35,19 @@ process INFILE_HANDLING_UNIX {
     # Filter out small genomes
     msg "Checking input file sizes.."
     for file in assemblies/*; do
-      if [[ $(find -L "${file}" -type f -size +"!{params.min_input_filesize}" 2>/dev/null) ]]; then
-        echo -e "$(basename ${file})\tInitial_Input File\tPASS" \
+      if verify_minimum_file_size "${file}" 'Input' "!{params.min_input_filesize}"; then
+        echo -e "$(basename ${file%%.*})\tInput File\tPASS" \
         >> Initial_Input_Files.tsv
 
         # Generate list of genomes
         echo -e "$(basename ${file})" >> genomes.fofn
       else
-        echo -e "$(basename ${file})\tInitial_Input File\tFAIL" \
+        echo -e "$(basename ${file%%.*})\tInput File\tFAIL" \
         >> Initial_Input_Files.tsv
-        echo -e "" >> genomes.fofn
 
-        msg "INFO: $(basename ${file}) not >!{params.min_input_filesize} so it was not included in the analysis"
+        echo -n "" >> genomes.fofn
         rm ${file}
+        exit 1
       fi
     done
 
