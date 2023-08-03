@@ -15,14 +15,14 @@ module load nextflow
 nextflow \
   -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
   run \
+  ${LAB_HOME}/workflows/wf-ani/main.nf \
+  -w /scicomp/scratch/${USER}/work \
+  -N ${USER}@cdc.gov \
+  --ani fastani \
+  -ansi-log false \
   -profile ${HPC} \
   --input ${IN} \
   --outdir ${OUT} \
-  -ansi-log false \
-  --ani fastani \
-  -N ${USER}@cdc.gov \
-  ${LAB_HOME}/workflows/wf-ani/main.nf \
-  -w /scicomp/scratch/${USER}/work \
   -resume
 
 # Check for errors and add to errors.tsv

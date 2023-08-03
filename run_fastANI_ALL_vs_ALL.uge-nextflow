@@ -250,6 +250,9 @@ for (( i=0; i<${#found_files[@]}; i++ )); do
   submitted+=(${base})
 done
 
+# Count number of possible pairings
+pairings="$(( ${#submitted[@]} * $(( ${#submitted[@]}-1 )) /2 ))"
+
 # Prompt user if >10 samples to prevent accidentally performing ANI on too many
 if [[ ${#submitted[@]} -ge 10 ]]; then
   echo -e "${YELLOW_TXT}\nWARNING: ${#submitted[@]} samples have been identified:\n${COLOR_OFF}"
@@ -262,15 +265,12 @@ if [[ ${#submitted[@]} -ge 10 ]]; then
   read -p "Do you want to continue submitting ${#submitted[@]} samples? (yes|no) " -n 1 -r
   echo -e "${COLOR_OFF}"
   if [[ $REPLY =~ ^[yY] ]]; then
-    echo -e "\nContinuing to submit ${#submitted[@]} samples...\n"
+    echo -e "\nContinuing to submit ${#submitted[@]} samples as ${pairings} comparisons...\n"
   else
     echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
     exit 0
   fi
 fi
-
-# Count number of possible pairings
-pairings="$(( ${#submitted[@]} * $(( ${#submitted[@]}-1 )) /2 ))"
 
 # Prompt user if >300,000 comparisons as it may not complete on Rosalind HPC
 if [[ ${pairings} -ge 300000 ]]; then
@@ -324,7 +324,7 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
-    -N ANI_${#submitted[@]} \
+    -N ANI_${pairings} \
     -l max_runtime=72:00:00 \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \

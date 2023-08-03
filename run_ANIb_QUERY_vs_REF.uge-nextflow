@@ -311,7 +311,7 @@ if [[ ${#submitted[@]} -ge 10 ]]; then
   read -p "Do you want to continue submitting ${#submitted[@]} samples? (yes|no) " -n 1 -r
   echo -e "${COLOR_OFF}"
   if [[ $REPLY =~ ^[yY] ]]; then
-    echo -e "\nContinuing to submit ${#submitted[@]} samples...\n"
+    echo -e "\nContinuing to submit ${#submitted[@]} samples as ${#submitted[@]} pairings...\n"
   else
     echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
     exit 0
