@@ -3,7 +3,7 @@ process INFILE_HANDLING_UNIX {
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
-        saveAs: { filename -> "${task.process}${filename}" }
+        saveAs: { filename -> "${prefix}.${task.process}${filename}" }
 
     container "ubuntu:jammy"
 
@@ -21,13 +21,13 @@ process INFILE_HANDLING_UNIX {
     shell:
     // Remove spaces from meta.id and get file extension
     prefix="${meta.id}".replaceAll(' ', '_');
-    extension="${input}".split('\\.')[1..2].join('.');
+    extension="${input}".split('\\.')[1..-1].join('.');
     '''
     source bash_functions.sh
 
     # Rename input files to prefix and move to assemblies dir
     mkdir assemblies
-    cp !{input} assemblies/"!{prefix}.!{extension}"
+    cp !{input} assemblies/"!{prefix}"
 
     # gunzip all files that end in .{gz,Gz,GZ,gZ}
     find -L assemblies/ -type f -name '*.[gG][zZ]' -exec gunzip -f {} +
@@ -44,6 +44,7 @@ process INFILE_HANDLING_UNIX {
       else
         echo -e "$(basename ${file})\tInitial_Input File\tFAIL" \
         >> Initial_Input_Files.tsv
+        echo -e "" >> genomes.fofn
 
         msg "INFO: $(basename ${file}) not >!{params.min_input_filesize} so it was not included in the analysis"
         rm ${file}

@@ -9,6 +9,7 @@ process ANI_FASTANI {
         saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
 
     label "process_high"
+    tag( "${base1}_${base2}" )
 
     container "gregorysprenger/fastani@sha256:047dbb5bd779bd12c98258c2b5570c4d30c33582203c94786b0901149e233eaa"
 

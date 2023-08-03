@@ -6,9 +6,10 @@ process ANI_SKANI {
     publishDir "${params.process_log_dir}",
         mode: "${params.publish_dir_mode}",
         pattern: ".command.*",
-        saveAs: { filename -> "${task.process}${filename}" }
+        saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
 
     label "process_high"
+    tag( "${base1}_${base2}" )
 
     container "gregorysprenger/skani@sha256:f775f114281a7bd647467a13b90d243ec32ab3f7763c5dbeb06be5e35a842bb6"
 
