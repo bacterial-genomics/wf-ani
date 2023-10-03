@@ -19,15 +19,15 @@ process INFILE_HANDLING_UNIX {
     path "Initial_Input_Files.tsv", emit: qc_input_filecheck
 
     shell:
-    // Remove spaces from meta.id and get file extension
-    prefix="${meta.id}".replaceAll(' ', '_');
-    extension="${input}".split('\\.')[1..-1].join('.');
+    // Rename files with meta.id (has spaces and periods removed)
+    gzip_compressed = input.toString().contains('.gz') ? '.gz' : ''
+    file_extension  = input.toString().split('.gz')[0].split('\\.')[-1]
     '''
     source bash_functions.sh
 
     # Rename input files to prefix and move to assemblies dir
     mkdir assemblies
-    cp !{input} assemblies/"!{prefix}.!{extension}"
+    cp !{input} assemblies/"!{meta.id}.!{file_extension}!{gzip_compressed}"
 
     # gunzip all files that end in .{gz,Gz,GZ,gZ}
     find -L assemblies/ -type f -name '*.[gG][zZ]' -exec gunzip -f {} +
