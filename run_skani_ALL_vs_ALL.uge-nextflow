@@ -237,12 +237,20 @@ if [ ${#found_files[@]} -lt 2 ]; then
   exit 1
 fi
 
+# Array of extensions
+extensions=(.fasta .fas .fa .fsa .fna .gbff .gbf .gbk .gb .gz)
+
 # Get basename (prefix) of files to submit jobs
 submitted=()
 for (( i=0; i<${#found_files[@]}; i++ )); do
   # Remove _genomic and .extension from filenames
   ifh=${found_files[i]}
-  base=$(basename ${ifh} | sed 's/[.].*//g' | sed 's/_genomic//1')
+  base=$(basename ${ifh} | sed 's/_genomic//1')
+
+  for ext in ${extensions[@]}; do
+    base=$(echo $base | sed "s/$ext//g")
+  done
+
   if [[ "${submitted[*]}" =~ " ${base} " ]]; then
     echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
     exit 1
