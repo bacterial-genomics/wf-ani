@@ -18,6 +18,33 @@ def hasExtension(it, extension) {
     it.toString().toLowerCase().endsWith(extension.toLowerCase())
 }
 
+def removeExtensions(it) {
+    // List of file extensions to replace
+    def extensions = [
+                      ".fasta",
+                      ".fas",
+                      ".fa",
+                      ".fsa",
+                      ".fna",
+                      ".gbff",
+                      ".gbf",
+                      ".gbk",
+                      ".gb",
+                      ".gz"
+                      ]
+
+    // Remove file path
+    it = it.getName()
+
+    // For each item in extensions, replace it
+    extensions.eachWithIndex { item, idx ->
+        it = it.toString().replaceAll(item, '')
+    }
+
+    // Replace periods and spaces; return cleaned meta
+    return it.replaceAll('\\.', '\\_').replaceAll(' ', '_')
+}
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN INPUT_CHECK WORKFLOW
@@ -120,17 +147,18 @@ workflow INPUT_CHECK {
                 .ifEmpty { exit 1, "Cannot find any files matching: ${ch_input}\nNB: Path needs to be enclosed in quotes!" }
                 .map { row ->
                             def meta = [:]
-                            meta.id = row.simpleName
+                            meta.id = removeExtensions(row)
                             return [ meta, [ row ] ]
                     }
             ch_input_rows = Channel.empty()
         } else {
+            // Find files in input path directory
             ch_input_files = Channel
                 .fromPath(ch_input+'/**.{fasta,fas,fa,fsa,fna,gbff,gbf,gbk,gb}{,.gz}', checkIfExists: true)
                 .ifEmpty { exit 1, "Cannot find any files matching: ${ch_input}\nNB: Path needs to be enclosed in quotes!" }
                 .map { row ->
                             def meta = [:]
-                            meta.id = row.simpleName
+                            meta.id = removeExtensions(row)
                             return [ meta, [ row ] ]
                     }
             ch_input_rows = Channel.empty()
