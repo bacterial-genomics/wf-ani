@@ -10,7 +10,7 @@ on:
     types: [published]
 
 env:
-  NXF_ANSI_LOG: false
+  NXF_ANSI_log: false
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
