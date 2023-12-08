@@ -1,19 +1,19 @@
-# wf-ani: Contributing Guidelines
+# gregorysprenger/wf-ani: Contributing Guidelines
 
 Hi there!
-Many thanks for taking an interest in improving wf-ani.
+Many thanks for taking an interest in improving gregorysprenger/wf-ani.
 
-We try to manage the required tasks for wf-ani using GitHub issues, you probably came to this page when creating one.
+We try to manage the required tasks for gregorysprenger/wf-ani using GitHub issues, you probably came to this page when creating one.
 Please use the pre-filled template to save time.
 
 However, don't be put off by this template - other more general issues and suggestions are welcome!
 Contributions to the code are even more welcome ;)
 
-> If you need help using or modifying wf-ani then the best place to ask is by creating an issue.
+> If you need help using or modifying gregorysprenger/wf-ani then the best place to ask is by creating an issue.
 
 ## Contribution workflow
 
-If you'd like to write some code for wf-ani, the standard workflow is as follows:
+If you'd like to write some code for gregorysprenger/wf-ani, the standard workflow is as follows:
 
 1. Check that there isn't already an issue about your idea in the [wf-ani issues](https://github.com/gregorysprenger/wf-ani/issues) to avoid duplicating work. If there isn't one already, please create one so that others know you're working on this
 2. [Fork](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the [wf-ani repository](https://github.com/gregorysprenger/wf-ani) to your GitHub account
@@ -58,7 +58,7 @@ For further information/help, please consult the [wf-ani documentation](https://
 
 ## Pipeline contribution conventions
 
-To make the wf-ani code and processing logic more understandable for new contributors and to ensure quality, we semi-standardise the way the code and other contributions are written.
+To make the gregorysprenger/wf-ani code and processing logic more understandable for new contributors and to ensure quality, we semi-standardise the way the code and other contributions are written.
 
 ### Adding a new step
 

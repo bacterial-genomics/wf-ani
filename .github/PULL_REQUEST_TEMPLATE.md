@@ -1,7 +1,7 @@
 <!--
-# wf-ani pull request
+# gregorysprenger/wf-ani pull request
 
-Many thanks for contributing to wf-ani workflow!
+Many thanks for contributing to gregorysprenger/wf-ani workflow!
 
 Please fill in the appropriate checklist below (delete whatever is not relevant).
 These are the most common things requested on pull requests (PRs).
