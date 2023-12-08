@@ -354,6 +354,8 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
+    -v ANI="fastani" \
+    -v TYPE="QUERY_vs_REFDIR" \
     -m ba \
     -q all.q \
     -o ${OUT}/pipeline_info \
@@ -364,7 +366,7 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_fastANI_QUERY_vs_REF.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
@@ -374,6 +376,8 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
+    -v ANI="fastani" \
+    -v TYPE="QUERY_vs_REFDIR" \
     -m ba \
     -q all.q \
     -o ${OUT}/pipeline_info \
@@ -385,7 +389,7 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_fastANI_QUERY_vs_REF.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ani.uge-nextflow
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
