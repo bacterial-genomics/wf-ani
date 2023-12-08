@@ -96,4 +96,4 @@ class WorkflowMain {
             System.exit(1)
         }
     }
-    }
+}
