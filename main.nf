@@ -21,33 +21,11 @@ WorkflowMain.initialise(workflow, params, log)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    CHECK WORKFLOW OPTION
+    NAMED WORKFLOW FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// Convert params.ani to lowercase
-def toLower(it) {
-    it.toString().toLowerCase()
-}
-
-// If ani input, set to lowercase
-if (params.ani) {
-    params.ani = toLower(params.ani)
-}
-
-// Import workflow based on params.ani input
-if (params.ani in ['blast', 'fastani', 'skani']) {
-    if (params.ani == "fastani") {
-        include { FASTANI } from './workflows/fastani'
-    } else if (params.ani == "skani") {
-        include { SKANI   } from './workflows/skani'
-    } else {
-        include { BLAST   } from './workflows/blast'
-    }
-} else {
-    log.error "Using default BLAST+ ANI."
-    include { BLAST       } from './workflows/blast'
-}
+include { ANI } from './workflows/ani'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,13 +34,7 @@ if (params.ani in ['blast', 'fastani', 'skani']) {
 */
 
 workflow {
-    if (params.ani == "fastani") {
-        FASTANI()
-    } else if (params.ani == "skani") {
-        SKANI()
-    } else {
-        BLAST()
-    }
+    ANI()
 }
 
 /*
