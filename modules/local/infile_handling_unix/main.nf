@@ -47,7 +47,6 @@ process INFILE_HANDLING_UNIX {
 
         echo -n "" >> genomes.fofn
         rm ${file}
-        exit 1
       fi
     done
 
