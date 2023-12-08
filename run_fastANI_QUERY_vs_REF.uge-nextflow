@@ -257,7 +257,7 @@ fi
 
 # Check for specific nextflow logfile for this workflow, which
 #  means this nextflow workflow has been ran before in the specified outpath.
-if [ -d "${OUT}/log" ] && \
+if [ -d "${OUT}/pipeline_info" ] && \
   [ -f $(find "${OUT}" -maxdepth 1 -name "nextflow_log*" | grep -q '.') ]; then
   prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
 fi
@@ -356,8 +356,8 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v REFERENCE=${REFERENCE} \
     -m ba \
     -q all.q \
-    -o ${OUT}/log \
-    -e ${OUT}/log \
+    -o ${OUT}/pipeline_info \
+    -e ${OUT}/pipeline_info \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
@@ -376,8 +376,8 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v REFERENCE=${REFERENCE} \
     -m ba \
     -q all.q \
-    -o ${OUT}/log \
-    -e ${OUT}/log \
+    -o ${OUT}/pipeline_info \
+    -e ${OUT}/pipeline_info \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
@@ -407,4 +407,4 @@ done | xargs -L3 | column -t
 echo -e "${COLOR_OFF}"
 
 # Set up log directory in OUT directory
-mkdir -p ${OUT}/log
+mkdir -p ${OUT}/pipeline_info
