@@ -34,12 +34,6 @@ process ANI_BLAST_BIOPYTHON {
     '''
     source bash_functions.sh
 
-    # Get ANIb+.py and check if it exists
-    blastn_ani_script="${DIR}/ANIb+.py"
-    if ! check_if_file_exists_allow_seconds ${blastn_ani_script} '60'; then
-      exit 1
-    fi
-
     # Skip comparison if precomputed value exists
     ANI=""
     if [ -s "!{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
@@ -58,7 +52,7 @@ process ANI_BLAST_BIOPYTHON {
 
     msg "INFO: Performing ANI on !{base1} and !{base2}."
 
-    python ${blastn_ani_script} \
+    ANIb+.py \
       -1 assemblies/!{filename1} \
       -2 assemblies/!{filename2} \
       --name1 !{base1} \
