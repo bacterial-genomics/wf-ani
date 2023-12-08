@@ -62,8 +62,8 @@ process ANI_SKANI {
 
     # Run skani
     skani dist \
-      -q assemblies/!{filename1} \
-      -r assemblies/!{filename2} \
+      -q "assemblies/!{filename1}" \
+      -r "assemblies/!{filename2}" \
       -o "ANI--!{base1},!{base2}/skani.out" \
       -v \
       !{speed} \

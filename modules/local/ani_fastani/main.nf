@@ -39,8 +39,8 @@ process ANI_FASTANI {
 
     # Run fastANI
     fastANI \
-      --ref assemblies/!{filename1} \
-      --query assemblies/!{filename2} \
+      --ref "assemblies/!{filename1}" \
+      --query "assemblies/!{filename2}" \
       --output "ANI--!{base1},!{base2}/fastani.out" \
       !{matrix} \
       --visualize \

@@ -53,10 +53,10 @@ process ANI_BLAST_BIOPYTHON {
     msg "INFO: Performing ANI on !{base1} and !{base2}."
 
     ANIb+.py \
-      -1 assemblies/!{filename1} \
-      -2 assemblies/!{filename2} \
-      --name1 !{base1} \
-      --name2 !{base2} \
+      -1 "assemblies/!{filename1}" \
+      -2 "assemblies/!{filename2}" \
+      --name1 "!{base1}" \
+      --name2 "!{base2}" \
       !{small_frags} \
       -c !{task.cpus} \
       -s !{params.step_size} \
