@@ -82,6 +82,7 @@ def toLower(it) {
 workflow ANI {
 
     // SETUP: Define empty channels to concatenate certain outputs
+    ch_summary  = Channel.empty()
     ch_versions = Channel.empty()
 
     /*
@@ -135,8 +136,8 @@ workflow ANI {
         ch_versions = ch_versions.mix(ANI_FASTANI.out.versions)
 
         // Collect all fastani.out files and concatenate into one file
-        ch_summary = ANI_FASTANI.out.ani_stats
-                        .collect()
+        ch_summary = ch_summary
+                        .mix(ANI_FASTANI.out.ani_stats)
                         .collectFile(
                             name: 'ANI.Summary.tsv',
                             storeDir: params.outdir,
@@ -150,9 +151,10 @@ workflow ANI {
             ch_asm_files
         )
         ch_versions = ch_versions.mix(ANI_SKANI.out.versions)
+
         // Collect all fastani.out files and concatenate into one file
-        ch_summary = ANI_SKANI.out.ani_stats
-                        .collect()
+        ch_summary = ch_summary
+                        .mix(ANI_SKANI.out.ani_stats)
                         .collectFile(
                             name: 'ANI.Summary.tsv',
                             storeDir: params.outdir,
