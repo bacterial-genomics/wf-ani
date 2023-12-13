@@ -1,16 +1,7 @@
 process ANI_BLAST_BIOPYTHON {
 
-    publishDir "${params.outdir}/comparisons",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI--*"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
-
     label "process_high"
     tag( "${base1}_${base2}" )
-
     container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:

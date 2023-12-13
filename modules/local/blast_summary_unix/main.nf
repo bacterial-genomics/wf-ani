@@ -1,15 +1,6 @@
 process BLAST_SUMMARY_UNIX {
 
-    publishDir "${params.outdir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI.Summary.tsv"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${task.process}${filename}" }
-
     label "process_low"
-
     container "ubuntu:jammy"
 
     input:
