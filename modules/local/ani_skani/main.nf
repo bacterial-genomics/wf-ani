@@ -10,10 +10,9 @@ process ANI_SKANI {
 
     output:
     path("ANI--*")
+    path("ANI--*/skani.out")  , emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
-    path("ANI--*/skani.out")  , emit: ani_stats
-
 
     shell:
     // Get basename of input

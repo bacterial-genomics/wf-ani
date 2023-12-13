@@ -7,9 +7,9 @@ process BLAST_SUMMARY_UNIX {
     path(ani_stats)
 
     output:
-    path(".command.{out,err}")
     path("ANI.Summary.tsv")
-    path("versions.yml"), emit: versions
+    path(".command.{out,err}")
+    path("versions.yml")      , emit: versions
 
     shell:
     '''

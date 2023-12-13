@@ -7,9 +7,9 @@ process GENERATE_PAIRS_BIOPYTHON {
     path(query)
 
     output:
+    path("pairs.fofn")        , emit: ani_pairs
     path(".command.{out,err}")
-    path("pairs.fofn")  , emit: ani_pairs
-    path("versions.yml"), emit: versions
+    path("versions.yml")      , emit: versions
 
     shell:
     '''

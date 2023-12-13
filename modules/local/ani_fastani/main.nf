@@ -10,9 +10,9 @@ process ANI_FASTANI {
 
     output:
     path("ANI--*")
+    path("ANI--*/fastani.out"), emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
-    path("ANI--*/fastani.out"), emit: ani_stats
 
     shell:
     // Get basename of input

@@ -6,9 +6,9 @@ process CONVERT_SAMPLESHEET_PYTHON {
     path(excel_samplesheet)
 
     output:
+    path("samplesheet.tsv")   , emit: converted_samplesheet
     path(".command.{out,err}")
-    path("versions.yml")   , emit: versions
-    path("samplesheet.tsv"), emit: converted_samplesheet
+    path("versions.yml")      , emit: versions
 
     shell:
     '''

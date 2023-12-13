@@ -6,11 +6,11 @@ process INFILE_HANDLING_UNIX {
     tuple val(meta), path(input)
 
     output:
-    path(".command.{out,err}")
     path("genomes.fofn")           , emit: genomes
-    path("versions.yml")           , emit: versions
     path("assemblies/*")           , emit: asm_files
     path("Initial_Input_Files.tsv"), emit: qc_input_filecheck
+    path(".command.{out,err}")
+    path("versions.yml")           , emit: versions
 
     shell:
     // Rename files with meta.id (has spaces and periods removed)
