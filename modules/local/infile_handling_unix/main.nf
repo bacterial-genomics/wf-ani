@@ -8,7 +8,7 @@ process INFILE_HANDLING_UNIX {
     output:
     path("genomes.fofn")           , emit: genomes
     path("assemblies/*")           , emit: asm_files
-    path("Initial_Input_Files.tsv"), emit: qc_input_filecheck
+    path("Initial_Input_File.tsv"), emit: qc_filecheck
     path(".command.{out,err}")
     path("versions.yml")           , emit: versions
 
