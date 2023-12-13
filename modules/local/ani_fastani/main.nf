@@ -6,13 +6,13 @@ process ANI_FASTANI {
 
     input:
     tuple val(filename1), val(filename2)
-    path asm            , stageAs: 'assemblies/*'
+    path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path "ANI--*"
+    path("ANI--*")
     path(".command.{out,err}")
-    path "versions.yml"      , emit: versions
-    path "ANI--*/fastani.out", emit: ani_stats
+    path("versions.yml")      , emit: versions
+    path("ANI--*/fastani.out"), emit: ani_stats
 
     shell:
     // Get basename of input

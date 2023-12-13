@@ -4,12 +4,12 @@ process BLAST_SUMMARY_UNIX {
     container "ubuntu:jammy"
 
     input:
-    path ani_stats
+    path(ani_stats)
 
     output:
     path(".command.{out,err}")
-    path "ANI.Summary.tsv"
-    path "versions.yml", emit: versions
+    path("ANI.Summary.tsv")
+    path("versions.yml"), emit: versions
 
     shell:
     '''

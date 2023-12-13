@@ -3,12 +3,12 @@ process CONVERT_SAMPLESHEET_PYTHON {
     container "gregorysprenger/pandas-excel@sha256:4fad4114df25726e24660d8550da48b926b80ce5b8a32b522b552a2d8e1df156"
 
     input:
-    path excel_samplesheet
+    path(excel_samplesheet)
 
     output:
     path(".command.{out,err}")
-    path "versions.yml"   , emit: versions
-    path "samplesheet.tsv", emit: converted_samplesheet
+    path("versions.yml")   , emit: versions
+    path("samplesheet.tsv"), emit: converted_samplesheet
 
     shell:
     '''
