@@ -10,8 +10,7 @@ process ANI_BLAST_BIOPYTHON {
 
     output:
     path "ANI--*"
-    path ".command.out"
-    path ".command.err"
+    path(".command.{out,err}")
     path "versions.yml"        , emit: versions
     path "ANI--*/ani*stats.tab", emit: ani_stats
 

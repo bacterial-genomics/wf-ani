@@ -10,8 +10,7 @@ process ANI_SKANI {
 
     output:
     path "ANI--*"
-    path ".command.out"
-    path ".command.err"
+    path(".command.{out,err}")
     path "versions.yml"      , emit: versions
     path "ANI--*/skani.out"  , emit: ani_stats
 

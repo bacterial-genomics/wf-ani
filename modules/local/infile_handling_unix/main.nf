@@ -6,8 +6,7 @@ process INFILE_HANDLING_UNIX {
     tuple val(meta), path(input)
 
     output:
-    path ".command.out"
-    path ".command.err"
+    path(".command.{out,err}")
     path "genomes.fofn"           , emit: genomes
     path "versions.yml"           , emit: versions
     path "assemblies/*"           , emit: asm_files

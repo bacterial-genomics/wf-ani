@@ -7,8 +7,7 @@ process GENERATE_PAIRS_BIOPYTHON {
     path query
 
     output:
-    path ".command.out"
-    path ".command.err"
+    path(".command.{out,err}")
     path "pairs.fofn"  , emit: ani_pairs
     path "versions.yml", emit: versions
 

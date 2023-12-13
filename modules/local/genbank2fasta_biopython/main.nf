@@ -7,8 +7,7 @@ process GENBANK2FASTA_BIOPYTHON {
     tuple val(meta), path(input)
 
     output:
-    path ".command.out"
-    path ".command.err"
+    path(".command.{out,err}")
     path "versions.yml"                              , emit: versions
     tuple val(meta), path("*.f*", includeInputs:true), emit: fasta_files
 
