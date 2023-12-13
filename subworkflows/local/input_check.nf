@@ -109,7 +109,14 @@ workflow INPUT_CHECK {
                 }
     } else if (hasExtension(ch_input, "xlsx") || hasExtension(ch_input, "xls") || hasExtension(ch_input, "ods")) {
         // Convert samplesehet to TSV format
-        CONVERT_SAMPLESHEET_PYTHON(ch_input)
+        CONVERT_SAMPLESHEET_PYTHON(
+            ch_input.map{
+                file ->
+                    def meta = [:]
+                    meta['id'] = file.getSimpleName()
+                    [ meta, file ]
+            }
+        )
 
         // Extracts read files from TSV samplesheet created
         // in above process and distribute into channels
