@@ -75,28 +75,19 @@ workflow ALL_VS_ALL {
     ch_versions = ch_versions.mix(INFILE_HANDLING_UNIX.out.versions)
 
     // Collect all Initial Input File checks and concatenate into one file
-    ch_qc_filecheck = Channel.empty()
-    ch_qc_filecheck = ch_qc_filecheck
-                                .mix(INFILE_HANDLING_UNIX.out.qc_filecheck)
-                                .collectFile(
-                                    name: 'Initial_Input_Files.tsv',
-                                    storeDir: params.qc_filecheck_log_dir
-                                )
+    ch_qc_filecheck = INFILE_HANDLING_UNIX.out.qc_filecheck.collect()
 
     // Collect genomes.fofn files and concatenate into one
-    ch_genomes_fofn = Channel.empty()
-    ch_genomes_fofn = ch_genomes_fofn
-                        .mix(INFILE_HANDLING_UNIX.out.genomes)
+    ch_genomes_fofn = INFILE_HANDLING_UNIX.out.genomes
+                        .collect()
+                        .flatten()
                         .collectFile(
                             name: 'genomes.fofn',
                             storeDir: "${params.outdir}/comparisons"
                         )
 
     // Collect assembly files
-    ch_asm_files = Channel.empty()
-    ch_asm_files = ch_asm_files
-                    .mix(INFILE_HANDLING_UNIX.out.asm_files)
-                    .collect()
+    ch_asm_files = INFILE_HANDLING_UNIX.out.asm_files.collect()
 
     // PROCESS: Create pairings and append to pairs.fofn
     GENERATE_PAIRS_BIOPYTHON (
@@ -106,9 +97,7 @@ workflow ALL_VS_ALL {
     ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
 
     // Collect pairs.fofn and assemblies directory
-    ch_ani_pairs = Channel.empty()
-    ch_ani_pairs = ch_ani_pairs
-                    .mix(GENERATE_PAIRS_BIOPYTHON.out.ani_pairs)
+    ch_ani_pairs = GENERATE_PAIRS_BIOPYTHON.out.ani_pairs
                     .splitCsv(header:false, sep:'\t')
                     .map{
                         row ->
@@ -119,5 +108,6 @@ workflow ALL_VS_ALL {
     versions     = ch_versions
     ani_pairs    = ch_ani_pairs
     asm_files    = ch_asm_files
+    qc_filecheck = ch_qc_filecheck
     asm_genomes  = INFILE_HANDLING_UNIX.out.genomes
 }
