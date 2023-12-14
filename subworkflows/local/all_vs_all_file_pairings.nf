@@ -44,8 +44,7 @@ workflow ALL_VS_ALL {
 
     main:
     // SETUP: Define empty channels to concatenate certain outputs
-    ch_versions      = Channel.empty()
-    ch_query_genomes = file("$baseDir/assets/dummy_file.txt", checkIfExists: true)
+    ch_versions = Channel.empty()
 
     // Check input for samplesheet or pull inputs from directory
     INPUT_CHECK (
@@ -92,7 +91,7 @@ workflow ALL_VS_ALL {
     // PROCESS: Create pairings and append to pairs.fofn
     GENERATE_PAIRS_BIOPYTHON (
         ch_genomes_fofn,
-        ch_query_genomes
+        []
     )
     ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
 
