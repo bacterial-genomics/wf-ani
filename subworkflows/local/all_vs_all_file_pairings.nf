@@ -22,6 +22,17 @@ include { INPUT_CHECK              } from "./input_check"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUBWORKFLOW FUNCTIONS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+// Convert params.ani to lowercase
+def toLower(it) {
+    it.toString().toLowerCase()
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN ALL_VS_ALL WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
@@ -33,36 +44,25 @@ workflow ALL_VS_ALL {
 
     main:
     // SETUP: Define empty channels to concatenate certain outputs
-    ch_versions           = Channel.empty()
-    ch_ani_pairs          = Channel.empty()
-    ch_asm_files          = Channel.empty()
-    ch_fasta_files        = Channel.empty()
-    ch_genomes_fofn       = Channel.empty()
-    ch_input_qc_filecheck = Channel.empty()
-    ch_query_genomes      = file("$baseDir/assets/dummy_file.txt", checkIfExists: true)
+    ch_versions      = Channel.empty()
+    ch_query_genomes = file("$baseDir/assets/dummy_file.txt", checkIfExists: true)
 
     // Check input for samplesheet or pull inputs from directory
     INPUT_CHECK (
         input
     )
-
-    // Collect version info
-    ch_versions = ch_versions
-        .mix(INPUT_CHECK.out.versions)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // Convert Genbank to FastA for fastANI
-    if (params.ani == "fastani" || params.ani == "skani") {
+    if (toLower(params.ani) == "fastani" || toLower(params.ani) == "skani") {
         GENBANK2FASTA_BIOPYTHON (
             INPUT_CHECK.out.input_files
         )
+        ch_versions = ch_versions.mix(GENBANK2FASTA_BIOPYTHON.out.versions)
 
         // Collect Converted FastA files
-        ch_fasta_files = ch_fasta_files
-            .mix(GENBANK2FASTA_BIOPYTHON.out.fasta_files)
-
-        // Collect version info
-        ch_versions = ch_versions
-            .mix(GENBANK2FASTA_BIOPYTHON.out.versions)
+        ch_fasta_files = Channel.empty()
+        ch_fasta_files = ch_fasta_files.mix(GENBANK2FASTA_BIOPYTHON.out.fasta_files)
 
     } else {
         ch_fasta_files = INPUT_CHECK.out.input_files
@@ -72,46 +72,52 @@ workflow ALL_VS_ALL {
     INFILE_HANDLING_UNIX (
         ch_fasta_files
     )
-
-    // Collect version info
-    ch_versions = ch_versions
-        .mix(INFILE_HANDLING_UNIX.out.versions)
+    ch_versions = ch_versions.mix(INFILE_HANDLING_UNIX.out.versions)
 
     // Collect all Initial Input File checks and concatenate into one file
-    ch_input_qc_filecheck = ch_input_qc_filecheck
-        .mix(INFILE_HANDLING_UNIX.out.qc_input_filecheck)
-        .collectFile(name: 'Initial_Input_Files.tsv', storeDir: params.qc_filecheck_log_dir)
+    ch_qc_filecheck = Channel.empty()
+    ch_qc_filecheck = ch_qc_filecheck
+                                .mix(INFILE_HANDLING_UNIX.out.qc_filecheck)
+                                .collectFile(
+                                    name: 'Initial_Input_Files.tsv',
+                                    storeDir: params.qc_filecheck_log_dir
+                                )
 
     // Collect genomes.fofn files and concatenate into one
+    ch_genomes_fofn = Channel.empty()
     ch_genomes_fofn = ch_genomes_fofn
-        .mix(INFILE_HANDLING_UNIX.out.genomes)
-        .collectFile(name: 'genomes.fofn', storeDir: "${params.outdir}/comparisons")
+                        .mix(INFILE_HANDLING_UNIX.out.genomes)
+                        .collectFile(
+                            name: 'genomes.fofn',
+                            storeDir: "${params.outdir}/comparisons"
+                        )
 
     // Collect assembly files
+    ch_asm_files = Channel.empty()
     ch_asm_files = ch_asm_files
-        .mix(INFILE_HANDLING_UNIX.out.asm_files)
-        .collect()
+                    .mix(INFILE_HANDLING_UNIX.out.asm_files)
+                    .collect()
 
     // PROCESS: Create pairings and append to pairs.fofn
     GENERATE_PAIRS_BIOPYTHON (
         ch_genomes_fofn,
         ch_query_genomes
     )
+    ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
 
-    // Collect version info
-    ch_versions = ch_versions
-        .mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
-
-    // Collect pairs.fofn and assemblies directory.
+    // Collect pairs.fofn and assemblies directory
+    ch_ani_pairs = Channel.empty()
     ch_ani_pairs = ch_ani_pairs
-        .mix(GENERATE_PAIRS_BIOPYTHON.out.ani_pairs)
-        .splitCsv(header:false, sep:'\t')
-        .map{row-> tuple(row[0], row[1])}
+                    .mix(GENERATE_PAIRS_BIOPYTHON.out.ani_pairs)
+                    .splitCsv(header:false, sep:'\t')
+                    .map{
+                        row ->
+                            tuple(row[0], row[1])
+                    }
 
     emit:
     versions     = ch_versions
     ani_pairs    = ch_ani_pairs
     asm_files    = ch_asm_files
-    qc_filecheck = ch_input_qc_filecheck
     asm_genomes  = INFILE_HANDLING_UNIX.out.genomes
 }
