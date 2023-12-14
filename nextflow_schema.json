@@ -32,6 +32,12 @@
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
+                },
+                "min_input_filesize": {
+                    "type": "string",
+                    "default": "45k",
+                    "hidden": true,
+                    "description": "Minimum file size of input data."
                 }
             }
         },
@@ -47,6 +53,26 @@
                     "description": "Specify what algorithm should be used to compare input files.",
                     "enum": ["blast", "fastani", "skani"]
                 },
+                "excel_sheet_name": {
+                    "type": "string",
+                    "default": "Sheet1",
+                    "hidden": true,
+                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
+                },
+                "tasks_per_job": {
+                    "type": "integer",
+                    "default": 20000,
+                    "hidden": true,
+                    "description": "Number of genomes to process at a time when creating pairs."
+                }
+            }
+        },
+        "blast_options": {
+            "title": "BLAST ANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "ANI-BLAST specific parameters.",
+            "properties": {
                 "step_size": {
                     "type": "integer",
                     "default": 200,
@@ -100,7 +126,15 @@
                     "default": "70.0",
                     "hidden": true,
                     "description": "BLAST: Minimum fragment alignment length percentage."
-                },
+                }
+            }
+        },
+        "fastani_options": {
+            "title": "fastANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "fastANI specific parameters.",
+            "properties": {
                 "fastani_kmer_size": {
                     "type": "integer",
                     "default": 16,
@@ -124,7 +158,15 @@
                     "default": "0.2",
                     "hidden": true,
                     "description": "fastANI: Minimum fraction of genome that must be shared for trusting ANI."
-                },
+                }
+            }
+        },
+        "skani_options": {
+            "title": "SKANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "SKANI specific parameters.",
+            "properties": {
                 "skani_speed": {
                     "type": "string",
                     "default": "",
@@ -191,24 +233,6 @@
                     "default": false,
                     "hidden": true,
                     "description": "skani: Estimate mean after trim off 10%/90% quantiles."
-                },
-                "excel_sheet_name": {
-                    "type": "string",
-                    "default": "Sheet1",
-                    "hidden": true,
-                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
-                },
-                "tasks_per_job": {
-                    "type": "integer",
-                    "default": 20000,
-                    "hidden": true,
-                    "description": "Number of genomes to process at a time when creating pairs."
-                },
-                "min_input_filesize": {
-                    "type": "string",
-                    "default": "45k",
-                    "hidden": true,
-                    "description": "Minimum file size of input data."
                 }
             }
         },
@@ -230,6 +254,38 @@
                     "type": "string",
                     "hidden": true,
                     "description": "TODO: this is not implemented yet."
+                },
+                "profile_cache_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "hidden": true,
+                    "description": "The output directory where process module containers and/or conda environments will be saved. You have to use absolute paths to storage on Cloud infrastructure."
+                }
+            }
+        },
+        "spreadsheet_parsing_options": {
+            "title": "Spreadsheet parsing options",
+            "type": "object",
+            "description": "Spreadsheet parsing options",
+            "properties": {
+                "excel_sheet_name": {
+                    "type": "string",
+                    "default": "Sheet1",
+                    "hidden": true,
+                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
+                }
+            }
+        },
+        "generating_pairs_options": {
+            "title": "Generating pairs options",
+            "type": "object",
+            "description": "Genearating pairs options",
+            "properties": {
+                "tasks_per_job": {
+                    "type": "integer",
+                    "default": 20000,
+                    "hidden": true,
+                    "description": "Number of tasks to perform at a time when generating pairs."
                 }
             }
         },
