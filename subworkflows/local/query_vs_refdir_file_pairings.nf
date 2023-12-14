@@ -98,12 +98,9 @@ workflow QUERY_VS_REFDIR {
     // Collect all Initial Input File checks and concatenate into one file
     ch_qc_filecheck = Channel.empty()
     ch_qc_filecheck = ch_qc_filecheck
-                                .mix(QUERY_INFILE_HANDLING_UNIX.out.qc_filecheck)
-                                .mix(REFDIR_INFILE_HANDLING_UNIX.out.qc_filecheck)
-                                .collectFile(
-                                    name: 'Initial_Input_Files.tsv',
-                                    storeDir: params.qc_filecheck_log_dir
-                                )
+                        .mix(QUERY_INFILE_HANDLING_UNIX.out.qc_filecheck)
+                        .mix(REFDIR_INFILE_HANDLING_UNIX.out.qc_filecheck)
+                        .collect()
 
     // Collect genomes.fofn and rename to query and refdir
     ch_query_fofn = QUERY_INFILE_HANDLING_UNIX.out.genomes
@@ -133,17 +130,16 @@ workflow QUERY_VS_REFDIR {
     ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)
 
     // Collect pairs.fofn and assemblies directory
-    ch_ani_pairs = Channel.empty()
-    ch_ani_pairs = ch_ani_pairs
-                    .mix(GENERATE_PAIRS_BIOPYTHON.out.ani_pairs)
-                    .splitCsv(header:false, sep:'\t')
-                    .map{
-                        row ->
-                            tuple(row[0], row[1])
-                    }
+    ch_ani_pairs = GENERATE_PAIRS_BIOPYTHON.out.ani_pairs
+                        .splitCsv(header:false, sep:'\t')
+                        .map{
+                            row ->
+                                tuple(row[0], row[1])
+                        }
 
     emit:
-    versions  = ch_versions
-    ani_pairs = ch_ani_pairs
-    asm_files = ch_asm_files
+    versions     = ch_versions
+    ani_pairs    = ch_ani_pairs
+    asm_files    = ch_asm_files
+    qc_filecheck = ch_qc_filecheck
 }
