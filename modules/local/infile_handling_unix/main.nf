@@ -6,11 +6,11 @@ process INFILE_HANDLING_UNIX {
     tuple val(meta), path(input)
 
     output:
-    path("genomes.fofn")          , emit: genomes
-    path("assemblies/*")          , emit: asm_files
-    path("Initial_Input_File.tsv"), emit: qc_filecheck
+    path("genomes.fofn")                     , emit: genomes
+    path("assemblies/*")                     , emit: asm_files
+    path("${meta.id}.Initial_Input_File.tsv"), emit: qc_filecheck
     path(".command.{out,err}")
-    path("versions.yml")          , emit: versions
+    path("versions.yml")                     , emit: versions
 
     shell:
     // Rename files with meta.id (has spaces and periods removed)
@@ -31,13 +31,13 @@ process INFILE_HANDLING_UNIX {
     for file in assemblies/*; do
       if verify_minimum_file_size "${file}" 'Input' "!{params.min_input_filesize}"; then
         echo -e "$(basename ${file%%.*})\tInput File\tPASS" \
-        >> Initial_Input_Files.tsv
+        >> "!{meta.id}.Initial_Input_File.tsv"
 
         # Generate list of genomes
         echo -e "$(basename ${file})" >> genomes.fofn
       else
         echo -e "$(basename ${file%%.*})\tInput File\tFAIL" \
-        >> Initial_Input_Files.tsv
+        >> "!{meta.id}.Initial_Input_File.tsv"
 
         echo -n "" >> genomes.fofn
         rm ${file}
