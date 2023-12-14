@@ -467,7 +467,22 @@
             "$ref": "#/definitions/analysis_options"
         },
         {
+            "$ref": "#/definitions/blast_options"
+        },
+        {
+            "$ref": "#/definitions/fastani_options"
+        },
+        {
+            "$ref": "#/definitions/skani_options"
+        },
+        {
             "$ref": "#/definitions/profile_options"
+        },
+        {
+            "$ref": "#/definitions/spreadsheet_parsing_options"
+        },
+        {
+            "$ref": "#/definitions/generating_pairs_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
