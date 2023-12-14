@@ -48,7 +48,7 @@ workflow QUERY_VS_REFDIR {
 
     main:
     // SETUP: Define empty channels to concatenate certain outputs
-    ch_versions     = Channel.empty()
+    ch_versions = Channel.empty()
 
     // Check query for samplesheet or grab file
     QUERY_INPUT_CHECK (
