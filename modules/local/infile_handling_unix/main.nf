@@ -29,6 +29,7 @@ process INFILE_HANDLING_UNIX {
 
     # Filter out small genomes
     msg "Checking input file sizes.."
+    echo -e "Sample name\tQC step\tOutcome (Pass/Fail)" > "!{meta.id}.Initial_Input_File.tsv"
     for file in assemblies/*; do
       if verify_minimum_file_size "${file}" 'Input' "!{params.min_input_filesize}"; then
         echo -e "$(basename ${file%%.*})\tInput File\tPASS" \
