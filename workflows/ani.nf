@@ -82,8 +82,9 @@ def toLower(it) {
 workflow ANI {
 
     // SETUP: Define empty channels to concatenate certain outputs
-    ch_summary  = Channel.empty()
-    ch_versions = Channel.empty()
+    ch_summary      = Channel.empty()
+    ch_versions     = Channel.empty()
+    ch_qc_filecheck = Channel.empty()
 
     /*
     ================================================================================
@@ -99,6 +100,7 @@ workflow ANI {
             ch_refdir
         )
         ch_versions = ch_versions.mix(QUERY_VS_REFDIR.out.versions)
+        ch_qc_filecheck = QUERY_VS_REFDIR.out.qc_filecheck
 
         // Collect ANI data
         ch_asm_files = QUERY_VS_REFDIR.out.asm_files
@@ -112,6 +114,7 @@ workflow ANI {
             ch_input
         )
         ch_versions = ch_versions.mix(ALL_VS_ALL.out.versions)
+        ch_qc_filecheck = ALL_VS_ALL.out.qc_filecheck
 
         // Collect ANI data
         ch_asm_files = ALL_VS_ALL.out.asm_files
@@ -175,6 +178,16 @@ workflow ANI {
         )
         ch_versions = ch_versions.mix(BLAST_SUMMARY_UNIX.out.versions)
     }
+
+    // Collect QC file checks and concatenate into one file
+    ch_qc_filecheck = Channel.empty()
+    ch_qc_filecheck = ch_qc_filecheck
+                        .collectFile(
+                            name:       "Summary.QC_File_Checks.tab",
+                            keepHeader: true,
+                            storeDir:   "${params.outdir}/Summaries",
+                            sort:       'index'
+                        )
 
     // PATTERN: Collate method for version information
     ch_versions
