@@ -16,7 +16,7 @@ process GENERATE_PAIRS_BIOPYTHON {
     source bash_functions.sh
 
     # Generate Query vs Refdir pairs
-    if [[ ! "!{query}" = "dummy_file.txt" ]]; then
+    if [[ ! -z "!{query}" ]]; then
 
       total_input=( !{asm} !{query} )
       msg "INFO: Total number of genomes: ${#total_input[@]}."
