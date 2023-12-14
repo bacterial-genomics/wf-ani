@@ -178,6 +178,12 @@ workflow ANI {
         ch_versions = ch_versions.mix(BLAST_SUMMARY_UNIX.out.versions)
     }
 
+    /*
+    ================================================================================
+                        Collect version and QC information
+    ================================================================================
+    */
+
     // Collect QC file checks and concatenate into one file
     ch_qc_filecheck = Channel.empty()
     ch_qc_filecheck = ch_qc_filecheck
