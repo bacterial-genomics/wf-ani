@@ -1,5 +1,6 @@
 process INFILE_HANDLING_UNIX {
 
+    tag( "${meta.id}" )
     container "ubuntu:jammy"
 
     input:
