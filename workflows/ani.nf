@@ -184,6 +184,14 @@ workflow ANI {
     ================================================================================
     */
 
+    // PATTERN: Collate method for version information
+    ch_versions
+        .unique()
+        .collectFile(
+            name: 'software_versions.yml',
+            storeDir: params.logpath
+        )
+
     // Collect QC file checks and concatenate into one file
     ch_qc_filecheck = Channel.empty()
     ch_qc_filecheck = ch_qc_filecheck
@@ -193,14 +201,6 @@ workflow ANI {
                             storeDir:   "${params.outdir}/Summaries",
                             sort:       'index'
                         )
-
-    // PATTERN: Collate method for version information
-    ch_versions
-        .unique()
-        .collectFile(
-            name: 'software_versions.yml',
-            storeDir: params.logpath
-        )
 }
 
 /*
