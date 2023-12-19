@@ -52,18 +52,6 @@
                     "default": "blast",
                     "description": "Specify what algorithm should be used to compare input files.",
                     "enum": ["blast", "fastani", "skani"]
-                },
-                "excel_sheet_name": {
-                    "type": "string",
-                    "default": "Sheet1",
-                    "hidden": true,
-                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
-                },
-                "tasks_per_job": {
-                    "type": "integer",
-                    "default": 20000,
-                    "hidden": true,
-                    "description": "Number of genomes to process at a time when creating pairs."
                 }
             }
         },
