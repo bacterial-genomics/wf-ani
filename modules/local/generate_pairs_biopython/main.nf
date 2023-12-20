@@ -65,6 +65,8 @@ process GENERATE_PAIRS_BIOPYTHON {
 
     msg "INFO: Pairs file, 'pairs.fofn', created with $(awk 'END {print NR}' pairs.fofn) pairs"
 
+    sed -i '1i Filepair1\tFilepair2' pairs.fofn
+
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
       python: $(python --version 2>&1 | awk '{print $2}')
