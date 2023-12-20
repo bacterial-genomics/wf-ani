@@ -99,7 +99,7 @@ workflow ANI {
             ch_refdir
         )
         ch_versions = ch_versions.mix(QUERY_VS_REFDIR.out.versions)
-        ch_qc_filecheck = QUERY_VS_REFDIR.out.qc_filecheck
+        ch_qc_filecheck = ch_qc_filecheck.mix(QUERY_VS_REFDIR.out.qc_filecheck)
 
         // Collect ANI data
         ch_asm_files = QUERY_VS_REFDIR.out.asm_files
@@ -113,7 +113,7 @@ workflow ANI {
             ch_input
         )
         ch_versions = ch_versions.mix(ALL_VS_ALL.out.versions)
-        ch_qc_filecheck = ALL_VS_ALL.out.qc_filecheck
+        ch_qc_filecheck = ch_qc_filecheck.mix(ALL_VS_ALL.out.qc_filecheck)
 
         // Collect ANI data
         ch_asm_files = ALL_VS_ALL.out.asm_files
