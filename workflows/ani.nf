@@ -141,7 +141,7 @@ workflow ANI {
         ch_summary = ANI_FASTANI.out.ani_stats
                         .collectFile(
                             name: 'ANI.Summary.tsv',
-                            storeDir: params.outdir,
+                            storeDir: "${params.outdir}/Summaries",
                             keepHeader: true
                         )
 
@@ -157,7 +157,7 @@ workflow ANI {
         ch_summary = ANI_SKANI.out.ani_stats
                         .collectFile(
                             name: 'ANI.Summary.tsv',
-                            storeDir: params.outdir,
+                            storeDir: "${params.outdir}/Summaries",
                             keepHeader: true
                         )
 
