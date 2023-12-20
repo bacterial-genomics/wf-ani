@@ -139,7 +139,6 @@ workflow ANI {
 
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_FASTANI.out.ani_stats
-                        .collect()
                         .collectFile(
                             name: 'ANI.Summary.tsv',
                             storeDir: params.outdir,
@@ -156,7 +155,6 @@ workflow ANI {
 
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_SKANI.out.ani_stats
-                        .collect()
                         .collectFile(
                             name: 'ANI.Summary.tsv',
                             storeDir: params.outdir,
@@ -193,7 +191,6 @@ workflow ANI {
         )
 
     // Collect QC file checks and concatenate into one file
-    ch_qc_filecheck = Channel.empty()
     ch_qc_filecheck = ch_qc_filecheck
                         .collectFile(
                             name:       "Summary.QC_File_Checks.tab",
