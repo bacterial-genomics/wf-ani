@@ -194,7 +194,7 @@ workflow ANI {
     ch_qc_filecheck = ch_qc_filecheck
                         .flatten()
                         .collectFile(
-                            name:       "Summary.QC_File_Checks.tab",
+                            name:       "Summary.QC_File_Checks.tsv",
                             keepHeader: true,
                             storeDir:   "${params.outdir}/Summaries",
                             sort:       'index'
