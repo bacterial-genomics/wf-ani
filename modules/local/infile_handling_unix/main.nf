@@ -41,7 +41,6 @@ process INFILE_HANDLING_UNIX {
         echo -e "$(basename ${file%%.*})\tInput File\tFAIL" \
         >> "!{meta.id}.Initial_Input_File.tsv"
 
-        echo -n "" >> genomes.fofn
         rm ${file}
       fi
     done
