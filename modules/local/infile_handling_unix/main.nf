@@ -45,6 +45,12 @@ process INFILE_HANDLING_UNIX {
       fi
     done
 
+    if [[ -s genomes.fofn ]]; then
+      sed -i '1i Filename' genomes.fofn
+    else
+      touch genomes.fofn
+    fi
+
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
       ubuntu: $(awk -F ' ' '{print $2,$3}' /etc/issue | tr -d '\\n')
