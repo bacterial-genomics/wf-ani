@@ -110,5 +110,4 @@ workflow ALL_VS_ALL {
     ani_pairs    = ch_ani_pairs
     asm_files    = ch_asm_files
     qc_filecheck = ch_qc_filecheck
-    asm_genomes  = ch_genomes_fofn
 }
