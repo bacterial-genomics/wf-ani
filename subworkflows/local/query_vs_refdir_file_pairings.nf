@@ -106,13 +106,13 @@ workflow QUERY_VS_REFDIR {
     ch_query_fofn = QUERY_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
                             name: 'query.fofn',
-                            storeDir: "${params.outdir}/comparisons"
+                            storeDir: "${params.outdir}/Comparisons"
                         )
 
     ch_refdir_fofn = REFDIR_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
                             name: 'refdir.fofn',
-                            storeDir: "${params.outdir}/comparisons"
+                            storeDir: "${params.outdir}/Comparisons"
                         )
 
     // Collect assembly files

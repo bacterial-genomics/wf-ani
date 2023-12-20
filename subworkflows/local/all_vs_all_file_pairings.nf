@@ -82,7 +82,7 @@ workflow ALL_VS_ALL {
                         .flatten()
                         .collectFile(
                             name: 'genomes.fofn',
-                            storeDir: "${params.outdir}/comparisons"
+                            storeDir: "${params.outdir}/Comparisons"
                         )
 
     // Collect assembly files
