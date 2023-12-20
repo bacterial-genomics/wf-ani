@@ -192,6 +192,7 @@ workflow ANI {
 
     // Collect QC file checks and concatenate into one file
     ch_qc_filecheck = ch_qc_filecheck
+                        .flatten()
                         .collectFile(
                             name:       "Summary.QC_File_Checks.tab",
                             keepHeader: true,
