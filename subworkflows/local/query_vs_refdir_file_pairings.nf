@@ -131,11 +131,8 @@ workflow QUERY_VS_REFDIR {
 
     // Collect pairs.fofn and assemblies directory
     ch_ani_pairs = GENERATE_PAIRS_BIOPYTHON.out.ani_pairs
-                        .splitCsv(header:false, sep:'\t')
-                        .map{
-                            row ->
-                                tuple(row[0], row[1])
-                        }
+                    .splitCsv(header: true, sep: '\t')
+                    .map{ row -> tuple("${row.Filepair1}", "${row.Filepair2}") }
 
     emit:
     versions     = ch_versions
