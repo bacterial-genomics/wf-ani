@@ -10,9 +10,9 @@ process ANI_BLAST_BIOPYTHON {
 
     output:
     path("ANI--*")
-    path("ANI--*/ani*stats.tab"), emit: ani_stats
+    path("ANI--*/ani.${base1},${base2}.stats.tab"), emit: ani_stats
     path(".command.{out,err}")
-    path("versions.yml")        , emit: versions
+    path("versions.yml")                          , emit: versions
 
     shell:
     // Get basename of input
