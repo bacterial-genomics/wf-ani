@@ -160,7 +160,7 @@
                     "default": "",
                     "hidden": true,
                     "description": "skani: Preset speed modes for skani. These settings alter the amount of memory needed and the accuracy of ANI outputs.",
-                    "enum": ["fast", "medium", "slow"]
+                    "enum": ["", "fast", "medium", "slow"]
                 },
                 "skani_max_results": {
                     "type": "integer",
