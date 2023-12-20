@@ -7,7 +7,7 @@ process GENERATE_PAIRS_BIOPYTHON {
     path(query)
 
     output:
-    path("pairs.fofn")        , emit: ani_pairs
+    path("pairs.tsv")        , emit: ani_pairs
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
 
@@ -21,15 +21,15 @@ process GENERATE_PAIRS_BIOPYTHON {
       total_input=( !{asm} !{query} )
       msg "INFO: Total number of genomes: ${#total_input[@]}."
 
-      # Create pairs.fofn
+      # Create pairs.tsv
       for query in !{query}; do
         for asm in !{asm}; do
-          echo -e "${query}\t${asm}" >> pairs.fofn
+          echo -e "${query}\t${asm}" >> pairs.tsv
         done
       done
 
       # Check if there are file pairs to submit
-      if [[ $(awk 'END {print NR}' pairs.fofn) -eq 0 ]]; then
+      if [[ $(awk 'END {print NR}' pairs.tsv) -eq 0 ]]; then
         msg "ERROR: No file pairs to submit for analysis"
         exit 1
       fi
@@ -63,9 +63,9 @@ process GENERATE_PAIRS_BIOPYTHON {
       fi
     fi
 
-    msg "INFO: Pairs file, 'pairs.fofn', created with $(awk 'END {print NR}' pairs.fofn) pairs"
+    msg "INFO: Pairs file, 'pairs.tsv', created with $(awk 'END {print NR}' pairs.tsv) pairs"
 
-    sed -i '1i Filepair1\tFilepair2' pairs.fofn
+    sed -i '1i Filepair1\tFilepair2' pairs.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
