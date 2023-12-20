@@ -78,10 +78,15 @@ workflow ALL_VS_ALL {
 
     // Collect genomes.fofn files and concatenate into one
     ch_genomes_fofn = INFILE_HANDLING_UNIX.out.genomes
-                        .collect()
-                        .flatten()
                         .collectFile(
                             name: 'genomes.fofn',
+                            skip: 1
+                        )
+
+    ch_genomes_list = INFILE_HANDLING_UNIX.out.genomes
+                        .collectFile(
+                            name: 'genomes.tsv',
+                            keepHeader: true,
                             storeDir: "${params.outdir}/Comparisons"
                         )
 
@@ -108,5 +113,5 @@ workflow ALL_VS_ALL {
     ani_pairs    = ch_ani_pairs
     asm_files    = ch_asm_files
     qc_filecheck = ch_qc_filecheck
-    asm_genomes  = INFILE_HANDLING_UNIX.out.genomes
+    asm_genomes  = ch_genomes_fofn
 }
