@@ -72,9 +72,6 @@ workflow ALL_VS_ALL {
     )
     ch_versions = ch_versions.mix(INFILE_HANDLING_UNIX.out.versions)
 
-    // Collect all Initial Input File checks and concatenate into one file
-    ch_qc_filecheck = INFILE_HANDLING_UNIX.out.qc_filecheck.collect()
-
     // Collect genomes.fofn files and concatenate into one
     ch_genomes_fofn = INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
@@ -88,9 +85,6 @@ workflow ALL_VS_ALL {
                             keepHeader: true,
                             storeDir:   "${params.outdir}/Comparisons"
                         )
-
-    // Collect assembly files
-    ch_asm_files = INFILE_HANDLING_UNIX.out.asm_files.collect()
 
     // PROCESS: Create pairings and append to pairs.fofn
     GENERATE_PAIRS_BIOPYTHON (
@@ -107,6 +101,6 @@ workflow ALL_VS_ALL {
     emit:
     versions     = ch_versions
     ani_pairs    = ch_ani_pairs
-    asm_files    = ch_asm_files
-    qc_filecheck = ch_qc_filecheck
+    asm_files    = INFILE_HANDLING_UNIX.out.asm_files.collect()
+    qc_filecheck = INFILE_HANDLING_UNIX.out.qc_filecheck.collect()
 }
