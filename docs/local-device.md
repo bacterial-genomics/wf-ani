@@ -1,6 +1,6 @@
 # ![wf-ani](images/wf-ani_logo_light.png#gh-light-mode-only) ![wf-ani](images/wf-ani_logo_dark.png#gh-dark-mode-only)
 
-![workflow](images/workflow_v1.0.0.svg)
+![workflow](images/wf-ani_workflow.png)
 
 _A schematic of the steps in the workflow._
 
