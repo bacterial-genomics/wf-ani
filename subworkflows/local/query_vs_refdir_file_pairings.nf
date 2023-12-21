@@ -1,5 +1,5 @@
 //
-// Check inputs and generate file pairs for ALL vs ALL analysis
+// Check inputs and generate file pairs for QUERY vs REFERENCE analysis
 //
 
 /*
