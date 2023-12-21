@@ -60,8 +60,7 @@ workflow ALL_VS_ALL {
         ch_versions = ch_versions.mix(GENBANK2FASTA_BIOPYTHON.out.versions)
 
         // Collect Converted FastA files
-        ch_fasta_files = Channel.empty()
-        ch_fasta_files = ch_fasta_files.mix(GENBANK2FASTA_BIOPYTHON.out.fasta_files)
+        ch_fasta_files = GENBANK2FASTA_BIOPYTHON.out.fasta_files
 
     } else {
         ch_fasta_files = INPUT_CHECK.out.input_files
@@ -79,15 +78,15 @@ workflow ALL_VS_ALL {
     // Collect genomes.fofn files and concatenate into one
     ch_genomes_fofn = INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
-                            name: 'genomes.fofn',
+                            name: "genomes.fofn",
                             skip: 1
                         )
 
     ch_genomes_list = INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
-                            name: 'genomes.tsv',
+                            name:       "genomes.tsv",
                             keepHeader: true,
-                            storeDir: "${params.outdir}/Comparisons"
+                            storeDir:   "${params.outdir}/Comparisons"
                         )
 
     // Collect assembly files

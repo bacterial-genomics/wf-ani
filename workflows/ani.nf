@@ -98,7 +98,7 @@ workflow ANI {
             ch_query,
             ch_refdir
         )
-        ch_versions = ch_versions.mix(QUERY_VS_REFDIR.out.versions)
+        ch_versions     = ch_versions.mix(QUERY_VS_REFDIR.out.versions)
         ch_qc_filecheck = ch_qc_filecheck.mix(QUERY_VS_REFDIR.out.qc_filecheck)
 
         // Collect ANI data
@@ -112,7 +112,7 @@ workflow ANI {
         ALL_VS_ALL (
             ch_input
         )
-        ch_versions = ch_versions.mix(ALL_VS_ALL.out.versions)
+        ch_versions     = ch_versions.mix(ALL_VS_ALL.out.versions)
         ch_qc_filecheck = ch_qc_filecheck.mix(ALL_VS_ALL.out.qc_filecheck)
 
         // Collect ANI data
@@ -140,8 +140,8 @@ workflow ANI {
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_FASTANI.out.ani_stats
                         .collectFile(
-                            name: 'ANI.Summary.tsv',
-                            storeDir: "${params.outdir}/Summaries",
+                            name:       "ANI.Summary.tsv",
+                            storeDir:   "${params.outdir}/Summaries",
                             keepHeader: true
                         )
 
@@ -156,8 +156,8 @@ workflow ANI {
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_SKANI.out.ani_stats
                         .collectFile(
-                            name: 'ANI.Summary.tsv',
-                            storeDir: "${params.outdir}/Summaries",
+                            name:       "ANI.Summary.tsv",
+                            storeDir:   "${params.outdir}/Summaries",
                             keepHeader: true
                         )
 
@@ -186,7 +186,7 @@ workflow ANI {
     ch_versions
         .unique()
         .collectFile(
-            name: 'software_versions.yml',
+            name:     "software_versions.yml",
             storeDir: params.logpath
         )
 

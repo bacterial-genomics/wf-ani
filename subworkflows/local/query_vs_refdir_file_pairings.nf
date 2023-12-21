@@ -75,11 +75,11 @@ workflow QUERY_VS_REFDIR {
         ch_versions = ch_versions.mix(REFDIR_GENBANK2FASTA_BIOPYTHON.out.versions)
 
         // Collect Converted FastA files
-        ch_query_files = QUERY_GENBANK2FASTA_BIOPYTHON.out.fasta_files
+        ch_query_files  = QUERY_GENBANK2FASTA_BIOPYTHON.out.fasta_files
         ch_refdir_files = REFDIR_GENBANK2FASTA_BIOPYTHON.out.fasta_files
 
     } else {
-        ch_query_files = QUERY_INPUT_CHECK.out.input_files
+        ch_query_files  = QUERY_INPUT_CHECK.out.input_files
         ch_refdir_files = REFDIR_INPUT_CHECK.out.input_files
     }
 
@@ -105,13 +105,13 @@ workflow QUERY_VS_REFDIR {
     // Collect genomes.fofn and rename to query and refdir
     ch_query_fofn = QUERY_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
-                            name: 'queries.tsv',
+                            name:     "queries.tsv",
                             storeDir: "${params.outdir}/Comparisons"
                         )
 
     ch_refdir_fofn = REFDIR_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
-                            name: 'references.tsv',
+                            name:     "references.tsv",
                             storeDir: "${params.outdir}/Comparisons"
                         )
 
