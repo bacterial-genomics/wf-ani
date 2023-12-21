@@ -140,7 +140,7 @@ workflow ANI {
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_FASTANI.out.ani_stats
                         .collectFile(
-                            name:       "ANI.Summary.tsv",
+                            name:       "Summary.fastANI.tsv",
                             storeDir:   "${params.outdir}/Summaries",
                             keepHeader: true
                         )
@@ -156,7 +156,7 @@ workflow ANI {
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_SKANI.out.ani_stats
                         .collectFile(
-                            name:       "ANI.Summary.tsv",
+                            name:       "Summary.SKANI.tsv",
                             storeDir:   "${params.outdir}/Summaries",
                             keepHeader: true
                         )
