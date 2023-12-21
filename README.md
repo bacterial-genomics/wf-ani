@@ -54,7 +54,7 @@ This workflow performs average nucleotide identity on assembled and/or annotated
 
 ## Installation
 
-- [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) `>=21.10.3`
+- [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) `>=22.04.03`
 - [Docker](https://docs.docker.com/engine/installation/) or [Singularity](https://www.sylabs.io/guides/3.0/user-guide/) `>=3.8.0`
 - [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) is currently unsupported
 
