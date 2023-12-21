@@ -25,14 +25,30 @@ cd wf-ani/
 nextflow run main.nf -profile singularity,test
 ```
 
-Example analysis using Nextflow command:
+## Usage
+
+### Run all inputs against each other
 
 ```
 nextflow run main.nf \
   -profile singularity \
   --input INPUT_DIRECTORY \
-  --outdir OUTPUT_DIRECTORY
+  --outdir OUTPUT_DIRECTORY \
+  --ani <blast|fastani|skani>
 ```
+
+### Run a query input against a reference directory of inputs
+
+```
+nextflow run main.nf \
+  -profile singularity \
+  --query QUERY_INPUT_FILE \
+  --refdir REFERENCE_DIRECTORY \
+  --outdir OUTPUT_DIRECTORY \
+  --ani <blast|fastani|skani>
+```
+
+### Updating maximum CPU and memory for local runs
 
 When running locally, `--max_cpus` and `--max_memory` may need to be specified. Below, max cpus is set to 4 and max memory is set to 16 (for 16GB).
 
@@ -45,7 +61,7 @@ nextflow run main.nf \
   --max_memory 16
 ```
 
-Help menu of all options:
+### Help menu of all options:
 
 ```
 nextflow run main.nf --help
