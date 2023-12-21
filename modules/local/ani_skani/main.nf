@@ -9,8 +9,8 @@ process ANI_SKANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("ANI--*")
-    path("ANI--*/skani.out")  , emit: ani_stats
+    path("SKANI--*")
+    path("SKANI--*/skani.out"), emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
 
@@ -47,13 +47,13 @@ process ANI_SKANI {
     source bash_functions.sh
 
     # Create ANI dir
-    mkdir "ANI--!{base1},!{base2}"
+    mkdir "SKANI--!{base1},!{base2}"
 
     # Run skani
     skani dist \
       -q "assemblies/!{filename1}" \
       -r "assemblies/!{filename2}" \
-      -o "ANI--!{base1},!{base2}/skani.out" \
+      -o "SKANI--!{base1},!{base2}/skani.out" \
       -v \
       !{speed} \
       !{median} \
@@ -72,10 +72,10 @@ process ANI_SKANI {
     # Clean up fastani.out file
     sed -i \
       "s/assemblies\\/!{filename1}/!{base1}/g" \
-      "ANI--!{base1},!{base2}/skani.out"
+      "SKANI--!{base1},!{base2}/skani.out"
     sed -i \
       "s/assemblies\\/!{filename2}/!{base2}/g" \
-      "ANI--!{base1},!{base2}/skani.out"
+      "SKANI--!{base1},!{base2}/skani.out"
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
