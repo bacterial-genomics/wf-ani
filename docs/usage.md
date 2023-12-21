@@ -1,9 +1,5 @@
 # wf-ani: Usage
 
-## :warning: Please read this documentation on the pipeline's website: [https://github.com/gregorysprenger/wf-ani/blob/main/docs/usage.md](https://github.com/gregorysprenger/wf-ani/blob/main/docs/usage.md)
-
-> _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
-
 ## Introduction
 
 ## FastA/Genbank input directory
