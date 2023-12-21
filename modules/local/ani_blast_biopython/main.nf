@@ -9,10 +9,10 @@ process ANI_BLAST_BIOPYTHON {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("ANI--*")
-    path("ANI--*/ani.${base1},${base2}.stats.tab"), emit: ani_stats
+    path("BLAST--*")
+    path("BLAST--*/ani.${base1},${base2}.stats.tab"), emit: ani_stats
     path(".command.{out,err}")
-    path("versions.yml")                          , emit: versions
+    path("versions.yml")                            , emit: versions
 
     shell:
     // Get basename of input
@@ -26,12 +26,12 @@ process ANI_BLAST_BIOPYTHON {
 
     # Skip comparison if precomputed value exists
     ANI=""
-    if [ -s "!{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
-      msg "INFO: Found precomputed !{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
-    elif [ -s "!{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
-      msg "INFO: Found precomputed !{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
+    if [ -s "!{params.outdir}/BLAST--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
+      msg "INFO: Found precomputed !{params.outdir}/BLAST--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
+      ANI=$(grep ',' "!{params.outdir}/BLAST--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
+    elif [ -s "!{params.outdir}/BLAST--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
+      msg "INFO: Found precomputed !{params.outdir}/BLAST--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" >&2
+      ANI=$(grep ',' "!{params.outdir}/BLAST--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
     fi
     if [[ ! -z ${ANI} ]]; then
       if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
@@ -50,7 +50,7 @@ process ANI_BLAST_BIOPYTHON {
       !{small_frags} \
       -c !{task.cpus} \
       -s !{params.step_size} \
-      -o "ANI--!{base1},!{base2}" \
+      -o "BLAST--!{base1},!{base2}" \
       -w !{params.nucleotide_fragment_size} \
       --min-ACGT !{params.min_ACGT_fraction} \
       -i !{params.min_fragment_percent_identity} \
