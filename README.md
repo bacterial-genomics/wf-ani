@@ -17,9 +17,8 @@ _General schematic of the steps in the workflow_
 - [Usage](#usage)
 - [Parameters](#parameters)
   - [Required parameters](#required-parameters)
-  - [Optional parameters](#optional-parameters)
   - [Additonal parameters](#additional-parameters)
-- [Resource Managers](#resource-Managers)
+- [Resource Managers](#resource-managers)
 - [Output](#output)
 - [Troubleshooting](#troubleshooting)
 - [Contributions and Support](#contributions-and-support)
@@ -72,28 +71,44 @@ Note the "`--`" long name arguments (e.g., `--help`, `--input`, `--outdir`) are 
 
 These are the most pertinent options for this workflow:
 
+#### Required parameters
+
 ```
-  --input             Path to input data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  ============================================
+        Input/Output
+  ============================================
+  --input                 Path to input data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
-  --query             Path to input data FastA/Genbank file or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  --query                 Path to input data FastA/Genbank file or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
-  --refdir            Path to reference panel data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  --refdir                Path to reference panel data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
-  --outdir            The output directory where the results will be saved.
+  --outdir                The output directory where the results will be saved.
 
-  -profile singularity Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
 
-  -profile docker     Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available.
+  ============================================
+        Container platforms
+  ============================================
+  -profile singularity    Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
 
-  --ani               Specify what algorithm should be used to compare input files. Recognized arguments are: blast, fastani, skani.
+  -profile docker         Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available.
+
+
+  ============================================
+        Optional ANI tools
+  ============================================
+  --ani               Specify what algorithm should be used to compare input files. Recognized arguments are: blast, fastani, skani. [Default: blast]
 ```
+
+#### Additional parameters
 
 View help menu of all workflow options:
 
 ```
 nextflow run \
   wf-ani \
-  --help
+  --help \
+  --show_hidden_params
 ```
 
 ## Resource Managers
