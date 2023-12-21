@@ -9,6 +9,22 @@
 
 _General schematic of the steps in the workflow_
 
+## Contents
+
+- [Quick Start](#quick-start-test)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Parameters](#parameters)
+  - [Required parameters](#required-parameters)
+  - [Optional parameters](#optional-parameters)
+  - [Additonal parameters](#additional-parameters)
+- [Resource Managers](#resource-Managers)
+- [Output](#output)
+- [Troubleshooting](#troubleshooting)
+- [Contributions and Support](#contributions-and-support)
+- [Citations](#citations)
+
 ## Quick Start: Test
 
 Run the built-in test set to confirm all parts are working as-expected. It will also download all dependencies to make subsequent runs much faster.
@@ -16,31 +32,21 @@ Run the built-in test set to confirm all parts are working as-expected. It will 
 ```
 nextflow run \
   wf-ani \
-  -profile YOURPROFILE,test
+  -profile <docker|singularity>,test
 ```
 
 ## Quick Start: Run
 
-Example command on FastAs in "new-fasta-dir" data with singularity:
+Example command on FastAs in "new-fasta-dir" data using **BLAST** (ANIb) with singularity:
 
 ```
 nextflow run \
-  wf-ani/ \
+  wf-ani \
   -profile singularity
   --input new-fasta-dir \
-  --outdir my-results
+  --outdir my-results \
+  --ani blast
 ```
-
-## Contents
-
-- [Introduction](#Introduction)
-- [Installation](#Installation)
-- [Output](#Output)
-- [Parameters](#parameters)
-- [Quick Start](#Quick-Start-Test)
-- [Resource Managers](#Resource-Managers)
-- [Troubleshooting](#Troubleshooting)
-- [Usage](#usage)
 
 ## Introduction
 
@@ -58,7 +64,8 @@ This workflow performs average nucleotide identity on assembled and/or annotated
 nextflow run wf-ani \
   -profile <docker|singularity> \
   --input <input directory> \
-  --outdir <directory for results>
+  --outdir <directory for results> \
+  --ani <blast|fastani|skani>
 ```
 
 Please see the [usage documentation](docs/usage.md) for further information on using this workflow.
