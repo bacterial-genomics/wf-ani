@@ -16,7 +16,6 @@ Run the built-in test set to confirm all parts are working as-expected. It will 
 ```
 nextflow run \
   wf-ani \
-  -r v1.0.0 \
   -profile YOURPROFILE,test
 ```
 
@@ -27,7 +26,6 @@ Example command on FastAs in "new-fasta-dir" data with singularity:
 ```
 nextflow run \
   wf-ani/ \
-  -r v1.0.0 \
   -profile singularity
   --input new-fasta-dir \
   --outdir my-results
@@ -92,7 +90,6 @@ View help menu of all workflow options:
 ```
 nextflow run \
   wf-ani \
-  -r v1.0.0 \
   --help
 ```
 
