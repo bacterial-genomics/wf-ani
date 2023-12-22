@@ -45,6 +45,7 @@ workflow QUERY_VS_REFDIR {
     take:
     query
     refdir
+    ch_ani_name
 
     main:
     // SETUP: Define empty channels to concatenate certain outputs
@@ -115,6 +116,17 @@ workflow QUERY_VS_REFDIR {
                             storeDir: "${params.outdir}/Comparisons"
                         )
 
+
+    // Add meta information to reference channel
+    ch_reference_asm = REFDIR_INFILE_HANDLING_UNIX.out.asm_files
+                        .collect()
+                        .map {
+                            file ->
+                                def meta = [:]
+                                meta['ani'] = "${ch_ani_name}"
+                                [ meta, file ]
+                        }
+
     // Collect assembly files
     ch_asm_files = Channel.empty()
     ch_asm_files = ch_asm_files
@@ -124,7 +136,7 @@ workflow QUERY_VS_REFDIR {
 
     // PROCESS: Create pairings and append to pairs.fofn
     GENERATE_PAIRS_BIOPYTHON (
-        REFDIR_INFILE_HANDLING_UNIX.out.asm_files.collect(),
+        ch_reference_asm,
         QUERY_INFILE_HANDLING_UNIX.out.asm_files.collect()
     )
     ch_versions = ch_versions.mix(GENERATE_PAIRS_BIOPYTHON.out.versions)

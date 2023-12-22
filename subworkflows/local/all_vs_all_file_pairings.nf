@@ -41,6 +41,7 @@ workflow ALL_VS_ALL {
 
     take:
     input
+    ch_ani_name
 
     main:
     // SETUP: Define empty channels to concatenate certain outputs
@@ -78,6 +79,12 @@ workflow ALL_VS_ALL {
                             name: "genomes.fofn",
                             skip: 1
                         )
+                        .map {
+                            file ->
+                                def meta = [:]
+                                meta['ani'] = "${ch_ani_name}"
+                                [ meta, file ]
+                        }
 
     ch_genomes_list = INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
