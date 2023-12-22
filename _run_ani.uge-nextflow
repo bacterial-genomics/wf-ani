@@ -87,26 +87,36 @@ if [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
     ${OUT}/pipeline_info/errors.tsv
 fi
 
+# Get proper ANI tool name
+ANI_NAME=$(echo $ANI | awk '{print tolower($0)}')
+if [[ ${ANI_NAME} == "fastani" ]]; then
+  ANI_NAME="fastANI"
+elif [[ ${ANI_NAME} == "skani" ]]; then
+  ANI_NAME="SKANI"
+else
+  ANI_NAME="BLAST"
+fi
+
 # Count lines in ANI.Summary.tab
-if [[ -f "${OUT}/ANI.Summary.tab" ]]; then
-  num_results=$(awk 'END {print NR-1}' ${OUT}/ANI.Summary.tsv)
+if [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]]; then
+  num_results=$(awk 'END {print NR-1}' "${OUT}/Summaries/Summary.${ANI_NAME}.tsv")
 fi
 
 # E-mail completion status
-if [[ -f "${OUT}/ANI.Summary.tab" ]] && \
+if [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]] && \
   [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
   echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
   -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
   -S smtp="smtpgw.cdc.gov" \
-  -a "${OUT}/ANI.Summary.tsv" \
+  -a "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" \
   -a "${OUT}/pipeline_info/errors.tsv" \
   "${USER}@cdc.gov"
 
-elif [[ -f "${OUT}/ANI.Summary.tab" ]]; then
+elif [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]]; then
   echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
   -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
   -S smtp="smtpgw.cdc.gov" \
-  -a "${OUT}/ANI.Summary.tsv" \
+  -a "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" \
   "${USER}@cdc.gov"
 
 elif [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
