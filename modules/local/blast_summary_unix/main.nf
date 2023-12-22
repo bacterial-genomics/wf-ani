@@ -1,6 +1,7 @@
 process BLAST_SUMMARY_UNIX {
 
     label "process_low"
+    tag( "BLAST_Summary" )
     container "ubuntu:jammy"
 
     input:
