@@ -11,9 +11,9 @@ The directories listed below will be created in the results directory after the 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes FastA/Genbank files. Output differs between ANI comparison methods:
 
 - [ANI output](#ani) - Output of each file pairing
-    - [BLAST](#blast)
-    - [fastANI](#fastani)
-    - [SKANI](#skani)
+  - [BLAST](#blast)
+  - [fastANI](#fastani)
+  - [SKANI](#skani)
 - [Summaries](#summaries) - Output summaries
 - [Log files](#pipeline_info) - Nextflow and HPC logs, software information, and error list if applicable
 - [Process logs](#process-logs) - Output and error logs for each process
