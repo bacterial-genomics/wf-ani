@@ -1,13 +1,14 @@
 process GENERATE_PAIRS_BIOPYTHON {
 
+    tag( "${meta.ani}" )
     container "gregorysprenger/biopython@sha256:77a50d5d901709923936af92a0b141d22867e3556ef4a99c7009a5e7e0101cc1"
 
     input:
-    path(asm)
+    tuple val(meta), path(asm)
     path(query)
 
     output:
-    path("pairs.tsv")        , emit: ani_pairs
+    path("pairs.tsv")         , emit: ani_pairs
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
 
