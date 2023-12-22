@@ -61,6 +61,14 @@ include { QUERY_VS_REFDIR       } from "../subworkflows/local/query_vs_refdir_fi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+// ANI input
+if ( toLower(params.ani) == "skani" ) {
+    ch_ani_name = "SKANI"
+} else if ( toLower(params.ani) == "fastani" ) {
+    ch_ani_name = "fastANI"
+} else {
+    ch_ani_name = "BLAST"
+}
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,7 +104,8 @@ workflow ANI {
         //
         QUERY_VS_REFDIR (
             ch_query,
-            ch_refdir
+            ch_refdir,
+            ch_ani_name
         )
         ch_versions     = ch_versions.mix(QUERY_VS_REFDIR.out.versions)
         ch_qc_filecheck = ch_qc_filecheck.mix(QUERY_VS_REFDIR.out.qc_filecheck)
@@ -110,7 +119,8 @@ workflow ANI {
         // Process input directory
         //
         ALL_VS_ALL (
-            ch_input
+            ch_input,
+            ch_ani_name
         )
         ch_versions     = ch_versions.mix(ALL_VS_ALL.out.versions)
         ch_qc_filecheck = ch_qc_filecheck.mix(ALL_VS_ALL.out.qc_filecheck)
