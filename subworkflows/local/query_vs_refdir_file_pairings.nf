@@ -107,13 +107,13 @@ workflow QUERY_VS_REFDIR {
     ch_query_fofn = QUERY_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
                             name:     "queries.tsv",
-                            storeDir: "${params.outdir}/Comparisons"
+                            storeDir: "${params.outdir}/ANI/${ch_ani_name}"
                         )
 
     ch_refdir_fofn = REFDIR_INFILE_HANDLING_UNIX.out.genomes
                         .collectFile(
                             name:     "references.tsv",
-                            storeDir: "${params.outdir}/Comparisons"
+                            storeDir: "${params.outdir}/ANI/${ch_ani_name}"
                         )
 
 

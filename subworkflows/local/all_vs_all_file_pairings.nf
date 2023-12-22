@@ -90,7 +90,7 @@ workflow ALL_VS_ALL {
                         .collectFile(
                             name:       "genomes.tsv",
                             keepHeader: true,
-                            storeDir:   "${params.outdir}/Comparisons"
+                            storeDir:   "${params.outdir}/ANI/${ch_ani_name}"
                         )
 
     // PROCESS: Create pairings and append to pairs.fofn
