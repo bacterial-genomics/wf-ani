@@ -7,7 +7,7 @@
                 "nf-core": {
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
-                        "git_sha": "8694793954175ddd3001ddfbc0e36782a674d8a7",
+                        "git_sha": "bba7e362e4afead70653f84d8700588ea28d0f9e",
                         "installed_by": [
                             "modules"
                         ]
