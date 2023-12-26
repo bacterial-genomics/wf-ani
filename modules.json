@@ -1,5 +1,17 @@
 {
     "name": "gregorysprenger/wf-ani",
     "homePage": "https://github.com/gregorysprenger/wf-ani",
-    "repos": {}
+    "repos": {
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "custom/dumpsoftwareversions": {
+                        "branch": "master",
+                        "git_sha": "",
+                        "installed_by": ["modules"]
+                    }
+                }
+            }
+        }
+    }
 }
