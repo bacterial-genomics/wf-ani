@@ -8,9 +8,7 @@
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
                         "git_sha": "bba7e362e4afead70653f84d8700588ea28d0f9e",
-                        "installed_by": [
-                            "modules"
-                        ]
+                        "installed_by": ["modules"]
                     }
                 }
             }
