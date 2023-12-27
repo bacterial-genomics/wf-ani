@@ -1,0 +1,24 @@
+lint:
+  actions_awsfulltest: False
+  actions_awstest: False
+  files_exist:
+    - aws.config
+    - conf/igenomes.config
+    - assets/multiqc_config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - lib/WorkflowWf-ani.groovy
+    - assets/nf-core-wf-ani_logo_light.png
+    - docs/images/nf-core-wf-ani_logo_light.png
+    - docs/images/nf-core-wf-ani_logo_dark.png
+  files_unchanged:
+    - LICENSE
+  multiqc_config: False
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+  schema_params: False
+  system_exit: False
+  pipeline_name_conventions: False
+
+repository_type: pipeline
