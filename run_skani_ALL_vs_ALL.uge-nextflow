@@ -299,6 +299,9 @@ fi
 # Get node number - <=230 = biolinux, >=231 = rosalind
 NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
 
+module load nextflow
+nextflow pull gregorysprenger/wf-ani
+
 # If FastQ files are able to be submitted, submit and display basenames
 if [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'biolinux' || 'login02' ]] || \
@@ -319,7 +322,7 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_ani.uge-nextflow
+    ${HOME}/.nextflow/assets/gregorysprenger/wf-ani/_run_ani.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
@@ -341,7 +344,7 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_ani.uge-nextflow
+    ${HOME}/.nextflow/assets/gregorysprenger/wf-ani/_run_ani.uge-nextflow
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
