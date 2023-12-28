@@ -28,9 +28,18 @@ _General schematic of the steps in the workflow_
 
 Run the built-in test set to confirm all parts are working as-expected. It will also download all dependencies to make subsequent runs much faster.
 
+### Pull workflow from GitHub
+
+```
+nextflow pull gregorysprenger/wf-ani
+```
+
+### Run test workflow
+
 ```
 nextflow run \
-  wf-ani \
+  gregorysprenger/wf-ani \
+  -r main \
   -profile <docker|singularity>,test
 ```
 
@@ -38,10 +47,19 @@ nextflow run \
 
 Example command on FastAs in "new-fasta-dir" data using **BLAST** (ANIb) with singularity:
 
+### Pull workflow from GitHub
+
+```
+nextflow pull gregorysprenger/wf-ani
+```
+
+### Run workflow
+
 ```
 nextflow run \
-  wf-ani \
-  -profile singularity
+  gregorysprenger/wf-ani \
+  -r main \
+  -profile singularity \
   --input new-fasta-dir \
   --outdir my-results \
   --ani blast
@@ -106,7 +124,8 @@ View help menu of all workflow options:
 
 ```
 nextflow run \
-  wf-ani \
+  gregorysprenger/wf-ani \
+  -r main \
   --help \
   --show_hidden_params
 ```
