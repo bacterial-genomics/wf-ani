@@ -17,8 +17,15 @@ lint:
   nextflow_config:
     - manifest.name
     - manifest.homePage
+  pipeline_name_conventions: False
   schema_params: False
   system_exit: False
-  pipeline_name_conventions: False
 
 repository_type: pipeline
+
+template:
+  name: gregorysprenger/wf-ani
+
+update:
+  https://github.com/nf-core/modules.git:
+    nf-core: False
