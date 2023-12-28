@@ -17,7 +17,8 @@ if [[ ${TYPE} =~ QUERY.* ]]; then
   nextflow \
     -log ${OUT}/pipeline_info/nextflow_log.${SCRIPT_NAME}.txt \
     run \
-    ${LAB_HOME}/workflows/wf-ani/main.nf \
+    gregorysprenger/wf-ani \
+    -r main \
     -w /scicomp/scratch/${USER}/work \
     -N ${USER}@cdc.gov \
     --ani ${ANI} \
@@ -32,7 +33,8 @@ else
   nextflow \
     -log ${OUT}/pipeline_info/nextflow_log.${SCRIPT_NAME}.txt \
     run \
-    ${LAB_HOME}/workflows/wf-ani/main.nf \
+    gregorysprenger/wf-ani \
+    -r main \
     -w /scicomp/scratch/${USER}/work \
     -N ${USER}@cdc.gov \
     --ani ${ANI} \
