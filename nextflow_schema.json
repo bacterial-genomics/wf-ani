@@ -222,19 +222,6 @@
             "fa_icon": "fas fa-terminal",
             "description": "Parameters to select which profile to use.",
             "properties": {
-                "profile singularity": {
-                    "type": "string",
-                    "description": "Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available."
-                },
-                "profile docker": {
-                    "type": "string",
-                    "description": "Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available."
-                },
-                "profile conda": {
-                    "type": "string",
-                    "hidden": true,
-                    "description": "TODO: this is not implemented yet."
-                },
                 "profile_cache_dir": {
                     "type": "string",
                     "format": "directory-path",
