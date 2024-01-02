@@ -346,7 +346,7 @@ fi
 NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
 
 module load nextflow
-nextflow pull gregorysprenger/wf-ani -r dev
+nextflow pull gregorysprenger/wf-ani -r main
 
 # If FastQ files are able to be submitted, submit and display basenames
 if [[ ${#submitted[@]} -ge 2 ]] && \
