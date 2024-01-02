@@ -75,7 +75,6 @@
                 },
                 "keep_final_fragment": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "BLAST: Keep the final fragment of each sequence record during alignment."
                 },
@@ -131,7 +130,6 @@
                 },
                 "fastani_matrix": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "fastANI: Output ANI values as lower triangular matrix."
                 },
@@ -157,7 +155,6 @@
             "properties": {
                 "skani_speed": {
                     "type": "string",
-                    "default": "",
                     "hidden": true,
                     "description": "skani: Preset speed modes for skani. These settings alter the amount of memory needed and the accuracy of ANI outputs.",
                     "enum": ["", "fast", "medium", "slow"]
@@ -170,19 +167,16 @@
                 },
                 "skani_learned_ani": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: ANI prediction using a regression model."
                 },
                 "skani_estimate_median": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Estimate median identity instead of average (mean) identity."
                 },
                 "skani_multi_line_fasta": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Use individual sequences in a multi-line fasta for both QUERY and REFERENCE."
                 },
@@ -194,7 +188,6 @@
                 },
                 "skani_confidence_intervals": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Output [5%,95%] ANI confidence intervals using percentile bootstrap on the putative ANI distribution."
                 },
@@ -218,7 +211,6 @@
                 },
                 "skani_estimate_mean_after_trim": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Estimate mean after trim off 10%/90% quantiles."
                 }
