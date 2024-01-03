@@ -197,7 +197,7 @@ workflow ANI {
         .unique()
         .collectFile(
             name:     "software_versions.yml",
-            storeDir: params.logpath
+            storeDir: params.tracedir
         )
 
     // Collect QC file checks and concatenate into one file
