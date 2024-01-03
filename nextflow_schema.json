@@ -10,7 +10,9 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["outdir"],
+            "required": [
+                "outdir"
+            ],
             "properties": {
                 "input": {
                     "type": "string",
@@ -51,7 +53,11 @@
                     "type": "string",
                     "default": "blast",
                     "description": "Specify what algorithm should be used to compare input files.",
-                    "enum": ["blast", "fastani", "skani"]
+                    "enum": [
+                        "blast",
+                        "fastani",
+                        "skani"
+                    ]
                 }
             }
         },
@@ -98,19 +104,19 @@
                 },
                 "min_two_way_alignment_fraction": {
                     "type": "string",
-                    "default": "0.0",
+                    "default": "0",
                     "hidden": true,
                     "description": "BLAST: Minimum two-way alignment fraction of each set."
                 },
                 "min_fragment_percent_identity": {
                     "type": "string",
-                    "default": "30.0",
+                    "default": "30",
                     "hidden": true,
                     "description": "BLAST: Minimum fragment alignment identity."
                 },
                 "min_fraction_alignment_percentage": {
                     "type": "string",
-                    "default": "70.0",
+                    "default": "70",
                     "hidden": true,
                     "description": "BLAST: Minimum fragment alignment length percentage."
                 }
@@ -157,7 +163,12 @@
                     "type": "string",
                     "hidden": true,
                     "description": "skani: Preset speed modes for skani. These settings alter the amount of memory needed and the accuracy of ANI outputs.",
-                    "enum": ["", "fast", "medium", "slow"]
+                    "enum": [
+                        "",
+                        "fast",
+                        "medium",
+                        "slow"
+                    ]
                 },
                 "skani_max_results": {
                     "type": "integer",
@@ -364,7 +375,14 @@
                     "description": "Method used to save pipeline results to output directory.",
                     "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "email": {
@@ -405,30 +423,22 @@
                 "tracedir": {
                     "type": "string",
                     "description": "Directory to keep pipeline Nextflow logs and reports.",
-                    "default": "${params.outdir}/pipeline_info",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
                 },
                 "process_log_dir": {
                     "type": "string",
                     "description": "Directory to keep output and error logs from each process.",
-                    "default": "${params.tracedir}/process_logs",
                     "hidden": true
                 },
                 "qc_filecheck_log_dir": {
                     "type": "string",
                     "description": "Directory to keep QC file checks from processes.",
-                    "default": "${params.tracedir}/process_logsqc_file_checks",
                     "hidden": true
                 },
                 "validationShowHiddenParams": {
                     "type": "boolean",
                     "description": "Boolean whether to show hidden parameters at runtime",
-                    "hidden": true
-                },
-                "schema_ignore_params": {
-                    "type": "string",
-                    "description": "List of parameters to ignore at runtime.",
                     "hidden": true
                 },
                 "validate_params": {
@@ -444,6 +454,11 @@
                     "description": "Show all params when using `--help`",
                     "hidden": true,
                     "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
+                },
+                "schema_ignore_params": {
+                    "type": "string",
+                    "description": "Ignore warning of parameters",
+                    "default": "min_two_way_alignment_length,min_two_way_alignment_fraction,min_ACGT_fraction,keep_final_fragment,nucleotide_fragment_size,step_size,min_fragment_alignment_length,min_fragment_percent_identity,min_fraction_alignment_percentage,min_filesize_filepair2,min_filesize_filepair1,tasks_per_job,min_input_filesize,excel_sheet_name,workflows,available_workflows,max_retry,qc_filecheck_log_dir,process_log_dir,run_name,bigdata,fastani_minimum_fraction,fastani_fragment_length,fastani_kmer_size,skani_output_ani_greater_than,skani_estimate_mean_after_trim,skani_estimate_median,skani_marker_compression_factor,skani_learned_ani,skani_compression_factor,skani_speed,skani_max_results,skani_confidence_intervals,skani_minimum_alignment_fraction,skani_multi_line_fasta,fastani_matrix,sge_process_time,sge_options,sge_queue_size,sge_queue,sge_penv,profile_cache_dir,validationSchemaIgnoreParams,validationShowHiddenParams,validation-schema-ignore-params,validation-show-hidden-params"
                 }
             }
         }
