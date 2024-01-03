@@ -405,8 +405,30 @@
                 "tracedir": {
                     "type": "string",
                     "description": "Directory to keep pipeline Nextflow logs and reports.",
-                    "default": "${params.outdir}/log",
+                    "default": "${params.outdir}/pipeline_info",
                     "fa_icon": "fas fa-cogs",
+                    "hidden": true
+                },
+                "process_log_dir": {
+                    "type": "string",
+                    "description": "Directory to keep output and error logs from each process.",
+                    "default": "${params.tracedir}/process_logs",
+                    "hidden": true
+                },
+                "qc_filecheck_log_dir": {
+                    "type": "string",
+                    "description": "Directory to keep QC file checks from processes.",
+                    "default": "${params.tracedir}/process_logsqc_file_checks",
+                    "hidden": true
+                },
+                "validationShowHiddenParams": {
+                    "type": "boolean",
+                    "description": "Boolean whether to show hidden parameters at runtime",
+                    "hidden": true
+                },
+                "schema_ignore_params": {
+                    "type": "string",
+                    "description": "List of parameters to ignore at runtime.",
                     "hidden": true
                 },
                 "validate_params": {
