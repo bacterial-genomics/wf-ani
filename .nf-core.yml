@@ -5,20 +5,28 @@ lint:
     - aws.config
     - conf/igenomes.config
     - assets/multiqc_config.yml
+    - lib/WorkflowWf-ani.groovy
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
-    - lib/WorkflowWf-ani.groovy
     - assets/nf-core-wf-ani_logo_light.png
-    - docs/images/nf-core-wf-ani_logo_light.png
     - docs/images/nf-core-wf-ani_logo_dark.png
+    - docs/images/nf-core-wf-ani_logo_light.png
   files_unchanged:
     - LICENSE
+    - docs/README.md
+    - .github/CONTRIBUTING.md
+    - assets/email_template.txt
+    - lib/NfcoreTemplate.groovy
+    - .github/workflows/branch.yml
+    - assets/sendmail_template.txt
+    - .github/workflows/linting.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/ISSUE_TEMPLATE/bug_report.yml
   multiqc_config: False
   nextflow_config:
     - manifest.name
     - manifest.homePage
   pipeline_name_conventions: False
-  schema_params: False
   system_exit: False
 
 repository_type: pipeline
