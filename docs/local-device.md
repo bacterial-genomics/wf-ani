@@ -12,7 +12,7 @@ _A schematic of the steps in the workflow._
 ## Install Worflow Locally
 
 ```
-git clone https://github.com/gregorysprenger/wf-ani.git
+git clone https://github.com/bacterial-genomics/wf-ani.git
 ```
 
 # Run Workflow

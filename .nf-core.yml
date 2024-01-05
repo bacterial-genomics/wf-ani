@@ -32,7 +32,7 @@ lint:
 repository_type: pipeline
 
 template:
-  name: gregorysprenger/wf-ani
+  name: bacterial-genomics/wf-ani
 
 update:
   https://github.com/nf-core/modules.git:

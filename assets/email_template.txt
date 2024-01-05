@@ -8,10 +8,10 @@
 Run Name: $runName
 
 <% if (success){
-    out << "## gregorysprenger/wf-ani execution completed successfully! ##"
+    out << "## bacterial-genomics/wf-ani execution completed successfully! ##"
 } else {
     out << """####################################################
-## gregorysprenger/wf-ani execution completed unsuccessfully! ##
+## bacterial-genomics/wf-ani execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -34,5 +34,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-gregorysprenger/wf-ani
-https://github.com/gregorysprenger/wf-ani
+bacterial-genomics/wf-ani
+https://github.com/bacterial-genomics/wf-ani

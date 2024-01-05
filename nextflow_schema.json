@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/gregorysprenger/wf-ani/main/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/bacterial-genomics/wf-ani/main/nextflow_schema.json",
     "title": "wf-ani pipeline parameters",
     "description": "Perform Average Nucleotide Identity (ANI) on FastA/Genbank files.",
     "type": "object",

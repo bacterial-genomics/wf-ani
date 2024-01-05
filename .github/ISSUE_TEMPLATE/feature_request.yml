@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the gregorysprenger/wf-ani pipeline
+description: Suggest an idea for the bacterial-genomics/wf-ani pipeline
 labels: enhancement
 body:
   - type: textarea

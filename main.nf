@@ -3,9 +3,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     wf-ani
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/gregorysprenger/wf-ani
+    Github : https://github.com/bacterial-genomics/wf-ani
 
-    Website: https://github.com/gregorysprenger/wf-ani
+    Website: https://github.com/bacterial-genomics/wf-ani
 ----------------------------------------------------------------------------------------
 */
 

@@ -101,14 +101,14 @@ work                # Directory containing the nextflow working files
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull gregorysprenger/wf-ani
+nextflow pull bacterial-genomics/wf-ani
 ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [wf-ani releases page](https://github.com/gregorysprenger/wf-ani/releases) and find the latest pipeline version - numeric only (eg. `1.0.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.0.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [wf-ani releases page](https://github.com/bacterial-genomics/wf-ani/releases) and find the latest pipeline version - numeric only (eg. `1.0.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.0.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
@@ -157,7 +157,7 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 ### Resource requests
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/gregorysprenger/wf-ani/blob/main/conf/base.config?plain=1#L13) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
+Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/bacterial-genomics/wf-ani/blob/main/conf/base.config?plain=1#L13) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
 ### Updating containers (advanced users)
 
