@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/gregorysprenger/wf-ani/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/bacterial-genomics/wf-ani/main/nextflow_schema.json",
     "title": "wf-ani pipeline parameters",
     "description": "Perform Average Nucleotide Identity (ANI) on FastA/Genbank files.",
     "type": "object",
@@ -32,6 +32,12 @@
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
+                },
+                "min_input_filesize": {
+                    "type": "string",
+                    "default": "45k",
+                    "hidden": true,
+                    "description": "Minimum file size of input data."
                 }
             }
         },
@@ -46,7 +52,15 @@
                     "default": "blast",
                     "description": "Specify what algorithm should be used to compare input files.",
                     "enum": ["blast", "fastani", "skani"]
-                },
+                }
+            }
+        },
+        "blast_options": {
+            "title": "BLAST ANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "ANI-BLAST specific parameters.",
+            "properties": {
                 "step_size": {
                     "type": "integer",
                     "default": 200,
@@ -61,7 +75,6 @@
                 },
                 "keep_final_fragment": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "BLAST: Keep the final fragment of each sequence record during alignment."
                 },
@@ -85,22 +98,30 @@
                 },
                 "min_two_way_alignment_fraction": {
                     "type": "string",
-                    "default": "0.0",
+                    "default": "0",
                     "hidden": true,
                     "description": "BLAST: Minimum two-way alignment fraction of each set."
                 },
                 "min_fragment_percent_identity": {
                     "type": "string",
-                    "default": "30.0",
+                    "default": "30",
                     "hidden": true,
                     "description": "BLAST: Minimum fragment alignment identity."
                 },
                 "min_fraction_alignment_percentage": {
                     "type": "string",
-                    "default": "70.0",
+                    "default": "70",
                     "hidden": true,
                     "description": "BLAST: Minimum fragment alignment length percentage."
-                },
+                }
+            }
+        },
+        "fastani_options": {
+            "title": "fastANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "fastANI specific parameters.",
+            "properties": {
                 "fastani_kmer_size": {
                     "type": "integer",
                     "default": 16,
@@ -109,7 +130,6 @@
                 },
                 "fastani_matrix": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "fastANI: Output ANI values as lower triangular matrix."
                 },
@@ -124,13 +144,20 @@
                     "default": "0.2",
                     "hidden": true,
                     "description": "fastANI: Minimum fraction of genome that must be shared for trusting ANI."
-                },
+                }
+            }
+        },
+        "skani_options": {
+            "title": "SKANI options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "SKANI specific parameters.",
+            "properties": {
                 "skani_speed": {
                     "type": "string",
-                    "default": "",
                     "hidden": true,
                     "description": "skani: Preset speed modes for skani. These settings alter the amount of memory needed and the accuracy of ANI outputs.",
-                    "enum": ["fast", "medium", "slow"]
+                    "enum": ["", "fast", "medium", "slow"]
                 },
                 "skani_max_results": {
                     "type": "integer",
@@ -140,19 +167,16 @@
                 },
                 "skani_learned_ani": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: ANI prediction using a regression model."
                 },
                 "skani_estimate_median": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Estimate median identity instead of average (mean) identity."
                 },
                 "skani_multi_line_fasta": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Use individual sequences in a multi-line fasta for both QUERY and REFERENCE."
                 },
@@ -164,7 +188,6 @@
                 },
                 "skani_confidence_intervals": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Output [5%,95%] ANI confidence intervals using percentile bootstrap on the putative ANI distribution."
                 },
@@ -188,27 +211,8 @@
                 },
                 "skani_estimate_mean_after_trim": {
                     "type": "boolean",
-                    "default": false,
                     "hidden": true,
                     "description": "skani: Estimate mean after trim off 10%/90% quantiles."
-                },
-                "excel_sheet_name": {
-                    "type": "string",
-                    "default": "Sheet1",
-                    "hidden": true,
-                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
-                },
-                "tasks_per_job": {
-                    "type": "integer",
-                    "default": 20000,
-                    "hidden": true,
-                    "description": "Number of genomes to process at a time when creating pairs."
-                },
-                "min_input_filesize": {
-                    "type": "string",
-                    "default": "45k",
-                    "hidden": true,
-                    "description": "Minimum file size of input data."
                 }
             }
         },
@@ -218,18 +222,37 @@
             "fa_icon": "fas fa-terminal",
             "description": "Parameters to select which profile to use.",
             "properties": {
-                "profile singularity": {
+                "profile_cache_dir": {
                     "type": "string",
-                    "description": "Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available."
-                },
-                "profile docker": {
-                    "type": "string",
-                    "description": "Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available."
-                },
-                "profile conda": {
-                    "type": "string",
+                    "format": "directory-path",
                     "hidden": true,
-                    "description": "TODO: this is not implemented yet."
+                    "description": "The output directory where process module containers and/or conda environments will be saved. You have to use absolute paths to storage on Cloud infrastructure."
+                }
+            }
+        },
+        "spreadsheet_parsing_options": {
+            "title": "Spreadsheet parsing options",
+            "type": "object",
+            "description": "Spreadsheet parsing options",
+            "properties": {
+                "excel_sheet_name": {
+                    "type": "string",
+                    "default": "Sheet1",
+                    "hidden": true,
+                    "description": "EXCEL SAMPLESHEET ONLY: Sheet name of Excel (.XLSX, .XLS) samplesheet."
+                }
+            }
+        },
+        "generating_pairs_options": {
+            "title": "Generating pairs options",
+            "type": "object",
+            "description": "Genearating pairs options",
+            "properties": {
+                "tasks_per_job": {
+                    "type": "integer",
+                    "default": 20000,
+                    "hidden": true,
+                    "description": "Number of tasks to perform at a time when generating pairs."
                 }
             }
         },
@@ -382,8 +405,22 @@
                 "tracedir": {
                     "type": "string",
                     "description": "Directory to keep pipeline Nextflow logs and reports.",
-                    "default": "${params.outdir}/log",
                     "fa_icon": "fas fa-cogs",
+                    "hidden": true
+                },
+                "process_log_dir": {
+                    "type": "string",
+                    "description": "Directory to keep output and error logs from each process.",
+                    "hidden": true
+                },
+                "qc_filecheck_log_dir": {
+                    "type": "string",
+                    "description": "Directory to keep QC file checks from processes.",
+                    "hidden": true
+                },
+                "validationShowHiddenParams": {
+                    "type": "boolean",
+                    "description": "Boolean whether to show hidden parameters at runtime",
                     "hidden": true
                 },
                 "validate_params": {
@@ -399,6 +436,11 @@
                     "description": "Show all params when using `--help`",
                     "hidden": true,
                     "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
+                },
+                "schema_ignore_params": {
+                    "type": "string",
+                    "description": "Ignore warning of parameters",
+                    "default": "min_two_way_alignment_length,min_two_way_alignment_fraction,min_ACGT_fraction,keep_final_fragment,nucleotide_fragment_size,step_size,min_fragment_alignment_length,min_fragment_percent_identity,min_fraction_alignment_percentage,min_filesize_filepair2,min_filesize_filepair1,tasks_per_job,min_input_filesize,excel_sheet_name,workflows,available_workflows,max_retry,qc_filecheck_log_dir,process_log_dir,run_name,bigdata,fastani_minimum_fraction,fastani_fragment_length,fastani_kmer_size,skani_output_ani_greater_than,skani_estimate_mean_after_trim,skani_estimate_median,skani_marker_compression_factor,skani_learned_ani,skani_compression_factor,skani_speed,skani_max_results,skani_confidence_intervals,skani_minimum_alignment_fraction,skani_multi_line_fasta,fastani_matrix,sge_process_time,sge_options,sge_queue_size,sge_queue,sge_penv,profile_cache_dir,validationSchemaIgnoreParams,validationShowHiddenParams,validation-schema-ignore-params,validation-show-hidden-params"
                 }
             }
         }
@@ -411,7 +453,22 @@
             "$ref": "#/definitions/analysis_options"
         },
         {
+            "$ref": "#/definitions/blast_options"
+        },
+        {
+            "$ref": "#/definitions/fastani_options"
+        },
+        {
+            "$ref": "#/definitions/skani_options"
+        },
+        {
             "$ref": "#/definitions/profile_options"
+        },
+        {
+            "$ref": "#/definitions/spreadsheet_parsing_options"
+        },
+        {
+            "$ref": "#/definitions/generating_pairs_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"

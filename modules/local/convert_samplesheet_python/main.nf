@@ -1,20 +1,15 @@
 process CONVERT_SAMPLESHEET_PYTHON {
 
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${prefix}.${task.process}${filename}"}
-
+    tag( "${meta.id}" )
     container "gregorysprenger/pandas-excel@sha256:4fad4114df25726e24660d8550da48b926b80ce5b8a32b522b552a2d8e1df156"
 
     input:
-    path excel_samplesheet
+    tuple val(meta), path(excel_samplesheet)
 
     output:
-    path ".command.out"
-    path ".command.err"
-    path "versions.yml"   , emit: versions
-    path "samplesheet.tsv", emit: converted_samplesheet
+    path("samplesheet.tsv")   , emit: converted_samplesheet
+    path(".command.{out,err}")
+    path("versions.yml")      , emit: versions
 
     shell:
     '''

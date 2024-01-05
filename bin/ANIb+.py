@@ -59,9 +59,7 @@ def parseArgs():
         default=70.0,
         help="minimum fragment alignment " "length percentage [70.0]",
     )
-    opt.add_argument(
-        "-h", "--help", action="help", help="show this help message and exit"
-    )
+    opt.add_argument("-h", "--help", action="help", help="show this help message and exit")
     opt.add_argument(
         "-i",
         "--identity",
@@ -96,9 +94,7 @@ def parseArgs():
         "sequence fragmentation prior to alignments; to turn off steps to "
         "speed up, set to same length as the fragment size [200]",
     )
-    opt.add_argument(
-        "-v", "--version", action="version", version="%(prog)s v{}".format(__version__)
-    )
+    opt.add_argument("-v", "--version", action="version", version="%(prog)s v{}".format(__version__))
     opt.add_argument(
         "-w",
         "--fragment-size",
@@ -111,8 +107,7 @@ def parseArgs():
         "--bed",
         default=False,
         action="store_true",
-        help="produce BED files listing coordinates (0-based) used in ANI "
-        "calculation; requires Bedtools [off]",
+        help="produce BED files listing coordinates (0-based) used in ANI " "calculation; requires Bedtools [off]",
     )
     opt.add_argument(
         "--decimal-places",
@@ -134,8 +129,7 @@ def parseArgs():
         "--keep-small-frags",
         default=False,
         action="store_true",
-        help="include the final fragment (less than the "
-        "window size) of each sequence record during alignment [off]",
+        help="include the final fragment (less than the " "window size) of each sequence record during alignment [off]",
     )
     opt.add_argument(
         "--min-ACGT",
@@ -230,9 +224,7 @@ def require_float_0_to_1(x):
 
 def require_dependency(dep):
     for path in os.environ.get("PATH", "").split(":"):
-        if os.path.exists(os.path.join(path, dep)) and not os.path.isdir(
-            os.path.join(path, dep)
-        ):
+        if os.path.exists(os.path.join(path, dep)) and not os.path.isdir(os.path.join(path, dep)):
             return True
     sys.stderr.write("ERROR: {} unavailable; not in $PATH\n".format(dep))
     sys.exit(1)
@@ -368,14 +360,10 @@ def main():
             with open(f, "w") as ofh:
                 for rec in SeqIO.parse(s, "fasta"):
                     coord, i = 0, 1
-                    for frag in fragment(
-                        rec.seq, opts.fragment_size, opts.step_size, opts.fill
-                    ):
+                    for frag in fragment(rec.seq, opts.fragment_size, opts.step_size, opts.fill):
                         frag_seq = "".join(list(frag))
                         if keep_small_frags or len(frag_seq) == opts.fragment_size:
-                            defln = ("{}__frg{}__pos{}-{}").format(
-                                rec.id, i, coord, coord + opts.fragment_size
-                            )
+                            defln = ("{}__frg{}__pos{}-{}").format(rec.id, i, coord, coord + opts.fragment_size)
                             ofh.write(">{}\n{}\n".format(defln, frag_seq))
                             i += 1
                             coord += opts.step_size
@@ -411,9 +399,7 @@ def main():
                 _, err = process.communicate()
                 if process.returncode != 0:
                     sys.stderr.write(err)
-                    sys.stderr.write(
-                        "ERROR: failed system call: {}\n".format(" ".join(cmd))
-                    )
+                    sys.stderr.write("ERROR: failed system call: {}\n".format(" ".join(cmd)))
                     sys.exit(1)
 
     # Parse blast output
@@ -426,11 +412,7 @@ def main():
         for line in dat:
             tot[0] += 1
             l = line.split("\t")
-            if (
-                float(l[2]) >= opts.identity
-                and int(l[3]) >= opts.length
-                and float(l[12]) >= opts.fraction
-            ):
+            if float(l[2]) >= opts.identity and int(l[3]) >= opts.length and float(l[12]) >= opts.fraction:
                 ani[0].append(float(l[2]))
                 aln_len = int(l[3]) - int(l[13])
                 d[(str(l[0]), str(l[1]))] = float(l[2]), aln_len
@@ -454,17 +436,11 @@ def main():
                         ),
                     )
     b = os.path.join(outpath, "blast." + b1 + "," + b2)  # set2 as query
-    with open(b + ".tab") as dat, open(b + ".filt.tab", "w") as passed, open(
-        b + ".filt.two-way.tab", "w"
-    ) as passed2:
+    with open(b + ".tab") as dat, open(b + ".filt.tab", "w") as passed, open(b + ".filt.two-way.tab", "w") as passed2:
         for line in dat:
             tot[1] += 1
             l = line.split("\t")
-            if (
-                float(l[2]) >= opts.identity
-                and int(l[3]) >= opts.length
-                and float(l[12]) >= opts.fraction
-            ):
+            if float(l[2]) >= opts.identity and int(l[3]) >= opts.length and float(l[12]) >= opts.fraction:
                 ani[1].append(float(l[2]))
                 aln_len = int(l[3]) - int(l[13])
                 filt[1].append(aln_len)
@@ -539,18 +515,13 @@ def main():
         sys.stderr.write(
             "ERROR: {} and/or {} bi-directional (two-way) "
             "gapless alignment fraction (relative to each input sequence "
-            "length) is less than {}\n".format(
-                aln_frc[2][0], aln_frc[2][1], opts.min_aln_frac
-            )
+            "length) is less than {}\n".format(aln_frc[2][0], aln_frc[2][1], opts.min_aln_frac)
         )
         sys.exit(1)
 
     # Write ANI data
     with open(os.path.join(outpath, "ani." + b1 + "," + b2 + ".stats.tab"), "w") as ofh:
-        ofh.write(
-            "Query_Sample(s)\tFiltered_Frags\tANI\tStDev\t"
-            "Gapless_Aln\tInput_Size\tAln_Fraction\n"
-        )
+        ofh.write("Query_Sample(s)\tFiltered_Frags\tANI\tStDev\t" "Gapless_Aln\tInput_Size\tAln_Fraction\n")
         ofh.write(
             "{}\t{}/{}\t{:.{p}f}%\t{:.{p}f}%\t{}\t{}\t{:.{p}f}\n".format(
                 b1,
@@ -603,9 +574,7 @@ def main():
         beds = glob(os.path.join(tmp, "coords.*.bed"))
         for f in beds:
             srt = sp.Popen(["bedtools", "sort", "-i", f], stdout=sp.PIPE)
-            mrg = sp.Popen(
-                ["bedtools", "merge", "-i", "stdin"], stdin=srt.stdout, stdout=sp.PIPE
-            )
+            mrg = sp.Popen(["bedtools", "merge", "-i", "stdin"], stdin=srt.stdout, stdout=sp.PIPE)
             with open(os.path.join(outpath, os.path.basename(f)), "w") as ofh:
                 ret = sp.Popen(["sort", "-V"], stdin=mrg.stdout, stdout=ofh)
     shutil.rmtree(tmp)

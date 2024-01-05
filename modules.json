@@ -1,0 +1,17 @@
+{
+    "name": "bacterial-genomics/wf-ani",
+    "homePage": "https://github.com/bacterial-genomics/wf-ani",
+    "repos": {
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "custom/dumpsoftwareversions": {
+                        "branch": "master",
+                        "git_sha": "bba7e362e4afead70653f84d8700588ea28d0f9e",
+                        "installed_by": ["modules"]
+                    }
+                }
+            }
+        }
+    }
+}

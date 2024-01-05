@@ -1,55 +1,55 @@
 process INFILE_HANDLING_UNIX {
 
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${prefix}.${task.process}${filename}" }
-
+    tag( "${meta.id}" )
     container "ubuntu:jammy"
 
     input:
     tuple val(meta), path(input)
 
     output:
-    path ".command.out"
-    path ".command.err"
-    path "genomes.fofn"           , emit: genomes
-    path "versions.yml"           , emit: versions
-    path "assemblies/*"           , emit: asm_files
-    path "Initial_Input_Files.tsv", emit: qc_input_filecheck
+    path("genomes.fofn")                     , emit: genomes
+    path("assemblies/*")                     , emit: asm_files
+    path("${meta.id}.Initial_Input_File.tsv"), emit: qc_filecheck
+    path(".command.{out,err}")
+    path("versions.yml")                     , emit: versions
 
     shell:
-    // Remove spaces from meta.id and get file extension
-    prefix="${meta.id}".replaceAll(' ', '_');
-    extension="${input}".split('\\.')[1..-1].join('.');
+    // Rename files with meta.id (has spaces and periods removed)
+    gzip_compressed = input.toString().contains('.gz') ? '.gz' : ''
+    file_extension  = input.toString().split('.gz')[0].split('\\.')[-1]
     '''
     source bash_functions.sh
 
     # Rename input files to prefix and move to assemblies dir
     mkdir assemblies
-    cp !{input} assemblies/"!{prefix}.!{extension}"
+    cp !{input} assemblies/"!{meta.id}.!{file_extension}!{gzip_compressed}"
 
     # gunzip all files that end in .{gz,Gz,GZ,gZ}
     find -L assemblies/ -type f -name '*.[gG][zZ]' -exec gunzip -f {} +
 
     # Filter out small genomes
     msg "Checking input file sizes.."
+    echo -e "Sample name\tQC step\tOutcome (Pass/Fail)" > "!{meta.id}.Initial_Input_File.tsv"
     for file in assemblies/*; do
       if verify_minimum_file_size "${file}" 'Input' "!{params.min_input_filesize}"; then
         echo -e "$(basename ${file%%.*})\tInput File\tPASS" \
-        >> Initial_Input_Files.tsv
+        >> "!{meta.id}.Initial_Input_File.tsv"
 
         # Generate list of genomes
         echo -e "$(basename ${file})" >> genomes.fofn
       else
         echo -e "$(basename ${file%%.*})\tInput File\tFAIL" \
-        >> Initial_Input_Files.tsv
+        >> "!{meta.id}.Initial_Input_File.tsv"
 
-        echo -n "" >> genomes.fofn
         rm ${file}
-        exit 1
       fi
     done
+
+    if [[ -s genomes.fofn ]]; then
+      sed -i '1i Filename' genomes.fofn
+    else
+      touch genomes.fofn
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

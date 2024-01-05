@@ -1,21 +1,21 @@
 <!--
-# wf-ani pull request
+# bacterial-genomics/wf-ani pull request
 
-Many thanks for contributing to wf-ani workflow!
+Many thanks for contributing to bacterial-genomics/wf-ani workflow!
 
 Please fill in the appropriate checklist below (delete whatever is not relevant).
 These are the most common things requested on pull requests (PRs).
 
 Remember that PRs should be made against the dev branch, unless you're preparing a pipeline release.
 
-Learn more about contributing: [CONTRIBUTING.md](https://github.com/gregorysprenger/wf-ani/blob/main/.github/CONTRIBUTING.md)
+Learn more about contributing: [CONTRIBUTING.md](https://github.com/bacterial-genomics/wf-ani/blob/main/.github/CONTRIBUTING.md)
 -->
 
 ## PR checklist
 
 - [ ] This comment contains a description of changes (with reason).
 - [ ] If you've fixed a bug or added code that should be tested, add tests!
-- [ ] If you've added a new tool - have you followed the pipeline conventions in the [contribution docs](https://github.com/gregorysprenger/wf-ani/blob/main/.github/CONTRIBUTING.md)
+- [ ] If you've added a new tool - have you followed the pipeline conventions in the [contribution docs](https://github.com/bacterial-genomics/wf-ani/blob/main/.github/CONTRIBUTING.md)
 - [ ] Make sure your code lints (`nf-core lint`).
 - [ ] Ensure the test suite passes (`nextflow run . -profile test,docker --outdir <outdir>`).
 - [ ] Usage Documentation in `docs/usage.md` is updated.

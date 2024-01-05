@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/gregorysprenger/wf-ani/master/assets/schema_input.json",
-    "title": "wf-ani pipeline - params.input schema",
+    "$id": "https://raw.githubusercontent.com/bacterial-genomics/wf-ani/main/assets/schema_input.json",
+    "title": "bacterial-genomics/wf-ani pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
     "items": {

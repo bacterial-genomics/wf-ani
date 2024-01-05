@@ -1,29 +1,17 @@
 process ANI_SKANI {
 
-    publishDir "${params.outdir}/comparisons",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI--*"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
-
     label "process_high"
     tag( "${base1}_${base2}" )
-
     container "gregorysprenger/skani@sha256:f775f114281a7bd647467a13b90d243ec32ab3f7763c5dbeb06be5e35a842bb6"
 
     input:
     tuple val(filename1), val(filename2)
-    path asm            , stageAs: 'assemblies/*'
+    path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path "ANI--*"
-    path ".command.out"
-    path ".command.err"
-    path "versions.yml"      , emit: versions
-    path "ANI--*/skani.out"  , emit: ani_stats
-
+    path("skani.out")         , emit: ani_stats
+    path(".command.{out,err}")
+    path("versions.yml")      , emit: versions
 
     shell:
     // Get basename of input
@@ -57,14 +45,11 @@ process ANI_SKANI {
     '''
     source bash_functions.sh
 
-    # Create ANI dir
-    mkdir "ANI--!{base1},!{base2}"
-
     # Run skani
     skani dist \
-      -q assemblies/!{filename1} \
-      -r assemblies/!{filename2} \
-      -o "ANI--!{base1},!{base2}/skani.out" \
+      -q "assemblies/!{filename1}" \
+      -r "assemblies/!{filename2}" \
+      -o skani.out \
       -v \
       !{speed} \
       !{median} \
@@ -80,13 +65,9 @@ process ANI_SKANI {
       -m !{params.skani_marker_compression_factor} \
       --min-af !{params.skani_minimum_alignment_fraction}
 
-    # Clean up fastani.out file
-    sed -i \
-      "s/assemblies\\/!{filename1}/!{base1}/g" \
-      "ANI--!{base1},!{base2}/skani.out"
-    sed -i \
-      "s/assemblies\\/!{filename2}/!{base2}/g" \
-      "ANI--!{base1},!{base2}/skani.out"
+    # Clean up skani.out file
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" skani.out
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" skani.out
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

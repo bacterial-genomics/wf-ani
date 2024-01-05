@@ -1,28 +1,18 @@
 process ANI_FASTANI {
 
-    publishDir "${params.outdir}/comparisons",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI--*"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
-
     label "process_high"
     tag( "${base1}_${base2}" )
-
     container "gregorysprenger/fastani@sha256:047dbb5bd779bd12c98258c2b5570c4d30c33582203c94786b0901149e233eaa"
 
     input:
     tuple val(filename1), val(filename2)
-    path asm            , stageAs: 'assemblies/*'
+    path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path "ANI--*"
-    path ".command.out"
-    path ".command.err"
-    path "versions.yml"      , emit: versions
-    path "ANI--*/fastani.out", emit: ani_stats
+    path("fastani.*")
+    path("fastani.out")       , emit: ani_stats
+    path(".command.{out,err}")
+    path("versions.yml")      , emit: versions
 
     shell:
     // Get basename of input
@@ -34,14 +24,11 @@ process ANI_FASTANI {
     '''
     source bash_functions.sh
 
-    # Create ANI dir
-    mkdir "ANI--!{base1},!{base2}"
-
     # Run fastANI
     fastANI \
-      --ref assemblies/!{filename1} \
-      --query assemblies/!{filename2} \
-      --output "ANI--!{base1},!{base2}/fastani.out" \
+      --ref "assemblies/!{filename1}" \
+      --query "assemblies/!{filename2}" \
+      --output fastani.out \
       !{matrix} \
       --visualize \
       --threads !{task.cpus} \
@@ -50,17 +37,11 @@ process ANI_FASTANI {
       --minFraction !{params.fastani_minimum_fraction}
 
     # Clean up fastani.out file
-    sed -i \
-      "s/assemblies\\/!{filename1}/!{base1}/g" \
-      "ANI--!{base1},!{base2}/fastani.out"
-    sed -i \
-      "s/assemblies\\/!{filename2}/!{base2}/g" \
-      "ANI--!{base1},!{base2}/fastani.out"
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" fastani.out
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" fastani.out
 
     # Add column headings
-    sed -i \
-      '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' \
-      "ANI--!{base1},!{base2}/fastani.out"
+    sed -i '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' fastani.out
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

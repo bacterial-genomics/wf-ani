@@ -76,7 +76,7 @@ def iter_chunks(iterable, items_per_chunk=int(os.getenv('tasks_per_job'))):
 
 combos = itertools.combinations(genome_filenames, 2)
 for idx, chunk in enumerate(iter_chunks(combos), start=1):
-    outfile = os.path.join('pairs.fofn')
+    outfile = os.path.join('pairs.tsv')
     with open(outfile, 'w') as ofh:
         ofh.write('\\n'.join('{}\\t{}'.format(j, k) for j, k in chunk))
     print(outfile)

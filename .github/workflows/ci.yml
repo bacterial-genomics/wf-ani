@@ -20,14 +20,19 @@ jobs:
   test:
     name: Run pipeline with test data
     # Only run on push if this is the nf-core dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'wf-ani') }}"
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'bacterial-genomics/wf-ani') }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
         NXF_VER:
-          - "22.10.1"
+          - "22.04.3"
           - "latest-everything"
     steps:
+      - name: Free some space
+        run: |
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
       - name: Check out pipeline code
         uses: actions/checkout@v3
 
@@ -39,3 +44,34 @@ jobs:
       - name: Run pipeline with test data
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+
+  ani:
+    name: Run pipeline with different ANI tools
+    # Only run on push if this is the nf-core dev branch (merged PRs)
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'bacterial-genomics/wf-ani') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Run remaining ANI tools on test profile
+        ani: [fastani, skani]
+
+        NXF_VER:
+          - "latest-everything"
+
+    steps:
+      - name: Free some space
+        run: |
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+      - name: Check out pipeline code
+        uses: actions/checkout@v3
+
+      - name: Install Nextflow
+        uses: nf-core/setup-nextflow@v1
+        with:
+          version: "${{ matrix.NXF_VER }}"
+
+      - name: Run pipeline with test data using ${{ matrix.ani }}
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results --ani ${{ matrix.ani }}

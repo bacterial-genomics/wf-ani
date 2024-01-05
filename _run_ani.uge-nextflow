@@ -1,0 +1,131 @@
+#!/bin/bash -l
+#$ -cwd
+
+SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
+
+# Set profile
+# Get node number - <=230 = biolinux, >=231 = rosalind
+NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
+if [[ ${NODE_NUM} -ge 231 ]]; then
+  HPC='rosalind_hpc'
+else
+  HPC='aspen_hpc'
+fi
+
+module load nextflow
+
+if [[ ${TYPE} =~ QUERY.* ]]; then
+  nextflow \
+    -log ${OUT}/pipeline_info/nextflow_log.${SCRIPT_NAME}.txt \
+    run \
+    bacterial-genomics/wf-ani \
+    -r main \
+    -w /scicomp/scratch/${USER}/work \
+    -N ${USER}@cdc.gov \
+    --ani ${ANI} \
+    -ansi-log false \
+    -profile ${HPC} \
+    --query ${QUERY} \
+    --refdir ${REFERENCE} \
+    --outdir ${OUT} \
+    -resume
+
+else
+  nextflow \
+    -log ${OUT}/pipeline_info/nextflow_log.${SCRIPT_NAME}.txt \
+    run \
+    bacterial-genomics/wf-ani \
+    -r main \
+    -w /scicomp/scratch/${USER}/work \
+    -N ${USER}@cdc.gov \
+    --ani ${ANI} \
+    -ansi-log false \
+    -profile ${HPC} \
+    --input ${IN} \
+    --outdir ${OUT} \
+    -resume
+fi
+
+# Check for errors and add to errors.tsv
+# Get nextflow run name
+run_name=$(grep "Launching" ${OUT}/pipeline_info/ANI_*.o${SCRIPT_NAME} | cut -d '[' -f 2 | cut -d ']' -f 1)
+time_stamp=$(date '+%Y-%b-%d %a %H:%M:%S')
+# Read each line from nextflow log, find info, and add to errors.tsv
+while read -r line
+do
+  # If process is already running, clean up error
+  if [[ "${line}" =~ ^Unable[[:space:]]to[[:space:]]acquire[[:space:]]lock.* ]]; then
+    error="You are trying to resume the execution of an already running pipeline."
+    ANI_OUT=$(realpath ${OUT}/pipeline_info/ANI_*.o*)
+    echo -e "-\t-\t${error}\t${ANI_OUT}\t${time_stamp}\t${run_name}" >> ${OUT}/pipeline_info/errors.tsv
+  else
+    # Workflow ran some processes
+    sample_name=$(grep "nf-" ${line}/.command.run | cut -d '(' -f 2 | cut -d ')' -f 1)
+    process=$(grep "NEXTFLOW TASK" ${line}/.command.run | awk -F ':' '{print $NF}' | cut -d ' ' -f 1)
+    error=$(tail -n 1 ${line}/.command.err | sed -e 's/\[[^][]*\]//g')
+
+    # If process for sample retried and succeeded, ignore, else add to errors.tsv
+    if [[ -f "$(ls ${OUT}/pipeline_info/process_logs/${sample_name}.${process}*out | wc -l)" ]] \
+    && [[ $(cat ${line}/.exitcode) = @(0|143|137|104|134|139|71|255) ]]; then
+      continue
+    else
+      echo -e "${sample_name}\t${process}\t${error}\t${line}\t${time_stamp}\t${run_name}" >> ${OUT}/pipeline_info/errors.tsv
+    fi
+  fi
+done < <(nextflow log ${run_name} -filter 'status == "FAILED"')
+
+# If errors.tsv found, add column headers
+if [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
+  sed -i '1i Sample Name\tProcess\tError\tError Directory' ${OUT}/pipeline_info/errors.tsv
+
+  # Remove duplicate lines and lines that have an empty first column
+  awk -F '\t' '!_[$1,$2,$3,$6]++' ${OUT}/pipeline_info/errors.tsv \
+    | awk -F '\t' '$1{print $0}' \
+    > ${OUT}/pipeline_info/errors_new.tsv
+
+  # Delete original errors.tsv and rename errors_new.tsv
+  rm ${OUT}/pipeline_info/errors.tsv
+
+  mv ${OUT}/pipeline_info/errors_new.tsv \
+    ${OUT}/pipeline_info/errors.tsv
+fi
+
+# Get proper ANI tool name
+ANI_NAME=$(echo $ANI | awk '{print tolower($0)}')
+if [[ ${ANI_NAME} == "fastani" ]]; then
+  ANI_NAME="fastANI"
+elif [[ ${ANI_NAME} == "skani" ]]; then
+  ANI_NAME="SKANI"
+else
+  ANI_NAME="BLAST"
+fi
+
+# Count lines in ANI.Summary.tab
+if [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]]; then
+  num_results=$(awk 'END {print NR-1}' "${OUT}/Summaries/Summary.${ANI_NAME}.tsv")
+fi
+
+# E-mail completion status
+if [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]] && \
+  [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
+  echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
+  -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" \
+  -a "${OUT}/pipeline_info/errors.tsv" \
+  "${USER}@cdc.gov"
+
+elif [[ -f "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" ]]; then
+  echo -e "ANI comparisons finished on $(date)\n${OUT}" | mail \
+  -s "${num_results} ANI samples $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/Summaries/Summary.${ANI_NAME}.tsv" \
+  "${USER}@cdc.gov"
+
+elif [[ -f "${OUT}/pipeline_info/errors.tsv" ]]; then
+  echo -e "ANI comparisons could not be completed on $(date)\n${OUT}" | mail \
+  -s "No ANI results $(basename "${OUT}") [HPC]" \
+  -S smtp="smtpgw.cdc.gov" \
+  -a "${OUT}/pipeline_info/errors.tsv" \
+  "${USER}@cdc.gov"
+fi

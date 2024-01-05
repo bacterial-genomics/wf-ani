@@ -257,7 +257,7 @@ fi
 
 # Check for specific nextflow logfile for this workflow, which
 #  means this nextflow workflow has been ran before in the specified outpath.
-if [ -d "${OUT}/log" ] && \
+if [ -d "${OUT}/pipeline_info" ] && \
   [ -f $(find "${OUT}" -maxdepth 1 -name "nextflow_log*" | grep -q '.') ]; then
   prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
 fi
@@ -286,12 +286,20 @@ if [ ${#found_files[@]} -lt 1 ]; then
   exit 1
 fi
 
+# Array of extensions
+extensions=(.fasta .fas .fa .fsa .fna .gbff .gbf .gbk .gb .gz)
+
 # Add basename of FastA/Genbank files to $submitted
 submitted=()
 for (( i=0; i<${#found_files[@]}; i++ )); do
   # Remove _genomic and .extension from filenames
   ifh=${found_files[i]}
-  base=$(basename ${ifh} | sed 's/[.].*//g' | sed 's/_genomic//1')
+  base=$(basename ${ifh} | sed 's/_genomic//1')
+
+  for ext in ${extensions[@]}; do
+    base=$(echo $base | sed "s/$ext//g")
+  done
+
   if [[ "${submitted[*]}" =~ " ${base} " ]]; then
     echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
     exit 1
@@ -337,6 +345,9 @@ fi
 # Get node number - <=230 = biolinux, >=231 = rosalind
 NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
 
+module load nextflow
+nextflow pull bacterial-genomics/wf-ani -r main
+
 # If FastQ files are able to be submitted, submit and display basenames
 if [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'biolinux' || 'login02' ]] || \
@@ -346,17 +357,19 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
+    -v ANI="skani" \
+    -v TYPE="QUERY_vs_REFDIR" \
     -m ba \
     -q all.q \
-    -o ${OUT}/log \
-    -e ${OUT}/log \
+    -o ${OUT}/pipeline_info \
+    -e ${OUT}/pipeline_info \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_skani_QUERY_vs_REF.uge-nextflow
+    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
@@ -366,10 +379,12 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
+    -v ANI="skani" \
+    -v TYPE="QUERY_vs_REFDIR" \
     -m ba \
     -q all.q \
-    -o ${OUT}/log \
-    -e ${OUT}/log \
+    -o ${OUT}/pipeline_info \
+    -e ${OUT}/pipeline_info \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
@@ -377,7 +392,7 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${LAB_HOME}/workflows/wf-ani/_run_skani_QUERY_vs_REF.uge-nextflow
+    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
@@ -399,4 +414,4 @@ done | xargs -L3 | column -t
 echo -e "${COLOR_OFF}"
 
 # Set up log directory in OUT directory
-mkdir -p ${OUT}/log
+mkdir -p ${OUT}/pipeline_info

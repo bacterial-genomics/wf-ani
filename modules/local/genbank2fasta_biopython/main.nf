@@ -1,22 +1,16 @@
 process GENBANK2FASTA_BIOPYTHON {
 
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${meta.id}.${task.process}${filename}" }
-
     label "process_low"
-
+    tag( "${meta.id}" )
     container "gregorysprenger/biopython@sha256:77a50d5d901709923936af92a0b141d22867e3556ef4a99c7009a5e7e0101cc1"
 
     input:
     tuple val(meta), path(input)
 
     output:
-    path ".command.out"
-    path ".command.err"
-    path "versions.yml"                              , emit: versions
     tuple val(meta), path("*.f*", includeInputs:true), emit: fasta_files
+    path(".command.{out,err}")
+    path("versions.yml")                             , emit: versions
 
     shell:
     '''

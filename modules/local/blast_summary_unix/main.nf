@@ -1,25 +1,16 @@
 process BLAST_SUMMARY_UNIX {
 
-    publishDir "${params.outdir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI.Summary.tsv"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${task.process}${filename}" }
-
     label "process_low"
-
+    tag( "BLAST_Summary" )
     container "ubuntu:jammy"
 
     input:
-    path ani_stats
+    path(ani_stats)
 
     output:
-    path ".command.out"
-    path ".command.err"
-    path "ANI.Summary.tsv"
-    path "versions.yml", emit: versions
+    path("Summary.BLAST.tsv")
+    path(".command.{out,err}")
+    path("versions.yml")      , emit: versions
 
     shell:
     '''
@@ -37,7 +28,7 @@ process BLAST_SUMMARY_UNIX {
     msg "INFO: Summarizing each comparison.."
 
     # Summarize ANI values
-    echo -n '' > ANI.Summary.tsv
+    echo -n '' > Summary.BLAST.tsv
     for file in !{ani_stats}; do
       PAIR=$(basename ${file} .stats.tab | sed 's/ani\\.//1')
       S1=${PAIR##*,}
@@ -57,12 +48,12 @@ process BLAST_SUMMARY_UNIX {
       M2=$(grep -v -e ',' -e 'StDev' ${file} | sed -n 2p | cut -f 3 | sed 's/%//1')
       D2=$(grep -v -e ',' -e 'StDev' ${file} | sed -n 2p | cut -f 4 | sed 's/%//1')
 
-      echo -e "$S1\t$S2\t$FRAG\t$MEAN\t$STDEV\t$F1\t$M1\t$D1\t$F2\t$M2\t$D2" >> ANI.Summary.tsv
+      echo -e "$S1\t$S2\t$FRAG\t$MEAN\t$STDEV\t$F1\t$M1\t$D1\t$F2\t$M2\t$D2" >> Summary.BLAST.tsv
     done
 
     A='Sample\tSample\tFragments_Used_for_Bidirectional_Calc[#]\tBidirectional_ANI[%]\tBidirectional_StDev[%]'
     B='\tFragments_Used_for_Unidirectional_Calc[#]\tUnidirectional_ANI[%]\tUnidirectional_StDev[%]'
-    sed -i "1i ${A}${B}${B}" ANI.Summary.tsv
+    sed -i "1i ${A}${B}${B}" Summary.BLAST.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

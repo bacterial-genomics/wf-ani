@@ -1,10 +1,23 @@
 # wf-ani: Usage
 
-## :warning: Please read this documentation on the pipeline's website: [https://github.com/gregorysprenger/wf-ani/blob/main/docs/usage.md](https://github.com/gregorysprenger/wf-ani/blob/main/docs/usage.md)
+## Contents
 
-> _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
-
-## Introduction
+- [FastA/Genbank input directory](#fastagenbank-input-directory)
+- [Samplesheet usage](#samplesheet-usage)
+- [Samplesheet format](#samplesheet-format)
+- [Running the pipeline](#running-the-pipeline)
+- [Reproducibility](#reproducibility)
+- [Core Nextflow arguments](#core-nextflow-arguments)
+  - [profile](#profile)
+  - [resume](#resume)
+  - [config](#c)
+- [Custom configuration](#custom-configuration)
+  - [Resource requests](#resource-requests)
+  - [Updating containers (advanced users)](#updating-containers-advanced-users)
+  - [nf-core/configs](#nf-coreconfigs)
+- [Azure Resource Requests](#azure-resource-requests)
+- [Running in the background](#running-in-the-background)
+- [Nextflow memory requirements](#nextflow-memory-requirements)
 
 ## FastA/Genbank input directory
 
@@ -20,7 +33,7 @@ Please note the following requirements:
 - File names must not include spaces
 - Valid file extenions: `fasta, fas, fa, fsa, fna, gbff, gbf, gbk, gb` with optional gzip compression
 
-## Samplesheet input
+## Samplesheet usage
 
 You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 1 column, and a header row as shown in the examples below.
 
@@ -28,7 +41,7 @@ You will need to create a samplesheet with information about the samples you wou
 --input '[path to samplesheet file]'
 ```
 
-### Full samplesheet
+### Samplesheet format
 
 The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 2 columns to match those defined in the table below.
 
@@ -52,8 +65,21 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 
 The typical command for running the pipeline is as follows:
 
+With `input_directory`:
+
 ```bash
-nextflow run wf-ani \
+nextflow run \
+  wf-ani \
+  --input input_directory \
+  --outdir <outdir> \
+  -profile docker
+```
+
+With `samplesheet.csv`:
+
+```bash
+nextflow run \
+  wf-ani \
   -profile docker \
   --input samplesheet.csv \
   --outdir OUTPUT_DIRECTORY \
@@ -75,20 +101,22 @@ work                # Directory containing the nextflow working files
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull wf-ani
+nextflow pull bacterial-genomics/wf-ani
 ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [wf-ani releases page](https://github.com/gregorysprenger/wf-ani/releases) and find the latest pipeline version - numeric only (eg. `1.0.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.0.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [wf-ani releases page](https://github.com/bacterial-genomics/wf-ani/releases) and find the latest pipeline version - numeric only (eg. `1.0.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.0.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
 ## Core Nextflow arguments
 
-> **NB:** These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
+:::note
+These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
+:::
 
 ### `-profile`
 
@@ -129,7 +157,7 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 ### Resource requests
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/gregorysprenger/wf-ani/blob/main/conf/base.config?plain=1#L13) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
+Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/bacterial-genomics/wf-ani/blob/main/conf/base.config?plain=1#L13) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
 ### Updating containers (advanced users)
 
@@ -169,7 +197,9 @@ The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementatio
    }
    ```
 
-> **NB:** If you wish to periodically update individual tool-specific results (e.g. Pangolin) generated by the pipeline then you must ensure to keep the `work/` directory otherwise the `-resume` ability of the pipeline will be compromised and it will restart from scratch.
+:::note
+If you wish to periodically update individual tool-specific results (e.g. Pangolin) generated by the pipeline then you must ensure to keep the `work/` directory otherwise the `-resume` ability of the pipeline will be compromised and it will restart from scratch.
+:::
 
 ### nf-core/configs
 

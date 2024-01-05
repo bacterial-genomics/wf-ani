@@ -1,28 +1,18 @@
 process ANI_BLAST_BIOPYTHON {
 
-    publishDir "${params.outdir}/comparisons",
-        mode: "${params.publish_dir_mode}",
-        pattern: "ANI--*"
-    publishDir "${params.process_log_dir}",
-        mode: "${params.publish_dir_mode}",
-        pattern: ".command.*",
-        saveAs: { filename -> "${base1}_${base2}.${task.process}${filename}" }
-
     label "process_high"
     tag( "${base1}_${base2}" )
-
     container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:
     tuple val(filename1), val(filename2)
-    path asm            , stageAs: 'assemblies/*'
+    path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path "ANI--*"
-    path ".command.out"
-    path ".command.err"
-    path "versions.yml"        , emit: versions
-    path "ANI--*/ani*stats.tab", emit: ani_stats
+    path("*.tab")
+    path("ani.${base1},${base2}.stats.tab"), emit: ani_stats
+    path(".command.{out,err}")
+    path("versions.yml")                   , emit: versions
 
     shell:
     // Get basename of input
@@ -34,39 +24,33 @@ process ANI_BLAST_BIOPYTHON {
     '''
     source bash_functions.sh
 
-    # Get ANIb+.py and check if it exists
-    blastn_ani_script="${DIR}/ANIb+.py"
-    if ! check_if_file_exists_allow_seconds ${blastn_ani_script} '60'; then
-      exit 1
-    fi
-
     # Skip comparison if precomputed value exists
     ANI=""
-    if [ -s "!{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
-      msg "INFO: Found precomputed !{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI--!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
-    elif [ -s "!{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
-      msg "INFO: Found precomputed !{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI--!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
+    if [ -s "!{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
+      msg "INFO: Found precomputed !{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
+      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
+    elif [ -s "!{params.outdir}/ANI/BLAST/!{base2}-!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
+      msg "INFO: Found precomputed !{params.outdir}/ANI/BLAST/!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" >&2
+      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base2}-!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
     fi
     if [[ ! -z ${ANI} ]]; then
       if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
-        msg "INFO: Found ANI ${ANI} for !{base1},!{base2}; skipping the comparison" >&2
+        msg "INFO: Found ANI ${ANI} for !{base1}-!{base2}; skipping the comparison" >&2
         exit 0
       fi
     fi
 
     msg "INFO: Performing ANI on !{base1} and !{base2}."
 
-    python ${blastn_ani_script} \
-      -1 assemblies/!{filename1} \
-      -2 assemblies/!{filename2} \
-      --name1 !{base1} \
-      --name2 !{base2} \
+    ANIb+.py \
+      -1 "assemblies/!{filename1}" \
+      -2 "assemblies/!{filename2}" \
+      --name1 "!{base1}" \
+      --name2 "!{base2}" \
       !{small_frags} \
       -c !{task.cpus} \
       -s !{params.step_size} \
-      -o "ANI--!{base1},!{base2}" \
+      -o . \
       -w !{params.nucleotide_fragment_size} \
       --min-ACGT !{params.min_ACGT_fraction} \
       -i !{params.min_fragment_percent_identity} \
