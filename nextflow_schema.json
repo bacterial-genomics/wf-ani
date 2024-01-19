@@ -45,7 +45,7 @@
             "title": "Analysis options",
             "type": "object",
             "fa_icon": "fas fa-terminal",
-            "description": "Parameters used to aid in the analysis of PE Illumina data.",
+            "description": "Main pipeline parameters.",
             "properties": {
                 "ani": {
                     "type": "string",
