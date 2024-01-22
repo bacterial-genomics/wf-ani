@@ -1,3 +1,3 @@
 sample,file
-SAMPLE_FASTA,/path/to/fastq/files/SAMPLE.fasta
-SAMPLE_GENBANK,/path/to/fastq/files/SAMPLE.gbff
+SAMPLE_FASTA,/path/to/files/SAMPLE.fasta
+SAMPLE_GENBANK,/path/to/files/SAMPLE.gbff
