@@ -30,21 +30,22 @@ _Note: `<ANI>` is the name of the ANI tool (BLAST, fastANI, SKANI) given to `--a
 | Output Directory                                        | Filename                                          | Explanation                                                                            |
 | ------------------------------------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | <a id="ani">ANI</a>                                     |                                                   | **ANI output directory**                                                               |
-| ANI/\<ANI\>                                             |                                                   | Output for specified ANI tool                                                          |
+| ANI/\<ANI\>                                             |                                                   | **Output for specified ANI tool**                                                      |
 |                                                         | genomes.tsv                                       | List of all input genomes when comparing all files vs each other                       |
 |                                                         | queries.tsv                                       | List of query genome(s) when comparing a query vs a reference panel                    |
 |                                                         | references.tsv                                    | List of all reference genomes when comparing a query vs a reference panel              |
 |                                                         | pairs.tsv                                         | List of all pairings of genomes that are found in genomes.tsv                          |
-| <a id="blast">ANI/BLAST/\<Pair1\>-\<Pair2\></a>         |                                                   | BLAST (ANIb) output for each file pairing                                              |
+| <a id="blast">ANI/BLAST/\<Pair1\>-\<Pair2\></a>         |                                                   | **BLAST (ANIb) output for each file pairing**                                          |
 |                                                         | ani.\<Pair1\>,\<Pair2\>.stats.tab                 | ANI of each pair and their combined bidirectional ANI                                  |
-|                                                         | blast.\<Pair1\>,\<Pair2\>.tab                     | BLAST output of each fragment of \<Pair2\> vs reference \<Pair2\>                      |
+|                                                         | blast.\<Pair1\>,\<Pair2\>.tab                     | BLAST output of each fragment of \<Pair1\> vs reference \<Pair2\>                      |
+|                                                         | blast.\<Pair2\>,\<Pair1\>.tab                     | BLAST output of each fragment of \<Pair2\> vs reference \<Pair1\>                      |
 |                                                         | blast.\<Pair1\>,\<Pair2\>.filt.tab                | Filtered BLAST output                                                                  |
 |                                                         | blast.\<Pair1\>,\<Pair2\>.filt.two-way.tab        | Filtered bidirectional BLAST output                                                    |
-| <a id="fastani">ANI/fastANI/\<Pair1\>-\<Pair2\></a>     |                                                   | fastANI output for each file pairing                                                   |
+| <a id="fastani">ANI/fastANI/\<Pair1\>-\<Pair2\></a>     |                                                   | **fastANI output for each file pairing**                                               |
 |                                                         | fastani.out                                       | ANI output of \<Pair1\> vs \<Pair2\>                                                   |
-| <a id="skani">ANI/SKANI/\<Pair1\>-\<Pair2\></a>         |                                                   | SKANI output for each file pairing                                                     |
+| <a id="skani">ANI/SKANI/\<Pair1\>-\<Pair2\></a>         |                                                   | **SKANI output for each file pairing**                                                 |
 |                                                         | skani.out                                         | ANI output of \<Pair1\> vs \<Pair2\>                                                   |
-| <a id="summaries">Summaries</a>                         |                                                   | Output summary files                                                                   |
+| <a id="summaries">Summaries</a>                         |                                                   | **Output summary files**                                                               |
 |                                                         | Summary.\<ANI\>.tsv                               | ANI summary of all samples                                                             |
 |                                                         | Summary.QC_File_Checks.tab                        | Summary of QC file checks                                                              |
 | <a id="pipeline_info">pipeline_info</a>                 |                                                   | **Log files**                                                                          |
