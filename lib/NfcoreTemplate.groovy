@@ -308,7 +308,7 @@ class NfcoreTemplate {
             ${colors.green}       Perform Average Nucleotide Identity (ANI)
                             on FastA/Genbank files. ${colors.reset}
 
-            ${colors.purple}                    ${workflow.manifest.name} ${workflow_version}${colors.reset}
+            ${colors.purple}             ${workflow.manifest.name} ${workflow_version}${colors.reset}
             ${dashedLine(monochrome_logs)}
             """.stripIndent()
         )
