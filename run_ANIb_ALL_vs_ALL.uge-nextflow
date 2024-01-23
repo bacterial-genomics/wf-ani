@@ -13,7 +13,7 @@ Usage: ${0##*/} InputDirectory [OutputDirectory] [-h|--help]
 
 Required:
 <InputDirectory>      Path to FastA and GenBank formatted files ending in:
-                      {fa,fas,fsa,fna,fasta} and {gb,gbk,gbf,gbff}
+                      {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}
                       with optional .gz compression.
 
   Sample names are extracted from file names, omitting file extensions.
