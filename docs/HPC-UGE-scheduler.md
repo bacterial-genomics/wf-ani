@@ -45,7 +45,7 @@ cd $LAB_HOME/workflows/wf-ani
 
 module load nextflow
 
-nextflow run main.nf -profile singularity,test
+nextflow run main.nf -profile singularity,test --outdir results
 ```
 
 To minimize typing all of the parameters above, a bash script was created for UGE HPCs. It can take FastA/Genbank files from selected directory OR if FastA/Genbank files not found in that directory, it will look in subdirectories for FastA/Genbank files. If an OUTPUT_DIRECTORY is not specified, the OUTPUT_DIRECTORY will default to where you launch the script.

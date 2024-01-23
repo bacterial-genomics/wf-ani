@@ -65,21 +65,23 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 
 The typical command for running the pipeline is as follows:
 
-With `input_directory`:
+With `INPUT_DIRECTORY`:
 
 ```bash
 nextflow run \
-  wf-ani \
-  --input input_directory \
-  --outdir <outdir> \
-  -profile docker
+  bacterial-genomics/wf-ani \
+  -r main \
+  -profile docker \
+  --input INPUT_DIRECTORY \
+  --outdir OUTPUT_DIRECTORY
 ```
 
 With `samplesheet.csv`:
 
 ```bash
 nextflow run \
-  wf-ani \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile docker \
   --input samplesheet.csv \
   --outdir OUTPUT_DIRECTORY \
@@ -91,7 +93,7 @@ Note that the pipeline will create the following files in your working directory
 
 ```bash
 work                # Directory containing the nextflow working files
-<outdir>            # Finished results in specified location (defined with --outdir)
+OUTPUT_DIRECTORY    # Finished results in specified location (defined with --outdir)
 .nextflow_log       # Log file from Nextflow
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
