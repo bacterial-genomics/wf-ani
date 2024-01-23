@@ -1,7 +1,7 @@
 process ANI_BLAST_BIOPYTHON {
 
     label "process_high"
-    tag( "${base1}_${base2}" )
+    tag( "${base1}-${base2}" )
     container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:

@@ -1,7 +1,7 @@
 process ANI_SKANI {
 
     label "process_high"
-    tag( "${base1}_${base2}" )
+    tag( "${base1}-${base2}" )
     container "gregorysprenger/skani@sha256:f775f114281a7bd647467a13b90d243ec32ab3f7763c5dbeb06be5e35a842bb6"
 
     input:
