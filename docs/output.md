@@ -28,7 +28,7 @@ _Note: `<SampleName>`, `<Pair1>`, and `<Pair2>` are parsed from input filenames 
 _Note: `<ANI>` is the name of the ANI tool (BLAST, fastANI, SKANI) given to `--ani`. \[Default: BLAST\]_
 
 | Output Directory                                        | Filename                                          | Explanation                                                                            |
-|---------------------------------------------------------|---------------------------------------------------|----------------------------------------------------------------------------------------|
+| ------------------------------------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | <a id="ani">ANI</a>                                     |                                                   | **ANI output directory**                                                               |
 | ANI/\<ANI\>                                             |                                                   | Output for specified ANI tool                                                          |
 |                                                         | genomes.tsv                                       | List of all input genomes when comparing all files vs each other                       |
