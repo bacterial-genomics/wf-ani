@@ -99,7 +99,6 @@ fi
 # Confirm we are on a host that can submit jobs
 if [ ${HOSTNAME%%.*} == 'biolinux' ] || \
   [ ${HOSTNAME%%.*} == 'login02' ] || \
-  [ ${HOSTNAME%%.*} == 'rosalind01' ] || \
   [ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]; then
   :
 else
@@ -372,7 +371,6 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
-  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
   [[ ${NODE_NUM} -ge 231 ]]; then
   # Submit Nextflow pipeline to Rosalind HPC
   qsub \
