@@ -10,9 +10,9 @@ process ANI_FASTANI {
 
     output:
     path("fastani.*")
-    path("fastani.out")       , emit: ani_stats
+    path("fastani.${base1}-${base2}.tsv"), emit: ani_stats
     path(".command.{out,err}")
-    path("versions.yml")      , emit: versions
+    path("versions.yml")                 , emit: versions
 
     shell:
     // Get basename of input
@@ -28,7 +28,7 @@ process ANI_FASTANI {
     fastANI \
       --ref "assemblies/!{filename1}" \
       --query "assemblies/!{filename2}" \
-      --output fastani.out \
+      --output "fastani.!{base1}-!{base2}.tsv" \
       !{matrix} \
       --visualize \
       --threads !{task.cpus} \
