@@ -37,11 +37,11 @@ process ANI_FASTANI {
       --minFraction !{params.fastani_minimum_fraction}
 
     # Clean up fastani.out file
-    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" fastani.out
-    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" fastani.out
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" "fastani.!{base1}-!{base2}.tsv"
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" "fastani.!{base1}-!{base2}.tsv"
 
     # Add column headings
-    sed -i '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' fastani.out
+    sed -i '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' "fastani.!{base1}-!{base2}.tsv"
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

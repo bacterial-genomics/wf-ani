@@ -65,9 +65,9 @@ process ANI_SKANI {
       -m !{params.skani_marker_compression_factor} \
       --min-af !{params.skani_minimum_alignment_fraction}
 
-    # Clean up skani.out file
-    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" skani.out
-    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" skani.out
+    # Clean up skani.!{base1}-!{base2}.tsv file
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" "skani.!{base1}-!{base2}.tsv"
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" "skani.!{base1}-!{base2}.tsv"
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
