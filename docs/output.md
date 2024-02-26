@@ -8,58 +8,153 @@ The directories listed below will be created in the results directory after the 
 
 ## Pipeline overview
 
-The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes FastA/Genbank files. Output differs between ANI comparison methods:
+The pipeline is built using [Nextflow](https://www.nextflow.io/) and is used to perform Average Nucleotide Identity (ANI) on FastA and Genbank files.
 
-- [ANI output](#ani) - Output of each file pairing
+- [Input quality control](#input-quality-control) that includes trimming and contaminant removal
+  - [Initial input file check](#initial-input-file-check) ensures input FastA and Genbank files meet a minimum file size
+- [Average Amino Acid Identity (ANI)](#average-nucleotide-identity-ani)
   - [BLAST](#blast)
-  - [fastANI](#fastani)
   - [SKANI](#skani)
-- [Summaries](#summaries) - Output summaries
-- [Log files](#pipeline_info) - Nextflow and HPC logs, software information, and error list if applicable
-- [Process logs](#process-logs) - Output and error logs for each process
-- [QC file checks](#qc-file-checks) - Process output quality checks to determine if input files can be used in ANI comparisons
+  - [fastANI](#fastani)
+- [Summaries](#summaries) of the output files generated during the pipeline process
+- [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
-# Output File Structure
+> [!NOTE]
+> `[sample]` is a unique identifier that is parsed from input filenames and excludes everything after the first period (`.`).
 
-_Note: Output file structure is based on the output path given to `--outdir`._
+> [!TIP]
+> All tab-separated value (TSV) files can be converted to Excel spreadsheets (XLSX) by using the parameter `--create_excel_outputs` when running the pipeline.
+>
+> When using this parameter, a summary workbook is created to allow for all summary files to be added to separate worksheets within the workbook.
 
-_Note: `<SampleName>`, `<Pair1>`, and `<Pair2>` are parsed from input filenames and excludes the file extensions_
+## Input quality control
 
-_Note: `<ANI>` is the name of the ANI tool (BLAST, fastANI, SKANI) given to `--ani`. \[Default: BLAST\]_
+Input files are checked for corruption and must meet a minimum file size to be processed within this pipeline. If this check passes, the input files will be used to generate pairings and have ANI performed on them.
 
-| Output Directory                                        | Filename                                          | Explanation                                                                            |
-| ------------------------------------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| <a id="ani">ANI</a>                                     |                                                   | **ANI output directory**                                                               |
-| ANI/\<ANI\>                                             |                                                   | **Output for specified ANI tool**                                                      |
-|                                                         | genomes.tsv                                       | List of all input genomes when comparing all files vs each other                       |
-|                                                         | queries.tsv                                       | List of query genome(s) when comparing a query vs a reference panel                    |
-|                                                         | references.tsv                                    | List of all reference genomes when comparing a query vs a reference panel              |
-|                                                         | pairs.tsv                                         | List of all pairings of genomes that are found in genomes.tsv                          |
-| <a id="blast">ANI/BLAST/\<Pair1\>-\<Pair2\></a>         |                                                   | **BLAST (ANIb) output for each file pairing**                                          |
-|                                                         | ani.\<Pair1\>,\<Pair2\>.stats.tab                 | ANI of each pair and their combined bidirectional ANI                                  |
-|                                                         | blast.\<Pair1\>,\<Pair2\>.tab                     | BLAST output of each fragment of \<Pair1\> vs reference \<Pair2\>                      |
-|                                                         | blast.\<Pair2\>,\<Pair1\>.tab                     | BLAST output of each fragment of \<Pair2\> vs reference \<Pair1\>                      |
-|                                                         | blast.\<Pair1\>,\<Pair2\>.filt.tab                | Filtered BLAST output                                                                  |
-|                                                         | blast.\<Pair1\>,\<Pair2\>.filt.two-way.tab        | Filtered bidirectional BLAST output                                                    |
-| <a id="fastani">ANI/fastANI/\<Pair1\>-\<Pair2\></a>     |                                                   | **fastANI output for each file pairing**                                               |
-|                                                         | fastani.out                                       | ANI output of \<Pair1\> vs \<Pair2\>                                                   |
-| <a id="skani">ANI/SKANI/\<Pair1\>-\<Pair2\></a>         |                                                   | **SKANI output for each file pairing**                                                 |
-|                                                         | skani.out                                         | ANI output of \<Pair1\> vs \<Pair2\>                                                   |
-| <a id="summaries">Summaries</a>                         |                                                   | **Output summary files**                                                               |
-|                                                         | Summary.\<ANI\>.tsv                               | ANI summary of all samples                                                             |
-|                                                         | Summary.QC_File_Checks.tab                        | Summary of QC file checks                                                              |
-| <a id="pipeline_info">pipeline_info</a>                 |                                                   | **Log files**                                                                          |
-|                                                         | nextflow_log.<job_ID>.txt                         | Log output from Nextflow                                                               |
-|                                                         | ANI\_\<Number of Samples\>.o\<Submission Number\> | HPC output report                                                                      |
-|                                                         | ANI\_\<Number of Samples\>.e\<Submission Number\> | HPC error report                                                                       |
-|                                                         | pipeline_dag.\<YYYY-MM-DD_HH-MM-SS\>.html         | Direct acrylic graph of workflow                                                       |
-|                                                         | report.\<YYYY-MM-DD_HH-MM-SS\>.html               | Nextflow summary report of workflow                                                    |
-|                                                         | timeline.\<YYYY-MM-DD_HH-MM-SS\>.html             | Nextflow execution timeline of each process in workflow                                |
-|                                                         | trace.\<YYYY-MM-DD_HH-MM-SS\>.txt                 | Nextflow execution tracing of workflow, which includes percent of CPU and memory usage |
-|                                                         | software_versions.yml                             | Versions of software used in each process                                              |
-|                                                         | errors.tsv                                        | Errors file if errors exist and summarizes the errors                                  |
-| <a id="process-logs">pipeline_info/process_logs</a>     |                                                   | **Process log files**                                                                  |
-|                                                         | \<SampleName\>.\<ProcessName\>.command.out        | Standard output for \<SampleName\> during process \<ProcessName\>                      |
-|                                                         | \<SampleName\>.\<ProcessName\>.command.err        | Standard error for \<SampleName\> during process \<ProcessName\>                       |
-| <a id="qc-file-checks">pipeline_info/qc_file_checks</a> |                                                   | **QC file check log files**                                                            |
-|                                                         | \<SampleName\>.Initial_Input_Files.tsv            | Initial Fasta/Genbank File Check                                                       |
+### Initial input file check
+
+<details markdown="1">
+<summary><strong>QC Steps</strong></summary>
+
+- Input files are checked to ensure that they meet a minimum file size to be processed within this pipeline `[Default: 45k]`. This is to prevent unusually small input sets from wasting compute time processing data that will not yield usable results.
+
+</details>
+
+## Average nucleotide identity (ANI)
+
+Pairings of input files that pass the quality control check are identified and ANI is performed on each pairing.
+
+> [!IMPORTANT]
+> Outputs generated by BLAST, SKANI, and fastANI cannot be compared even when using the same file inputs.
+
+> [!TIP]
+> For many input files, fastANI may be useful in decreasing runtime.
+
+### BLAST
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `ANI/BLAST`
+  - `pairs.[tsv,xlsx]`: List of all pairings to be performed.
+  - `queries.[tsv,xlsx]`: List of query proteome(s) `(query vs reference panel workflow)`.
+  - `references.[tsv,xlsx]`: List of reference genomes `(query vs reference panel workflow)`.
+  - `genomes.[tsv,xlsx]`: List of input genomes that passed quality control checks `(all vs all workflow)`.
+- `ANI/BLAST/[pair1]-[pair2]`
+  - `ani.[pair2],[pair1].stats.tab`: ANI summary of each pair, including the combined bidirectional ANI.
+  - `blast.[pair2],[pair1].tab`: BLAST output of each fragment of [pair2] vs reference [pair1].
+  - `blast.[pair1],[pair2].tab`: BLAST output of each fragment of [pair1] vs reference [pair2].
+  - `blast.[pair2],[pair1].filt.tab`: Filtered BLAST output.
+  - `blast.[pair2],[pair1].filt.two-way.tab`: Filtered bidirectional BLAST output.
+
+</details>
+
+### SKANI
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `ANI/SKANI`
+  - `pairs.[tsv,xlsx]`: List of all pairings to be performed
+  - `queries.[tsv,xlsx]`: List of query proteome(s) `(query vs reference panel workflow)`
+  - `references.[tsv,xlsx]`: List of reference genomes `(query vs reference panel workflow)`
+  - `genomes.[tsv,xlsx]`: List of input genomes that passed quality control checks `(all vs all workflow)`
+- `ANI/SKANI/[pair1]-[pair2]`
+  - `skani.[pair1]-[pair2].[tsv,xlsx]`: Output of [pair1] vs reference [pair2] when using SKANI to perform ANI.
+
+</details>
+
+### fastANI
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `ANI/fastANI`
+  - `pairs.[tsv,xlsx]`: List of all pairings to be performed
+  - `queries.[tsv,xlsx]`: List of query proteome(s) `(query vs reference panel workflow)`
+  - `references.[tsv,xlsx]`: List of reference genomes `(query vs reference panel workflow)`
+  - `genomes.[tsv,xlsx]`: List of input genomes that passed quality control checks `(all vs all workflow)`
+- `ANI/fastANI/[pair1]-[pair2]`
+  - `fastani.[pair1]-[pair2].[tsv,xlsx]`: Output of [pair1] vs reference [pair2] when using fastANI to perform ANI.
+
+</details>
+
+
+## Summaries
+
+Concatenation of output metrics for all samples.
+
+> [!NOTE]
+> The Summary-Report excel file is only created when the parameter `--create_excel_outputs` is used.
+>
+> The Summary-Report excel file has the date and time appended to the filename using the following shorthand notation: year (yyyy), month (MM), day (dd), hour (HH), minute (mm), second (ss).
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `Summaries/`
+  - `Summary.ANI.[tsv,xlsx]`: Summary of ANI results for all samples.
+  - `Summary.QC_File_Checks.[tsv,xlsx]`: Summary of all QC file checks detailing if a sample passes or fails each process.
+  - `Summary-Report_yyyy-MM-dd_HH-mm-ss.xlsx`: Excel workbook where each file in the Summaries directory is added to a separate worksheet within the workbook.
+
+</details>
+
+## Pipeline information
+
+Information about the pipeline execution, output logs, error logs, and QC file checks for each sample are stored here.
+
+> [!NOTE]
+> Pipeline execution files have the date and time appended to the filename using the following shorthand notation: year (yyyy), month (MM), day (dd), hour (HH), minute (mm), second (ss).
+
+<details markdown="1">
+<summary>Pipeline information</summary>
+
+- `pipeline_info/`
+  - `software_versions.yml`: Summary of the software packages used in each process and their version information.
+  - `nextflow_log.[job_id].txt`: Execution log file produced by Nextflow.
+  - `ANII_[num_of_samples].o[job_id]`: Output log file produced by the job scheduler.
+  - `ANI_[num_of_samples].e[job_id]`: Error log file produced by the job scheduler.
+  - `pipeline_dag_yyyy-MM-dd_HH-mm-ss.html`: Direct acrylic graph (DAG) image of the workflow that gives a visual representation of how each process connects to each other.
+  - `execution_trace_yyyy-MM-dd_HH-mm-ss.txt`: Text-based summary report detailing the work directory hash, runtime, CPU usage, memory usage, etc. for each process.
+  - `execution_report_yyyy-MM-dd_HH-mm-ss.html`: Summary report of all processes, including processes that passed/failed, resource usage, etc.
+  - `execution_timeline_yyyy-MM-dd_HH-mm-ss.html`: Summary report detailing the runtime and memory usage of each process.
+  -
+
+</details>
+
+<details markdown="1">
+<summary>Process log information</summary>
+
+- `pipeline_info/process_logs/`
+  - `[sample].[process].command.out`: Output log file for each sample in each process.
+  - `[sample].[process].command.err`: Error log file for each sample in each process.
+
+</details>
+
+<details markdown="1">
+<summary>QC file checks</summary>
+
+- `pipeline_info/qc_file_checks/`
+  - `[sample].Initial_Input_File.[tsv,xlsx]`: Details if input FastA or Genbank file meet the minimum file size criteria for the pipeline `[Default: 45k]`.
+
+</details>
