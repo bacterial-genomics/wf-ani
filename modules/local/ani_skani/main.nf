@@ -9,7 +9,7 @@ process ANI_SKANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("skani.out")         , emit: ani_stats
+    path("skani.${base1}-${base2}.tsv")         , emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")      , emit: versions
 
@@ -49,7 +49,7 @@ process ANI_SKANI {
     skani dist \
       -q "assemblies/!{filename1}" \
       -r "assemblies/!{filename2}" \
-      -o skani.out \
+      -o "skani.!{base1}-!{base2}.tsv" \
       -v \
       !{speed} \
       !{median} \
