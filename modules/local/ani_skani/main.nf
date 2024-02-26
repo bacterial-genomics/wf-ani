@@ -9,9 +9,9 @@ process ANI_SKANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("skani.${base1}-${base2}.tsv")         , emit: ani_stats
+    path("skani.${base1}-${base2}.tsv"), emit: ani_stats
     path(".command.{out,err}")
-    path("versions.yml")      , emit: versions
+    path("versions.yml")               , emit: versions
 
     shell:
     // Get basename of input
