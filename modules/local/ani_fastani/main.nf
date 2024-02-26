@@ -9,7 +9,7 @@ process ANI_FASTANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("fastani.*")
+    path("fastani.${base1}-${base2}.tsv*")
     path("fastani.${base1}-${base2}.tsv"), emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")                 , emit: versions
