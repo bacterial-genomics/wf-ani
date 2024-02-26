@@ -44,16 +44,20 @@ if (params.input && !params.query && !params.refdir) {
 //
 // MODULES: Local modules
 //
-include { ANI_BLAST_BIOPYTHON   } from "../modules/local/ani_blast_biopython/main"
-include { ANI_FASTANI           } from "../modules/local/ani_fastani/main"
-include { ANI_SKANI             } from "../modules/local/ani_skani/main"
-include { BLAST_SUMMARY_UNIX    } from "../modules/local/blast_summary_unix/main"
+include { ANI_BLAST_BIOPYTHON             } from "../modules/local/ani_blast_biopython/main"
+include { ANI_FASTANI                     } from "../modules/local/ani_fastani/main"
+include { ANI_SKANI                       } from "../modules/local/ani_skani/main"
+
+include { BLAST_SUMMARY_UNIX              } from "../modules/local/blast_summary_unix/main"
+
+include { CONVERT_TSV_TO_EXCEL_PYTHON     } from "../modules/local/convert_tsv_to_excel_python/main"
+include { CREATE_EXCEL_RUN_SUMMARY_PYTHON } from "../modules/local/create_excel_run_summary_python/main"
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { ALL_VS_ALL            } from "../subworkflows/local/all_vs_all_file_pairings"
-include { QUERY_VS_REFDIR       } from "../subworkflows/local/query_vs_refdir_file_pairings"
+include { ALL_VS_ALL                      } from "../subworkflows/local/all_vs_all_file_pairings"
+include { QUERY_VS_REFDIR                 } from "../subworkflows/local/query_vs_refdir_file_pairings"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,8 +94,9 @@ def toLower(it) {
 workflow ANI {
 
     // SETUP: Define empty channels to concatenate certain outputs
-    ch_versions     = Channel.empty()
-    ch_qc_filecheck = Channel.empty()
+    ch_versions             = Channel.empty()
+    ch_qc_filecheck         = Channel.empty()
+    ch_output_summary_files = Channel.empty()
 
     /*
     ================================================================================
@@ -145,7 +150,6 @@ workflow ANI {
             ch_ani_pairs,
             ch_asm_files
         )
-        ch_versions = ch_versions.mix(ANI_FASTANI.out.versions)
 
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_FASTANI.out.ani_stats
@@ -155,13 +159,15 @@ workflow ANI {
                             keepHeader: true
                         )
 
+        ch_versions             = ch_versions.mix(ANI_FASTANI.out.versions)
+        ch_output_summary_files = ch_output_summary_files.mix(ch_summary)
+
     } else if ( toLower(params.ani) == "skani" ) {
         // PROCESS: Perform SKANI on each pair
         ANI_SKANI (
             ch_ani_pairs,
             ch_asm_files
         )
-        ch_versions = ch_versions.mix(ANI_SKANI.out.versions)
 
         // Collect all fastani.out files and concatenate into one file
         ch_summary = ANI_SKANI.out.ani_stats
@@ -170,6 +176,9 @@ workflow ANI {
                             storeDir:   "${params.outdir}/Summaries",
                             keepHeader: true
                         )
+
+        ch_versions             = ch_versions.mix(ANI_SKANI.out.versions)
+        ch_output_summary_files = ch_output_summary_files.mix(ch_summary)
 
     } else {
         // PROCESS: Perform BLAST ANI on each pair
@@ -183,7 +192,26 @@ workflow ANI {
         BLAST_SUMMARY_UNIX (
             ANI_BLAST_BIOPYTHON.out.ani_stats.collect()
         )
-        ch_versions = ch_versions.mix(BLAST_SUMMARY_UNIX.out.versions)
+        ch_versions             = ch_versions.mix(BLAST_SUMMARY_UNIX.out.versions)
+        ch_output_summary_files = ch_output_summary_files.mix(BLAST_SUMMARY_UNIX.out.summary)
+    }
+
+    /*
+    ================================================================================
+                        Convert TSV outputs to Excel XLSX
+    ================================================================================
+    */
+
+    if (params.create_excel_outputs) {
+        CREATE_EXCEL_RUN_SUMMARY_PYTHON (
+            ch_output_summary_files.collect()
+        )
+        ch_versions = ch_versions.mix(CREATE_EXCEL_RUN_SUMMARY_PYTHON.out.versions)
+
+        CONVERT_TSV_TO_EXCEL_PYTHON (
+            CREATE_EXCEL_RUN_SUMMARY_PYTHON.out.summary
+        )
+        ch_versions = ch_versions.mix(CONVERT_TSV_TO_EXCEL_PYTHON.out.versions)
     }
 
     /*
