@@ -1,9 +1,9 @@
-.nextflow*
 work/
 data/
+*.pyc
 results/
-.DS_Store
 testing/
 testing*
-*.pyc
-singularity.cache/
+*.cache/
+.DS_Store
+.nextflow*
