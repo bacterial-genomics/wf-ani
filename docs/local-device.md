@@ -1,4 +1,9 @@
-# ![wf-ani](images/wf-ani_logo_light.png#gh-light-mode-only) ![wf-ani](images/wf-ani_logo_dark.png#gh-dark-mode-only)
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/wf-ani_logo_dark.png">
+    <img alt="bacterial-genomics/wf-ani" src="docs/images/wf-ani_logo_light.png">
+  </picture>
+</h1>
 
 ![workflow](images/wf-ani_workflow.png)
 
