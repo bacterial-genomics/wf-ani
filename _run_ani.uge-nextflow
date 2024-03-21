@@ -12,6 +12,7 @@ else
   HPC='aspen_hpc'
 fi
 
+source /etc/profile.d/z00_lmod.sh
 module load nextflow
 
 if [[ ${TYPE} =~ QUERY.* ]]; then
