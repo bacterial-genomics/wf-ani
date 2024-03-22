@@ -54,12 +54,6 @@ nextflow run \
 
 Example command on FastAs in "new-fasta-dir" data using **BLAST** (ANIb) with singularity:
 
-### Pull workflow from GitHub
-
-```
-nextflow pull bacterial-genomics/wf-ani
-```
-
 ### Run workflow
 
 ```
