@@ -65,7 +65,7 @@ nextflow pull bacterial-genomics/wf-ani
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
-  -profile singularity \
+  -profile docker \
   --input new-fasta-dir \
   --outdir my-results \
   --ani blast
@@ -113,7 +113,7 @@ These are the most pertinent options for this workflow:
   ============================================
         Container platforms
   ============================================
-  -profile singularity    Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
+  -profile docker    Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
 
   -profile docker         Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available.
 
