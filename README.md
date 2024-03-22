@@ -37,7 +37,7 @@ Run the built-in test set to confirm all parts are working as-expected. It will 
 ### Pull workflow from GitHub
 
 ```
-nextflow pull bacterial-genomics/wf-ani
+nextflow pull bacterial-genomics/wf-ani -r main
 ```
 
 ### Run test workflow
@@ -47,17 +47,12 @@ nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
   -profile <docker|singularity>,test
+  --outdir results
 ```
 
 ## Quick Start: Run
 
 Example command on FastAs in "new-fasta-dir" data using **BLAST** (ANIb) with singularity:
-
-### Pull workflow from GitHub
-
-```
-nextflow pull bacterial-genomics/wf-ani
-```
 
 ### Run workflow
 
@@ -65,7 +60,7 @@ nextflow pull bacterial-genomics/wf-ani
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
-  -profile singularity \
+  -profile docker \
   --input new-fasta-dir \
   --outdir my-results \
   --ani blast
@@ -101,11 +96,14 @@ These are the most pertinent options for this workflow:
   ============================================
         Input/Output
   ============================================
-  --input                 Path to input data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  --input                 Path to input data directory containing FastA/Genbank assemblies or samplesheet.
+                          Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
-  --query                 Path to input data FastA/Genbank file or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  --query                 Path to input data FastA/Genbank file or samplesheet.
+                          Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
-  --refdir                Path to reference panel data directory containing FastA/Genbank assemblies or samplesheet. Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
+  --refdir                Path to reference panel data directory containing FastA/Genbank assemblies or samplesheet.
+                          Recognized extensions are:  {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff} with optional gzip compression.
 
   --outdir                The output directory where the results will be saved.
 
@@ -113,15 +111,18 @@ These are the most pertinent options for this workflow:
   ============================================
         Container platforms
   ============================================
-  -profile singularity    Use Singularity images to run the workflow. Will pull and convert Docker images from Dockerhub if not locally available.
+  -profile singularity    Use Singularity images to run the workflow.
+                          Will pull and convert Docker images from Dockerhub if not locally available.
 
-  -profile docker         Use Docker images to run the workflow. Will pull images from Dockerhub if not locally available.
+  -profile docker         Use Docker images to run the workflow.
+                          Will pull images from Dockerhub if not locally available.
 
 
   ============================================
         Optional ANI tools
   ============================================
-  --ani               Specify what algorithm should be used to compare input files. Recognized arguments are: blast, fastani, skani. [Default: blast]
+  --ani               Specify what algorithm should be used to compare input files.
+                      Recognized arguments are: blast, fastani, skani. [Default: blast]
 ```
 
 #### Additional parameters

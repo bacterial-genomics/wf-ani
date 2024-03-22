@@ -27,7 +27,7 @@ Before running workflow on new data, the workflow should be ran on the built-in 
 ```
 cd wf-ani/
 
-nextflow run main.nf -profile singularity,test --outdir results
+nextflow run main.nf -profile docker,test --outdir results
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ nextflow run main.nf -profile singularity,test --outdir results
 
 ```
 nextflow run main.nf \
-  -profile singularity \
+  -profile docker \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
   --ani <blast|fastani|skani>
@@ -46,7 +46,7 @@ nextflow run main.nf \
 
 ```
 nextflow run main.nf \
-  -profile singularity \
+  -profile docker \
   --query QUERY_INPUT_FILE \
   --refdir REFERENCE_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
@@ -59,7 +59,7 @@ When running locally, `--max_cpus` and `--max_memory` may need to be specified. 
 
 ```
 nextflow run main.nf \
-  -profile singularity \
+  -profile docker \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
   --max_cpus 4 \

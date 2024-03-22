@@ -5,9 +5,9 @@
    viewBox="0 0 320.14583 150.81249"
    version="1.1"
    id="svg8"
-   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="wf-ani_workflow.svg"
-   inkscape:export-filename="mag_workflow.png"
+   inkscape:export-filename="wf-ani_workflow.png"
    inkscape:export-xdpi="289.40701"
    inkscape:export-ydpi="289.40701"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -256,16 +256,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3504346"
-     inkscape:cx="197.71413"
-     inkscape:cy="198.45463"
+     inkscape:zoom="2.7008692"
+     inkscape:cx="340.07571"
+     inkscape:cy="140.51032"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="986"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-width="3370"
+     inkscape:window-height="1376"
+     inkscape:window-x="70"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:document-rotation="0"
@@ -332,14 +332,17 @@
        x="-5.8854084"
        y="37.885159"
        ry="0.70539314"
-       inkscape:export-filename="wf-ani_workflow.png"
-       inkscape:export-xdpi="289.40701"
-       inkscape:export-ydpi="289.40701" />
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <flowRoot
        transform="translate(-136.58419,158.64643)"
        xml:space="preserve"
        id="flowRoot5442"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:0.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:0.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><flowRegion
          id="flowRegion5444"><rect
            id="rect5446"
            width="221.42857"
@@ -352,37 +355,51 @@
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="51.033695"
        y="145.7039"
-       id="text1146" />
+       id="text1146"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="213.33133"
        y="121.40633"
-       id="text6265" />
+       id="text6265"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <path
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
        inkscape:connector-curvature="0"
        id="path7018"
        d="m 81.430083,85.017322 6e-5,-8.464136 0.19864,0.55722 c 1.77374,4.975656 3.75896,6.195556 6.92234,7.716936 l 0.810989,0.39004 -0.774529,0.44216 c -3.16806,2.12084 -5.64746,4.27599 -6.59029,6.45142 -0.18696,0.45558 -0.39108,0.95033 -0.45362,1.09944 -0.0976,0.23307 -0.11364,-0.91576 -0.11359,-8.19308 z"
        style="fill:url(#linearGradient22575);fill-opacity:1;stroke:#000000;stroke-width:0.052239;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-       sodipodi:nodetypes="scssccccs" />
+       sodipodi:nodetypes="scssccccs"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="72.948128"
        y="51.362293"
-       id="text1368" />
+       id="text1368"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <path
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
        inkscape:connector-curvature="0"
        id="path6606-8"
        d="m 37.429739,85.0342 7e-5,-9.594028 0.22335,0.63164 c 1.994406,5.63987 3.036746,7.022578 6.593816,8.747058 l 0.91193,0.4421 -0.87092,0.50119 c -1.63636,0.94165 -2.38328,1.47387 -3.22575,2.29843 -1.0922,1.06899 -2.023206,2.62786 -2.994686,5.01416 -0.21023,0.51641 -0.43978,1.0772 -0.51006,1.2462 -0.10991,0.26419 -0.12781,-1.03799 -0.12775,-9.28675 z"
-       style="fill:url(#linearGradient30137);fill-opacity:1;stroke:#000000;stroke-width:0.05;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal" />
+       style="fill:url(#linearGradient30137);fill-opacity:1;stroke:#000000;stroke-width:0.05;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png" />
     <g
        id="g838"
-       transform="translate(-80.681474,-37.93486)">
+       transform="translate(-80.681474,-37.93486)"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <rect
          inkscape:export-ydpi="289.40701"
          inkscape:export-xdpi="289.40701"
@@ -442,7 +459,10 @@
     </g>
     <g
        id="g37052"
-       transform="translate(35.740041,-48.700126)">
+       transform="translate(35.740041,-48.700126)"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <rect
          inkscape:export-ydpi="289.40701"
          inkscape:export-xdpi="289.40701"
@@ -494,7 +514,10 @@
        transform="translate(-136.58419,158.64643)"
        xml:space="preserve"
        id="flowRoot6560"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:0.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:0.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><flowRegion
          id="flowRegion6556"><rect
            id="rect6554"
            width="221.42857"
@@ -507,22 +530,34 @@
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="51.033695"
        y="145.7039"
-       id="text6562" />
+       id="text6562"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="213.33133"
        y="121.40633"
-       id="text6564" />
+       id="text6564"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="72.948128"
        y="51.362293"
-       id="text6566" />
+       id="text6566"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <g
        id="g37541"
-       transform="translate(23.15711,-30.399966)">
+       transform="translate(23.15711,-30.399966)"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <rect
          inkscape:export-ydpi="289.40701"
          inkscape:export-xdpi="289.40701"
@@ -616,383 +651,20 @@
       </g>
     </g>
     <path
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
        inkscape:connector-curvature="0"
        id="path5662-9-86-3-39-2"
        d="m 19.213827,65.109914 9.24165,6.7e-5 -0.60844,0.213952 c -5.43273,1.910423 -6.76465,2.908872 -8.42579,6.316172 l -0.42587,0.873527 -0.48277,-0.834246 c -0.90707,-1.567451 -1.41974,-2.282925 -2.21402,-3.089932 -1.02972,-1.046196 -2.53134,-1.938018 -4.82999,-2.868584 -0.49744,-0.201386 -1.03763,-0.421256 -1.20043,-0.488593 -0.25448,-0.105275 0.99987,-0.122421 8.94566,-0.122363 z"
-       style="fill:url(#linearGradient5670-9-6-3-2-0);fill-opacity:1;stroke:#000000;stroke-width:0.0496856;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal" />
-    <rect
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
-       ry="0"
-       y="-134.85576"
-       x="-64.939117"
-       height="133.3349"
-       width="20.305412"
-       id="rect6694"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.807059;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-       transform="matrix(0,-1,-1,0,0,0)" />
-    <text
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
-       id="text6710"
-       y="56.717934"
-       x="26.225563"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.262919"
-       xml:space="preserve"
-       transform="scale(1.0064094,0.99363142)"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke-width:0.262919"
-         y="56.717934"
-         x="26.225563"
-         id="tspan6708"
-         sodipodi:role="line">or</tspan></text>
-    <text
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
-       id="text6710-9"
-       y="56.717934"
-       x="53.396545"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.262919"
-       xml:space="preserve"
-       transform="scale(1.0064094,0.99363142)"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke-width:0.262919"
-         y="56.717934"
-         x="53.396545"
-         id="tspan6708-3"
-         sodipodi:role="line">or</tspan></text>
-    <text
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
-       id="text6710-3"
-       y="56.717934"
-       x="80.567528"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.262919"
-       xml:space="preserve"
-       transform="scale(1.0064094,0.99363142)"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke-width:0.262919"
-         y="56.717934"
-         x="80.567528"
-         id="tspan6708-8"
-         sodipodi:role="line">or</tspan></text>
-    <text
-       inkscape:export-ydpi="289.40701"
-       inkscape:export-xdpi="289.40701"
-       id="text6710-4"
-       y="56.717934"
-       x="107.73851"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.262919"
-       xml:space="preserve"
-       transform="scale(1.0064094,0.99363142)"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke-width:0.262919"
-         y="56.717934"
-         x="107.73851"
-         id="tspan6708-6"
-         sodipodi:role="line">or</tspan></text>
-    <g
-       id="g35679"
-       transform="translate(77.231387,-84.063944)">
-      <path
-         id="path6712"
-         d="m -3.0840617,137.72177 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-0.001 -0.0014,-0.001 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.8984323 c -0.269347,0 -0.488159,0.21628 -0.488159,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.48816,0.48198 h 8.0546153 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.8416823,-3.914 h 5.6543443 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.0546163 z m 8.0546383,11.19549 h -8.0546383 v -2.32168 h 8.0546163 v 2.32168 z"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-         style="stroke-width:0.118185" />
-      <flowRoot
-         xml:space="preserve"
-         id="flowRoot6720"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         transform="matrix(0.11894219,0,0,0.11743203,-69.000134,-79.219118)"><flowRegion
-           id="flowRegion6716"><rect
-             id="rect6714"
-             width="112"
-             height="53.599998"
-             x="474.39999"
-             y="-1904.0004"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-             transform="scale(1,-1)" /></flowRegion><flowPara
-           id="flowPara6718"
-           style="font-size:32px;line-height:1.25"> csv</flowPara></flowRoot>
-      <path
-         id="path6722"
-         d="m -11.925732,133.8025 h 5.6543443 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 h -8.0546163 z m 8.0546383,11.19549 h -8.0546383 v -2.32169 h 8.0546163 v 2.32169 z"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccsscccccccccc"
-         style="fill:#ffffff;stroke-width:0.118185" />
-    </g>
-    <g
-       id="g1011"
-       transform="translate(80.743387,-86.033094)">
-      <path
-         id="path6712-2"
-         d="m 20.749069,139.69092 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-10e-4 -0.0014,-10e-4 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.898432 c -0.269347,0 -0.488159,0.21628 -0.488159,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.48816,0.48198 h 8.054615 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.841682,-3.914 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32168 h 8.054616 v 2.32168 z"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-         style="stroke-width:0.118185" />
-      <g
-         id="g995">
-        <flowRoot
-           xml:space="preserve"
-           id="flowRoot6720-2"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           transform="matrix(0.11894219,0,0,0.11743203,-45.167003,-77.24997)"><flowRegion
-             id="flowRegion6716-7"><rect
-               id="rect6714-6"
-               width="112"
-               height="53.599998"
-               x="474.39999"
-               y="-1904.0004"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-               transform="scale(1,-1)" /></flowRegion><flowPara
-             id="flowPara6718-9"
-             style="font-size:32px;line-height:1.25"> tsv</flowPara></flowRoot>
-        <path
-           id="path6722-0"
-           d="m 11.907399,135.77165 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32169 h 8.054616 v 2.32169 z"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="ccsscccccccccc"
-           style="fill:#ffffff;stroke-width:0.118185" />
-      </g>
-    </g>
-    <g
-       id="g1020"
-       transform="translate(109.8619,-96.285024)">
-      <path
-         id="path6712-5"
-         d="m 19.086594,149.94285 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-0.001 -0.0014,-0.001 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.898432 c -0.2693474,0 -0.4881594,0.21628 -0.4881594,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.4881604,0.48198 h 8.054615 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.841682,-3.914 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32168 h 8.054616 v 2.32168 z"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-         style="stroke-width:0.118185" />
-      <g
-         id="g1002"
-         transform="translate(-1.2468564,-5.5415841)">
-        <flowRoot
-           xml:space="preserve"
-           id="flowRoot6720-9"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           transform="matrix(0.11894219,0,0,0.11743203,-46.640956,-61.456455)"><flowRegion
-             id="flowRegion6716-1"><rect
-               id="rect6714-3"
-               width="112"
-               height="53.599998"
-               x="474.39999"
-               y="-1904.0004"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-               transform="scale(1,-1)" /></flowRegion><flowPara
-             id="flowPara6718-3"
-             style="font-size:32px;line-height:1.25"> xlsx</flowPara></flowRoot>
-        <path
-           id="path6722-2"
-           d="m 11.49178,151.56516 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 H 11.49178 Z m 8.054638,11.19549 H 11.49178 v -2.32169 h 8.054616 v 2.32169 z"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="ccsscccccccccc"
-           style="fill:#ffffff;stroke-width:0.118185" />
-      </g>
-    </g>
-    <g
-       id="g36308"
-       transform="translate(90.688345,-53.497339)">
-      <g
-         id="g36283">
-        <g
-           id="g36259">
-          <g
-             id="g36236">
-            <flowRoot
-               xml:space="preserve"
-               id="flowRoot5864-9"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               transform="matrix(0.11894219,0,0,0.11743203,-110.15782,-108.35727)"><flowRegion
-                 id="flowRegion5866-3"><rect
-                   id="rect5868-2"
-                   width="112"
-                   height="53.599998"
-                   x="474.39999"
-                   y="-1904.0004"
-                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                   transform="scale(1,-1)" /></flowRegion><flowPara
-                 id="flowPara5870-4"
-                 style="font-size:32px;line-height:1.25">fastq</flowPara></flowRoot>
-            <flowRoot
-               xml:space="preserve"
-               id="flowRoot6704-7"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               transform="matrix(0.11894219,0,0,0.11743203,-110.15782,-108.35727)"><flowRegion
-                 id="flowRegion6700-8"><rect
-                   id="rect6698-5"
-                   width="112"
-                   height="53.599998"
-                   x="474.39999"
-                   y="-1904.0004"
-                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                   transform="scale(1,-1)" /></flowRegion><flowPara
-                 id="flowPara6702-5"
-                 style="font-size:32px;line-height:1.25">fastq</flowPara></flowRoot>
-            <path
-               id="path10543-4"
-               d="m -42.629007,106.4985 h -0.331144 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-10e-4 -0.0016,-10e-4 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534568 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772928,-0.30838 0.772928,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346217,-0.68856 -0.772953,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
-               inkscape:connector-curvature="0"
-               sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-               style="stroke-width:0.124366" />
-            <flowRoot
-               xml:space="preserve"
-               id="flowRoot10545-8"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               transform="matrix(0.13177007,0,0,0.11737888,-115.06066,-110.62355)"><flowRegion
-                 id="flowRegion10547-6"><rect
-                   id="rect10549-6"
-                   width="112"
-                   height="53.599998"
-                   x="474.39999"
-                   y="-1904.0004"
-                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                   transform="scale(1,-1)" /></flowRegion><flowPara
-                 id="flowPara10551-2"
-                 style="font-size:32px;line-height:1.25">gbff</flowPara></flowRoot>
-            <path
-               id="path10553-3"
-               d="m -52.424249,102.58099 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
-               inkscape:connector-curvature="0"
-               sodipodi:nodetypes="ccsscccccccccc"
-               style="fill:#ffffff;stroke-width:0.124366" />
-            <path
-               sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-               inkscape:connector-curvature="0"
-               d="m -44.104832,107.81314 h -0.331144 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-0.001 -0.0016,-0.001 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534572 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772927,-0.30838 0.772927,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346216,-0.68856 -0.772952,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
-               id="path5862-6-8-3"
-               style="stroke-width:0.124366" />
-            <flowRoot
-               transform="matrix(0.13177007,0,0,0.11737888,-117.06566,-109.30891)"
-               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               id="flowRoot5864-0-0"
-               xml:space="preserve"><flowRegion
-                 id="flowRegion5866-6-2"><rect
-                   transform="scale(1,-1)"
-                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                   y="-1904.0004"
-                   x="474.39999"
-                   height="53.599998"
-                   width="112"
-                   id="rect5868-9-3" /></flowRegion><flowPara
-                 id="flowPara5870-6-3"
-                 style="font-size:32px;line-height:1.25">gbff</flowPara></flowRoot>
-            <path
-               style="fill:#ffffff;stroke-width:0.124366"
-               sodipodi:nodetypes="ccsscccccccccc"
-               inkscape:connector-curvature="0"
-               d="m -53.900074,103.89563 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
-               id="path6276-4-8-2" />
-          </g>
-        </g>
-      </g>
-    </g>
-    <g
-       id="g36151"
-       transform="translate(58.972721,-52.021619)">
-      <g
-         id="g36125">
-        <g
-           id="g36100">
-          <g
-             id="g36076">
-            <g
-               id="g36053">
-              <flowRoot
-                 xml:space="preserve"
-                 id="flowRoot5864-9-5"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-                 transform="matrix(0.11894219,0,0,0.11743203,-105.78733,-109.83299)"><flowRegion
-                   id="flowRegion5866-3-1"><rect
-                     id="rect5868-2-6"
-                     width="112"
-                     height="53.599998"
-                     x="474.39999"
-                     y="-1904.0004"
-                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                     transform="scale(1,-1)" /></flowRegion><flowPara
-                   id="flowPara5870-4-4"
-                   style="font-size:32px;line-height:1.25">fastq</flowPara></flowRoot>
-              <flowRoot
-                 xml:space="preserve"
-                 id="flowRoot6704-7-0"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-                 transform="matrix(0.11894219,0,0,0.11743203,-105.78733,-109.83299)"><flowRegion
-                   id="flowRegion6700-8-7"><rect
-                     id="rect6698-5-6"
-                     width="112"
-                     height="53.599998"
-                     x="474.39999"
-                     y="-1904.0004"
-                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                     transform="scale(1,-1)" /></flowRegion><flowPara
-                   id="flowPara6702-5-5"
-                   style="font-size:32px;line-height:1.25">fastq</flowPara></flowRoot>
-              <path
-                 id="path10543-4-9"
-                 d="m -38.258513,105.02278 h -0.331145 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-0.001 -0.0016,-0.001 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-10e-4 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534568 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772928,-0.30838 0.772928,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346217,-0.68856 -0.772953,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
-                 inkscape:connector-curvature="0"
-                 sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-                 style="stroke-width:0.124366" />
-              <flowRoot
-                 xml:space="preserve"
-                 id="flowRoot10545-8-9"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-                 transform="matrix(0.13177007,0,0,0.11737888,-111.74851,-112.09927)"><flowRegion
-                   id="flowRegion10547-6-2"><rect
-                     id="rect10549-6-4"
-                     width="112"
-                     height="53.599998"
-                     x="474.39999"
-                     y="-1904.0004"
-                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                     transform="scale(1,-1)" /></flowRegion><flowPara
-                   id="flowPara10551-2-3"
-                   style="font-size:32px;line-height:1.25">fasta</flowPara></flowRoot>
-              <path
-                 id="path10553-3-7"
-                 d="m -48.053755,101.10527 h 6.264164 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270404,0.24087 h 2.388736 v 1.20676 h -8.923304 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923304 v 2.32063 z"
-                 inkscape:connector-curvature="0"
-                 sodipodi:nodetypes="ccsscccccccccc"
-                 style="fill:#ffffff;stroke-width:0.124366" />
-              <path
-                 sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
-                 inkscape:connector-curvature="0"
-                 d="m -39.734338,106.33742 h -0.331145 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-10e-4 -0.0016,-10e-4 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534572 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772927,-0.30838 0.772927,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346216,-0.68856 -0.772952,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
-                 id="path5862-6-8-3-4"
-                 style="stroke-width:0.124366" />
-              <flowRoot
-                 transform="matrix(0.13177007,0,0,0.11737888,-113.22434,-110.78463)"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-                 id="flowRoot5864-0-0-4"
-                 xml:space="preserve"><flowRegion
-                   id="flowRegion5866-6-2-8"><rect
-                     transform="scale(1,-1)"
-                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff"
-                     y="-1904.0004"
-                     x="474.39999"
-                     height="53.599998"
-                     width="112"
-                     id="rect5868-9-3-8" /></flowRegion><flowPara
-                   id="flowPara5870-6-3-4"
-                   style="font-size:32px;line-height:1.25">fasta</flowPara></flowRoot>
-              <path
-                 style="fill:#ffffff;stroke-width:0.124366"
-                 sodipodi:nodetypes="ccsscccccccccc"
-                 inkscape:connector-curvature="0"
-                 d="m -49.529581,102.41991 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
-                 id="path6276-4-8-2-6" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
+       style="fill:url(#linearGradient5670-9-6-3-2-0);fill-opacity:1;stroke:#000000;stroke-width:0.0496856;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png" />
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:1.41111px;font-family:'maven bold';-inkscape-font-specification:'maven bold,  Bold';fill:#000000;stroke:#000000;stroke-width:0.705556;stroke-linejoin:bevel;stroke-opacity:0"
        x="2.5384731"
        y="96.24054"
        id="text2105"
-       inkscape:export-filename="wf-ani_workflow.png"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -1000,5 +672,438 @@
          style="font-size:1.41111px;fill:#000000;stroke-width:0.705556"
          x="2.5384731"
          y="96.24054">*Needed for fastANI and skani</tspan></text>
+    <g
+       id="g1747"
+       transform="translate(1.917313,1.290529)"
+       inkscape:export-filename="/home/greg/workflows/wf-ani/docs/images/wf-ani_workflow.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <g
+         id="g1659">
+        <g
+           id="g1572">
+          <rect
+             inkscape:export-ydpi="300"
+             inkscape:export-xdpi="300"
+             ry="0"
+             y="-132.93845"
+             x="-63.602596"
+             height="133.3349"
+             width="20.305412"
+             id="rect6694-3"
+             style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.807059;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+             transform="matrix(0,-1,-1,0,0,0)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png" />
+          <rect
+             style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
+             id="rect9314"
+             width="71.971321"
+             height="16.971102"
+             x="58.557919"
+             y="44.96434"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300" />
+          <text
+             inkscape:export-ydpi="300"
+             inkscape:export-xdpi="300"
+             id="text6710-6"
+             y="55.372849"
+             x="24.320465"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+             xml:space="preserve"
+             transform="scale(1.0064094,0.99363142)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+               y="55.372849"
+               x="24.320465"
+               id="tspan6708-7"
+               sodipodi:role="line">or</tspan></text>
+          <text
+             inkscape:export-ydpi="300"
+             inkscape:export-xdpi="300"
+             id="text6710-9-5"
+             y="55.372849"
+             x="51.491447"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+             xml:space="preserve"
+             transform="scale(1.0064094,0.99363142)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+               y="55.372849"
+               x="51.491447"
+               id="tspan6708-3-3"
+               sodipodi:role="line">or</tspan></text>
+          <text
+             inkscape:export-ydpi="300"
+             inkscape:export-xdpi="300"
+             id="text6710-3-5"
+             y="54.74847"
+             x="78.662422"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+             xml:space="preserve"
+             transform="scale(1.0064094,0.99363142)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+               y="54.74847"
+               x="78.662422"
+               id="tspan6708-8-6"
+               sodipodi:role="line">or</tspan></text>
+          <text
+             inkscape:export-ydpi="300"
+             inkscape:export-xdpi="300"
+             id="text6710-4-2"
+             y="54.74847"
+             x="105.83342"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5056px;line-height:0.25;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+             xml:space="preserve"
+             transform="scale(1.0064094,0.99363142)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.5056px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro';stroke:#000000;stroke-width:0.262919;stroke-opacity:1"
+               y="54.74847"
+               x="105.83342"
+               id="tspan6708-6-9"
+               sodipodi:role="line">or</tspan></text>
+          <g
+             id="g35679-1"
+             transform="matrix(0.92606046,0,0,0.8053636,74.314455,-58.874783)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300">
+            <path
+               id="path6712-27"
+               d="m -3.0840617,137.72177 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-0.001 -0.0014,-0.001 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.8984323 c -0.269347,0 -0.488159,0.21628 -0.488159,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.48816,0.48198 h 8.0546153 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.8416823,-3.914 h 5.6543443 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.0546163 z m 8.0546383,11.19549 h -8.0546383 v -2.32168 h 8.0546163 v 2.32168 z"
+               inkscape:connector-curvature="0"
+               sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+               style="stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+            <flowRoot
+               xml:space="preserve"
+               id="flowRoot6720-0"
+               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+               transform="matrix(0.11894219,0,0,0.11743203,-69.000134,-79.219118)"><flowRegion
+                 id="flowRegion6716-9"
+                 style="stroke:#000000;stroke-opacity:1"><rect
+                   id="rect6714-36"
+                   width="112"
+                   height="53.599998"
+                   x="474.39999"
+                   y="-1904.0004"
+                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                   transform="scale(1,-1)" /></flowRegion><flowPara
+                 id="flowPara6718-0"
+                 style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1"> csv</flowPara></flowRoot>
+            <path
+               id="path6722-6"
+               d="m -11.925732,133.8025 h 5.6543443 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 h -8.0546163 z m 8.0546383,11.19549 h -8.0546383 v -2.32169 h 8.0546163 v 2.32169 z"
+               inkscape:connector-curvature="0"
+               sodipodi:nodetypes="ccsscccccccccc"
+               style="fill:#ffffff;stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+          </g>
+          <g
+             id="g1011-2"
+             transform="matrix(1.0010964,0,0,0.80503546,78.808605,-60.414253)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300">
+            <path
+               id="path6712-2-6"
+               d="m 20.749069,139.69092 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-10e-4 -0.0014,-10e-4 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.898432 c -0.269347,0 -0.488159,0.21628 -0.488159,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.48816,0.48198 h 8.054615 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.841682,-3.914 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32168 h 8.054616 v 2.32168 z"
+               inkscape:connector-curvature="0"
+               sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+               style="stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+            <g
+               id="g995-1">
+              <flowRoot
+                 xml:space="preserve"
+                 id="flowRoot6720-2-8"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                 transform="matrix(0.11894219,0,0,0.11743203,-45.167003,-77.24997)"><flowRegion
+                   id="flowRegion6716-7-7"
+                   style="stroke:#000000;stroke-opacity:1"><rect
+                     id="rect6714-6-9"
+                     width="112"
+                     height="53.599998"
+                     x="474.39999"
+                     y="-1904.0004"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                     transform="scale(1,-1)" /></flowRegion><flowPara
+                   id="flowPara6718-9-2"
+                   style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1"> tsv</flowPara></flowRoot>
+              <path
+                 id="path6722-0-0"
+                 d="m 11.907399,135.77165 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32169 h 8.054616 v 2.32169 z"
+                 inkscape:connector-curvature="0"
+                 sodipodi:nodetypes="ccsscccccccccc"
+                 style="fill:#ffffff;stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+            </g>
+          </g>
+          <g
+             id="g1020-2"
+             transform="matrix(1.0010749,0,0,0.80503555,107.92937,-68.667433)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300">
+            <path
+               id="path6712-5-3"
+               d="m 19.086594,149.94285 h -0.298907 v -1.42391 c 0,-0.009 -0.0014,-0.0178 -0.0026,-0.0269 -4.72e-4,-0.0565 -0.01869,-0.11207 -0.0579,-0.15607 l -2.400046,-2.70684 c -7.37e-4,-0.001 -0.0014,-0.001 -0.0019,-0.002 -0.01431,-0.0158 -0.03099,-0.0289 -0.04861,-0.0403 -0.0052,-0.004 -0.01049,-0.006 -0.01596,-0.009 -0.01527,-0.008 -0.03148,-0.015 -0.04816,-0.02 -0.0045,-0.001 -0.0086,-0.003 -0.01311,-0.004 -0.01812,-0.004 -0.03695,-0.007 -0.05602,-0.007 h -5.898432 c -0.2693474,0 -0.4881594,0.21628 -0.4881594,0.48199 v 3.91399 h -0.298839 c -0.385306,0 -0.697728,0.30832 -0.697728,0.68887 v 3.58224 c 0,0.38027 0.312422,0.68879 0.697728,0.68879 h 0.298861 v 2.45216 c 0,0.26568 0.218813,0.48198 0.4881604,0.48198 h 8.054615 c 0.269098,0 0.488159,-0.21628 0.488159,-0.48198 v -2.45216 h 0.298907 c 0.385193,0 0.697683,-0.30852 0.697683,-0.68879 v -3.58214 c -2.3e-5,-0.38053 -0.312513,-0.68886 -0.697705,-0.68886 z m -8.841682,-3.914 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.244079,0.24098 h 2.156193 v 1.20731 h -8.054616 z m 8.054638,11.19549 h -8.054638 v -2.32168 h 8.054616 v 2.32168 z"
+               inkscape:connector-curvature="0"
+               sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+               style="stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+            <g
+               id="g1002-7"
+               transform="translate(-1.2468564,-5.5415841)">
+              <flowRoot
+                 xml:space="preserve"
+                 id="flowRoot6720-9-5"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                 transform="matrix(0.11894219,0,0,0.11743203,-46.640956,-61.456455)"><flowRegion
+                   id="flowRegion6716-1-9"
+                   style="stroke:#000000;stroke-opacity:1"><rect
+                     id="rect6714-3-2"
+                     width="112"
+                     height="53.599998"
+                     x="474.39999"
+                     y="-1904.0004"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                     transform="scale(1,-1)" /></flowRegion><flowPara
+                   id="flowPara6718-3-2"
+                   style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1"> xlsx</flowPara></flowRoot>
+              <path
+                 id="path6722-2-8"
+                 d="m 11.49178,151.56516 h 5.654344 v 2.46587 c 0,0.13314 0.109407,0.24098 0.24408,0.24098 h 2.156192 v 1.2073 H 11.49178 Z m 8.054638,11.19549 H 11.49178 v -2.32169 h 8.054616 v 2.32169 z"
+                 inkscape:connector-curvature="0"
+                 sodipodi:nodetypes="ccsscccccccccc"
+                 style="fill:#ffffff;stroke:#000000;stroke-width:0.118185;stroke-opacity:1" />
+            </g>
+          </g>
+          <g
+             id="g36308-9"
+             transform="translate(88.771035,-54.833859)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300">
+            <g
+               id="g36283-7">
+              <g
+                 id="g36259-3">
+                <g
+                   id="g36236-6">
+                  <flowRoot
+                     xml:space="preserve"
+                     id="flowRoot5864-9-1"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                     transform="matrix(0.11894219,0,0,0.11743203,-110.15782,-108.35727)"><flowRegion
+                       id="flowRegion5866-3-2"
+                       style="stroke:#000000;stroke-opacity:1"><rect
+                         id="rect5868-2-9"
+                         width="112"
+                         height="53.599998"
+                         x="474.39999"
+                         y="-1904.0004"
+                         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                         transform="scale(1,-1)" /></flowRegion><flowPara
+                       id="flowPara5870-4-3"
+                       style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fastq</flowPara></flowRoot>
+                  <flowRoot
+                     xml:space="preserve"
+                     id="flowRoot6704-7-1"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                     transform="matrix(0.11894219,0,0,0.11743203,-110.15782,-108.35727)"><flowRegion
+                       id="flowRegion6700-8-9"
+                       style="stroke:#000000;stroke-opacity:1"><rect
+                         id="rect6698-5-4"
+                         width="112"
+                         height="53.599998"
+                         x="474.39999"
+                         y="-1904.0004"
+                         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                         transform="scale(1,-1)" /></flowRegion><flowPara
+                       id="flowPara6702-5-7"
+                       style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fastq</flowPara></flowRoot>
+                  <path
+                     id="path10543-4-8"
+                     d="m -42.629007,106.4985 h -0.331144 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-10e-4 -0.0016,-10e-4 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534568 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772928,-0.30838 0.772928,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346217,-0.68856 -0.772953,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
+                     inkscape:connector-curvature="0"
+                     sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+                     style="stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                  <flowRoot
+                     xml:space="preserve"
+                     id="flowRoot10545-8-4"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                     transform="matrix(0.13177007,0,0,0.11737888,-115.06066,-110.62355)"><flowRegion
+                       id="flowRegion10547-6-5"
+                       style="stroke:#000000;stroke-opacity:1"><rect
+                         id="rect10549-6-0"
+                         width="112"
+                         height="53.599998"
+                         x="474.39999"
+                         y="-1904.0004"
+                         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                         transform="scale(1,-1)" /></flowRegion><flowPara
+                       id="flowPara10551-2-36"
+                       style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">gbff</flowPara></flowRoot>
+                  <path
+                     id="path10553-3-1"
+                     d="m -52.424249,102.58099 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
+                     inkscape:connector-curvature="0"
+                     sodipodi:nodetypes="ccsscccccccccc"
+                     style="fill:#ffffff;stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                  <path
+                     sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+                     inkscape:connector-curvature="0"
+                     d="m -44.104832,107.81314 h -0.331144 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-0.001 -0.0016,-0.001 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534572 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772927,-0.30838 0.772927,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346216,-0.68856 -0.772952,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
+                     id="path5862-6-8-3-0"
+                     style="stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                  <flowRoot
+                     transform="matrix(0.13177007,0,0,0.11737888,-117.06566,-109.30891)"
+                     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                     id="flowRoot5864-0-0-6"
+                     xml:space="preserve"><flowRegion
+                       id="flowRegion5866-6-2-3"
+                       style="stroke:#000000;stroke-opacity:1"><rect
+                         transform="scale(1,-1)"
+                         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                         y="-1904.0004"
+                         x="474.39999"
+                         height="53.599998"
+                         width="112"
+                         id="rect5868-9-3-2" /></flowRegion><flowPara
+                       id="flowPara5870-6-3-0"
+                       style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">gbff</flowPara></flowRoot>
+                  <path
+                     style="fill:#ffffff;stroke:#000000;stroke-width:0.124366;stroke-opacity:1"
+                     sodipodi:nodetypes="ccsscccccccccc"
+                     inkscape:connector-curvature="0"
+                     d="m -53.900074,103.89563 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
+                     id="path6276-4-8-2-61" />
+                </g>
+              </g>
+            </g>
+          </g>
+          <g
+             id="g36151-5"
+             transform="translate(57.055405,-53.358139)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300">
+            <g
+               id="g36125-5">
+              <g
+                 id="g36100-4">
+                <g
+                   id="g36076-7">
+                  <g
+                     id="g36053-6">
+                    <flowRoot
+                       xml:space="preserve"
+                       id="flowRoot5864-9-5-5"
+                       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                       transform="matrix(0.11894219,0,0,0.11743203,-105.78733,-109.83299)"><flowRegion
+                         id="flowRegion5866-3-1-6"
+                         style="stroke:#000000;stroke-opacity:1"><rect
+                           id="rect5868-2-6-9"
+                           width="112"
+                           height="53.599998"
+                           x="474.39999"
+                           y="-1904.0004"
+                           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                           transform="scale(1,-1)" /></flowRegion><flowPara
+                         id="flowPara5870-4-4-3"
+                         style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fastq</flowPara></flowRoot>
+                    <flowRoot
+                       xml:space="preserve"
+                       id="flowRoot6704-7-0-7"
+                       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                       transform="matrix(0.11894219,0,0,0.11743203,-105.78733,-109.83299)"><flowRegion
+                         id="flowRegion6700-8-7-4"
+                         style="stroke:#000000;stroke-opacity:1"><rect
+                           id="rect6698-5-6-5"
+                           width="112"
+                           height="53.599998"
+                           x="474.39999"
+                           y="-1904.0004"
+                           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                           transform="scale(1,-1)" /></flowRegion><flowPara
+                         id="flowPara6702-5-5-2"
+                         style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fastq</flowPara></flowRoot>
+                    <path
+                       id="path10543-4-9-5"
+                       d="m -38.258513,105.02278 h -0.331145 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-0.001 -0.0016,-0.001 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-10e-4 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534568 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772928,-0.30838 0.772928,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346217,-0.68856 -0.772953,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
+                       inkscape:connector-curvature="0"
+                       sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+                       style="stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                    <flowRoot
+                       xml:space="preserve"
+                       id="flowRoot10545-8-9-4"
+                       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                       transform="matrix(0.13177007,0,0,0.11737888,-111.74851,-112.09927)"><flowRegion
+                         id="flowRegion10547-6-2-7"
+                         style="stroke:#000000;stroke-opacity:1"><rect
+                           id="rect10549-6-4-4"
+                           width="112"
+                           height="53.599998"
+                           x="474.39999"
+                           y="-1904.0004"
+                           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                           transform="scale(1,-1)" /></flowRegion><flowPara
+                         id="flowPara10551-2-3-4"
+                         style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fasta</flowPara></flowRoot>
+                    <path
+                       id="path10553-3-7-3"
+                       d="m -48.053755,101.10527 h 6.264164 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270404,0.24087 h 2.388736 v 1.20676 h -8.923304 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923304 v 2.32063 z"
+                       inkscape:connector-curvature="0"
+                       sodipodi:nodetypes="ccsscccccccccc"
+                       style="fill:#ffffff;stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                    <path
+                       sodipodi:nodetypes="scsccccccccssscsssscsssscsscsccsscccccccccc"
+                       inkscape:connector-curvature="0"
+                       d="m -39.734338,106.33742 h -0.331145 v -1.42328 c 0,-0.009 -0.0016,-0.0178 -0.0029,-0.0268 -5.27e-4,-0.0565 -0.0207,-0.11202 -0.06414,-0.156 l -2.65889,-2.70561 c -7.91e-4,-10e-4 -0.0016,-10e-4 -0.0021,-0.002 -0.01585,-0.0158 -0.03433,-0.0289 -0.05385,-0.0402 -0.0058,-0.003 -0.01162,-0.006 -0.01768,-0.009 -0.01693,-0.008 -0.03488,-0.0151 -0.05336,-0.02 -0.005,-0.001 -0.0095,-0.003 -0.01452,-0.004 -0.02008,-0.004 -0.04094,-0.007 -0.06207,-0.007 h -6.534572 c -0.298396,0 -0.540807,0.21618 -0.540807,0.48177 v 3.91221 h -0.331068 c -0.426861,0 -0.772978,0.30818 -0.772978,0.68856 v 3.58062 c 0,0.38011 0.346117,0.68849 0.772978,0.68849 h 0.331093 v 2.45104 c 0,0.26556 0.242411,0.48176 0.540807,0.48176 h 8.923305 c 0.298119,0 0.540806,-0.21618 0.540806,-0.48176 v -2.45104 h 0.331144 c 0.426736,0 0.772927,-0.30838 0.772927,-0.68849 v -3.58051 c -2.5e-5,-0.38036 -0.346216,-0.68856 -0.772952,-0.68856 z m -9.795255,-3.91224 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19044 h -8.92333 v -2.32064 h 8.923305 v 2.32064 z"
+                       id="path5862-6-8-3-4-0"
+                       style="stroke:#000000;stroke-width:0.124366;stroke-opacity:1" />
+                    <flowRoot
+                       transform="matrix(0.13177007,0,0,0.11737888,-113.22434,-110.78463)"
+                       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0.01%;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                       id="flowRoot5864-0-0-4-7"
+                       xml:space="preserve"><flowRegion
+                         id="flowRegion5866-6-2-8-8"
+                         style="stroke:#000000;stroke-opacity:1"><rect
+                           transform="scale(1,-1)"
+                           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#ffffff;stroke:#000000;stroke-opacity:1"
+                           y="-1904.0004"
+                           x="474.39999"
+                           height="53.599998"
+                           width="112"
+                           id="rect5868-9-3-8-6" /></flowRegion><flowPara
+                         id="flowPara5870-6-3-4-8"
+                         style="font-size:32px;line-height:1.25;stroke:#000000;stroke-opacity:1">fasta</flowPara></flowRoot>
+                    <path
+                       style="fill:#ffffff;stroke:#000000;stroke-width:0.124366;stroke-opacity:1"
+                       sodipodi:nodetypes="ccsscccccccccc"
+                       inkscape:connector-curvature="0"
+                       d="m -49.529581,102.41991 h 6.264165 v 2.46476 c 0,0.13308 0.121206,0.24087 0.270403,0.24087 h 2.388737 v 1.20676 h -8.923305 z m 8.92333,11.19043 h -8.92333 v -2.32063 h 8.923305 v 2.32063 z"
+                       id="path6276-4-8-2-6-8" />
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <text
+             xml:space="preserve"
+             style="font-size:3.04811px;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke"
+             x="69.316742"
+             y="53.937382"
+             id="text9373"
+             transform="scale(1.1387256,0.87817469)"
+             inkscape:export-filename="/home/greg/workflows/wf-aai/docs/images/wf-aai_workflow.png"
+             inkscape:export-xdpi="300"
+             inkscape:export-ydpi="300"><tspan
+               sodipodi:role="line"
+               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.04811px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke"
+               x="69.316742"
+               y="53.937382"
+               id="tspan615">Spreadsheet Options</tspan></text>
+        </g>
+      </g>
+    </g>
   </g>
 </svg>
