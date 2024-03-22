@@ -37,7 +37,7 @@ Run the built-in test set to confirm all parts are working as-expected. It will 
 ### Pull workflow from GitHub
 
 ```
-nextflow pull bacterial-genomics/wf-ani
+nextflow pull bacterial-genomics/wf-ani -r main
 ```
 
 ### Run test workflow
@@ -47,6 +47,7 @@ nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
   -profile <docker|singularity>,test
+  --outdir results
 ```
 
 ## Quick Start: Run
