@@ -10,7 +10,7 @@ The directories listed below will be created in the results directory after the 
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and is used to perform Average Nucleotide Identity (ANI) on FastA and Genbank files.
 
-- [Input quality control](#input-quality-control) that includes trimming and contaminant removal
+- [Input quality control](#input-quality-control)
   - [Initial input file check](#initial-input-file-check) ensures input FastA and Genbank files meet a minimum file size
 - [Average Amino Acid Identity (ANI)](#average-nucleotide-identity-ani)
   - [BLAST](#blast)
@@ -29,7 +29,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and is used to 
 
 ## Input quality control
 
-Input files are checked for corruption and must meet a minimum file size to be processed within this pipeline. If this check passes, the input files will be used to generate pairings and have ANI performed on them.
+Input files must meet a minimum file size to be processed within this pipeline. If this check passes, the input files will be used to generate pairings and have ANI performed on them.
 
 ### Initial input file check
 
