@@ -411,25 +411,25 @@ def main():
     with open(b + ".tab") as dat, open(b + ".filt.tab", "w") as passed:
         for line in dat:
             tot[0] += 1
-            l = line.split("\t")
-            if float(l[2]) >= opts.identity and int(l[3]) >= opts.length and float(l[12]) >= opts.fraction:
-                ani[0].append(float(l[2]))
-                aln_len = int(l[3]) - int(l[13])
-                d[(str(l[0]), str(l[1]))] = float(l[2]), aln_len
+            parse_line = line.split("\t")
+            if float(parse_line[2]) >= opts.identity and int(parse_line[3]) >= opts.length and float(parse_line[12]) >= opts.fraction:
+                ani[0].append(float(parse_line[2]))
+                aln_len = int(parse_line[3]) - int(parse_line[13])
+                d[(str(parse_line[0]), str(parse_line[1]))] = float(parse_line[2]), aln_len
                 filt[0].append(aln_len)
                 passed.write(line)
                 if opts.bed:
                     parse_coords(
-                        l[0],
-                        (l[6], l[7]),
+                        parse_line[0],
+                        (parse_line[6], parse_line[7]),
                         os.path.join(
                             tmp,
                             "coords." + b1 + "frags." + b2 + "ref," + b1 + "qry.bed",
                         ),
                     )
                     parse_coords(
-                        l[1],
-                        (l[8], l[9]),
+                        parse_line[1],
+                        (parse_line[8], parse_line[9]),
                         os.path.join(
                             tmp,
                             "coords." + b2 + "frags." + b2 + "ref," + b1 + "qry.bed",
@@ -439,46 +439,46 @@ def main():
     with open(b + ".tab") as dat, open(b + ".filt.tab", "w") as passed, open(b + ".filt.two-way.tab", "w") as passed2:
         for line in dat:
             tot[1] += 1
-            l = line.split("\t")
-            if float(l[2]) >= opts.identity and int(l[3]) >= opts.length and float(l[12]) >= opts.fraction:
-                ani[1].append(float(l[2]))
-                aln_len = int(l[3]) - int(l[13])
+            parse_line = line.split("\t")
+            if float(parse_line[2]) >= opts.identity and int(parse_line[3]) >= opts.length and float(parse_line[12]) >= opts.fraction:
+                ani[1].append(float(parse_line[2]))
+                aln_len = int(parse_line[3]) - int(parse_line[13])
                 filt[1].append(aln_len)
                 passed.write(line)
                 if opts.bed:
                     parse_coords(
-                        l[0],
-                        (l[6], l[7]),
+                        parse_line[0],
+                        (parse_line[6], parse_line[7]),
                         os.path.join(
                             tmp,
                             "coords." + b2 + "frags." + b1 + "ref," + b2 + "qry.bed",
                         ),
                     )
                     parse_coords(
-                        l[1],
-                        (l[8], l[9]),
+                        parse_line[1],
+                        (parse_line[8], parse_line[9]),
                         os.path.join(
                             tmp,
                             "coords." + b1 + "frags." + b1 + "ref," + b2 + "qry.bed",
                         ),
                     )
-                pair = str(l[1]), str(l[0])
+                pair = str(parse_line[1]), str(parse_line[0])
                 if pair in d:
-                    ani[2].extend([float(l[2]), float(d[pair][0])])
+                    ani[2].extend([float(parse_line[2]), float(d[pair][0])])
                     filt[2].append(aln_len)
                     passed2.write(line)
                     if opts.bed:
                         parse_coords(
-                            l[0],
-                            (l[6], l[7]),
+                            parse_line[0],
+                            (parse_line[6], parse_line[7]),
                             os.path.join(tmp, "coords." + b2 + "frags.two-way.bed"),
                         )
                         parse_coords(
-                            l[1],
-                            (l[8], l[9]),
+                            parse_line[1],
+                            (parse_line[8], parse_line[9]),
                             os.path.join(tmp, "coords." + b1 + "frags.two-way.bed"),
                         )
-    if any(len(l) == 0 for l in ani + filt):
+    if any(len(parse_line) == 0 for parse_line in ani + filt):
         sys.stderr.write("ERROR: no alignments between sets.\n")
         sys.exit(1)
 
