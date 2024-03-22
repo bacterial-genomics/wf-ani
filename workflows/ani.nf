@@ -198,6 +198,24 @@ workflow ANI {
 
     /*
     ================================================================================
+                        Collect QC information
+    ================================================================================
+    */
+
+    // Collect QC file checks and concatenate into one file
+    ch_qc_filecheck = ch_qc_filecheck
+                        .flatten()
+                        .collectFile(
+                            name:       "Summary.QC_File_Checks.tsv",
+                            keepHeader: true,
+                            storeDir:   "${params.outdir}/Summaries",
+                            sort:       'index'
+                        )
+
+    ch_output_summary_files = ch_output_summary_files.mix(ch_qc_filecheck)
+
+    /*
+    ================================================================================
                         Convert TSV outputs to Excel XLSX
     ================================================================================
     */
@@ -216,7 +234,7 @@ workflow ANI {
 
     /*
     ================================================================================
-                        Collect version and QC information
+                        Collect version information
     ================================================================================
     */
 
@@ -227,16 +245,6 @@ workflow ANI {
             name:     "software_versions.yml",
             storeDir: params.tracedir
         )
-
-    // Collect QC file checks and concatenate into one file
-    ch_qc_filecheck = ch_qc_filecheck
-                        .flatten()
-                        .collectFile(
-                            name:       "Summary.QC_File_Checks.tsv",
-                            keepHeader: true,
-                            storeDir:   "${params.outdir}/Summaries",
-                            sort:       'index'
-                        )
 }
 
 /*
