@@ -60,9 +60,9 @@ nextflow run \
   --outdir results
 ```
 
-To minimize typing all of the parameters above, a bash script was created for UGE HPCs. It can take FastA/Genbank files from selected directory OR if FastA/Genbank files not found in that directory, it will look in subdirectories for FastA/Genbank files. If an OUTPUT_DIRECTORY is not specified, the OUTPUT_DIRECTORY will default to where you launch the script.
-
 ## Usage
+
+To minimize typing all of the parameters above, a bash script was created for UGE HPCs. It can take FastA/Genbank files from selected directory OR if FastA/Genbank files not found in that directory, it will look in subdirectories for FastA/Genbank files. If an OUTPUT_DIRECTORY is not specified, the OUTPUT_DIRECTORY will default to where you launch the script.
 
 ### Run all inputs against each other
 
@@ -118,5 +118,5 @@ nextflow run \
 ### Help menu of all options
 
 ```bash
-nextflow run bacterial-genomics/wf-ani --help
+nextflow run bacterial-genomics/wf-ani -r main --help
 ```

@@ -77,5 +77,5 @@ nextflow run \
 ### Help menu of all options
 
 ```bash
-nextflow run bacterial-genomics/wf-ani --help
+nextflow run bacterial-genomics/wf-ani -r main --help
 ```
