@@ -99,7 +99,6 @@ Pairings of input files that pass the quality control check are identified and A
 
 </details>
 
-
 ## Summaries
 
 Concatenation of output metrics for all samples.

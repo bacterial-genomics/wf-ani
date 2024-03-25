@@ -74,7 +74,7 @@ nextflow run \
   --max_memory 16.GB
 ```
 
-### Help menu of all options:
+### Help menu of all options
 
 ```bash
 nextflow run bacterial-genomics/wf-ani --help

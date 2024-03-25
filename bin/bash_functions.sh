@@ -29,8 +29,7 @@ check_if_file_exists_allow_seconds() {
   return 0
 }
 
-verify_minimum_file_size()
-{
+verify_minimum_file_size() {
   # Boolean test to ensure the filepath is a file, is non-zero size, and
   #  is at least the minimum specified size (in Bytes).
 
@@ -44,8 +43,8 @@ verify_minimum_file_size()
   #  $3=minimum size in Bytes
   #   (optionally can specify k, M, or G suffix after a number for big numbers)
 
-  if [ -f  "${1}" ]; then
-    if [ -s  "${1}" ]; then
+  if [ -f "${1}" ]; then
+    if [ -s "${1}" ]; then
       if [[ $(find -L "${1}" -type f -size +"${3}") ]]; then
         return 0
       else
@@ -62,9 +61,9 @@ verify_minimum_file_size()
   fi
 }
 
-find_combinations()
-{
-readarray -t COMBO_FILES < <(python - <<-EOF
+find_combinations() {
+  readarray -t COMBO_FILES < <(
+    python - <<-EOF
 import itertools, os
 with open(os.getenv('genomes'), 'r') as ifh:
     genome_filenames = [ln.rstrip('\\n') for ln in ifh]
@@ -81,5 +80,5 @@ for idx, chunk in enumerate(iter_chunks(combos), start=1):
         ofh.write('\\n'.join('{}\\t{}'.format(j, k) for j, k in chunk))
     print(outfile)
 EOF
-)
+  )
 }

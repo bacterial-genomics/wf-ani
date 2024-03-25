@@ -115,7 +115,7 @@ nextflow run \
   --ani <blast|fastani|skani>
 ```
 
-### Help menu of all options:
+### Help menu of all options
 
 ```bash
 nextflow run bacterial-genomics/wf-ani --help
