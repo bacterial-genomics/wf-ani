@@ -36,13 +36,13 @@ Run the built-in test set to confirm all parts are working as-expected. It will 
 
 ### Pull workflow from GitHub
 
-```
+```bash
 nextflow pull bacterial-genomics/wf-ani -r main
 ```
 
 ### Run test workflow
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -56,7 +56,7 @@ Example command on FastAs in "new-fasta-dir" data using **BLAST** (ANIb) with si
 
 ### Run workflow
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -78,7 +78,7 @@ This workflow performs average nucleotide identity on assembled and/or annotated
 
 ## Usage
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -98,7 +98,7 @@ These are the most pertinent options for this workflow:
 
 #### Required parameters
 
-```
+```console
   ============================================
         Input/Output
   ============================================
@@ -135,7 +135,7 @@ These are the most pertinent options for this workflow:
 
 View help menu of all workflow options:
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \

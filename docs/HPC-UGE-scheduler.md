@@ -29,7 +29,7 @@ export PATH=$PATH:~/.nextflow/assets/bacterial-genomics/wf-ani
 
 ## Setup Singularity environment variables - For Aspen Cluster
 
-```
+```bash
 # Add to $HOME/.bashrc
 SINGULARITY_BASE=/scicomp/scratch/$USER
 
@@ -42,7 +42,7 @@ mkdir -pv $SINGULARITY_TMPDIR $SINGULARITY_CACHEDIR
 
 Reload .bashrc
 
-```
+```bash
 source ~/.bashrc
 ```
 
@@ -50,7 +50,7 @@ source ~/.bashrc
 
 Before running workflow on new data, the workflow should be ran on the built-in test data to make sure everything is working properly. It will also download all dependencies to make subsequent runs much faster.
 
-```
+```bash
 module load nextflow
 
 nextflow run \
@@ -66,7 +66,7 @@ To minimize typing all of the parameters above, a bash script was created for UG
 
 ### Run all inputs against each other
 
-```
+```bash
 # BLAST (ANIb)
 run_ANIb_ALL_vs_ALL.uge-nextflow INPUT_DIRECTORY OUTPUT_DIRECTORY
 
@@ -79,7 +79,7 @@ run_skani_ALL_vs_ALL.uge-nextflow INPUT_DIRECTORY OUTPUT_DIRECTORY
 
 Example analysis using Nextflow command:
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -91,7 +91,7 @@ nextflow run \
 
 ### Run a query input against a reference directory of inputs
 
-```
+```bash
 # BLAST (ANIb)
 run_ANIb_QUERY_vs_REF.uge-nextflow QUERY_INPUT_FILE REFERENCE_DIRECTORY OUTPUT_DIRECTORY
 
@@ -104,7 +104,7 @@ run_skani_QUERY_vs_REF.uge-nextflow QUERY_INPUT_FILE REFERENCE_DIRECTORY OUTPUT_
 
 Example analysis using Nextflow command:
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -117,6 +117,6 @@ nextflow run \
 
 ### Help menu of all options:
 
-```
+```bash
 nextflow run bacterial-genomics/wf-ani --help
 ```

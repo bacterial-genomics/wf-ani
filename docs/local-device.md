@@ -16,7 +16,7 @@
 
 ## Install workflow
 
-```
+```bash
 nextflow pull bacterial-genomics/wf-ani -r main
 ```
 
@@ -24,7 +24,7 @@ nextflow pull bacterial-genomics/wf-ani -r main
 
 Before running workflow on new data, the workflow should be ran on the built-in test data to make sure everything is working properly. It will also download all dependencies to make subsequent runs much faster.
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -36,7 +36,7 @@ nextflow run \
 
 ### Run all inputs against each other
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -48,7 +48,7 @@ nextflow run \
 
 ### Run a query input against a reference directory of inputs
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -63,7 +63,7 @@ nextflow run \
 
 When running locally, `--max_cpus` and `--max_memory` may need to be specified. Below, max cpus is set to 4 and max memory is set to 16 (for 16GB).
 
-```
+```bash
 nextflow run \
   bacterial-genomics/wf-ani \
   -r main \
@@ -76,6 +76,6 @@ nextflow run \
 
 ### Help menu of all options:
 
-```
+```bash
 nextflow run bacterial-genomics/wf-ani --help
 ```
