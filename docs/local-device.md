@@ -25,9 +25,11 @@ git clone https://github.com/bacterial-genomics/wf-ani.git
 Before running workflow on new data, the workflow should be ran on the built-in test data to make sure everything is working properly. It will also download all dependencies to make subsequent runs much faster.
 
 ```
-cd wf-ani/
-
-nextflow run main.nf -profile docker,test --outdir results
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
+  -profile docker,test \
+  --outdir results
 ```
 
 ## Usage
@@ -35,7 +37,9 @@ nextflow run main.nf -profile docker,test --outdir results
 ### Run all inputs against each other
 
 ```
-nextflow run main.nf \
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile docker \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
@@ -45,7 +49,9 @@ nextflow run main.nf \
 ### Run a query input against a reference directory of inputs
 
 ```
-nextflow run main.nf \
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile docker \
   --query QUERY_INPUT_FILE \
   --refdir REFERENCE_DIRECTORY \
@@ -58,7 +64,9 @@ nextflow run main.nf \
 When running locally, `--max_cpus` and `--max_memory` may need to be specified. Below, max cpus is set to 4 and max memory is set to 16 (for 16GB).
 
 ```
-nextflow run main.nf \
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile docker \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
@@ -69,5 +77,5 @@ nextflow run main.nf \
 ### Help menu of all options:
 
 ```
-nextflow run main.nf --help
+nextflow run bacterial-genomics/wf-ani --help
 ```

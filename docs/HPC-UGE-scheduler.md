@@ -46,11 +46,13 @@ source ~/.bashrc
 Before running workflow on new data, the workflow should be ran on the built-in test data to make sure everything is working properly. It will also download all dependencies to make subsequent runs much faster.
 
 ```
-cd $LAB_HOME/workflows/wf-ani
-
 module load nextflow
 
-nextflow run main.nf -profile singularity,test --outdir results
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
+  -profile singularity,test \
+  --outdir results
 ```
 
 To minimize typing all of the parameters above, a bash script was created for UGE HPCs. It can take FastA/Genbank files from selected directory OR if FastA/Genbank files not found in that directory, it will look in subdirectories for FastA/Genbank files. If an OUTPUT_DIRECTORY is not specified, the OUTPUT_DIRECTORY will default to where you launch the script.
@@ -73,7 +75,9 @@ run_skani_ALL_vs_ALL.uge-nextflow INPUT_DIRECTORY OUTPUT_DIRECTORY
 Example analysis using Nextflow command:
 
 ```
-nextflow run main.nf \
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile singularity \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
@@ -96,7 +100,9 @@ run_skani_QUERY_vs_REF.uge-nextflow QUERY_INPUT_FILE REFERENCE_DIRECTORY OUTPUT_
 Example analysis using Nextflow command:
 
 ```
-nextflow run main.nf \
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
   -profile singularity \
   --query QUERY_INPUT_FILE \
   --refdir REFERENCE_DIRECTORY \
@@ -107,5 +113,5 @@ nextflow run main.nf \
 ### Help menu of all options:
 
 ```
-nextflow run main.nf --help
+nextflow run bacterial-genomics/wf-ani --help
 ```

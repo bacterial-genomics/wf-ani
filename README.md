@@ -79,7 +79,13 @@ This workflow performs average nucleotide identity on assembled and/or annotated
 ## Usage
 
 ```
-nextflow run main.nf -profile <docker|singularity> --input <input directory> --outdir <directory for results> --ani <blast|fastani|skani>
+nextflow run \
+  bacterial-genomics/wf-ani \
+  -r main \
+  -profile <docker|singularity> \
+  --input <input directory> -\
+  -outdir <directory for results> \
+  --ani <blast|fastani|skani>
 ```
 
 Please see the [usage documentation](docs/usage.md) for further information on using this workflow.
@@ -121,8 +127,8 @@ These are the most pertinent options for this workflow:
   ============================================
         Optional ANI tools
   ============================================
-  --ani               Specify what algorithm should be used to compare input files.
-                      Recognized arguments are: blast, fastani, skani. [Default: blast]
+  --ani                   Specify what algorithm should be used to compare input files.
+                          Recognized arguments are: blast, fastani, skani. [Default: blast]
 ```
 
 #### Additional parameters
