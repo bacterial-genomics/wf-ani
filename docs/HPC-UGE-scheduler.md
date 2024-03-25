@@ -14,10 +14,17 @@
 - [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) `(>=22.04.3)`
 - [Docker](https://docs.docker.com/engine/installation/) or [Singularity](https://www.sylabs.io/guides/3.0/user-guide/) `(>=3.8.0)`
 
-## Install on our HPC
+## Install workflow
 
 ```
-git clone https://github.com/bacterial-genomics/wf-ani.git $LAB_HOME/workflows
+# Load Nextflow
+module load nextflow
+
+# Install workflow
+nextflow pull bacterial-genomics/wf-ani -r main
+
+# Make workflow accessible
+export PATH=$PATH:~/.nextflow/assets/bacterial-genomics/wf-ani
 ```
 
 ## Setup Singularity environment variables - For Aspen Cluster
@@ -27,9 +34,7 @@ git clone https://github.com/bacterial-genomics/wf-ani.git $LAB_HOME/workflows
 SINGULARITY_BASE=/scicomp/scratch/$USER
 
 export SINGULARITY_TMPDIR=$SINGULARITY_BASE/singularity.tmp
-
 export SINGULARITY_CACHEDIR=$SINGULARITY_BASE/singularity.cache
-
 export NXF_SINGULARITY_CACHEDIR=$SINGULARITY_BASE/singularity.cache
 
 mkdir -pv $SINGULARITY_TMPDIR $SINGULARITY_CACHEDIR

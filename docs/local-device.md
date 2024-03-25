@@ -14,10 +14,10 @@
 - [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) `(>=22.04.3)`
 - [Docker](https://docs.docker.com/engine/installation/) or [Singularity](https://www.sylabs.io/guides/3.0/user-guide/) `(>=3.8.0)`
 
-## Install Worflow Locally
+## Install workflow
 
 ```
-git clone https://github.com/bacterial-genomics/wf-ani.git
+nextflow pull bacterial-genomics/wf-ani -r main
 ```
 
 # Run Workflow
