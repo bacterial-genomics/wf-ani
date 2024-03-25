@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/wf-ani_logo_dark.png">
-    <img alt="bacterial-genomics/wf-ani" src="docs/images/wf-ani_logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="images/wf-ani_logo_dark.png">
+    <img alt="bacterial-genomics/wf-ani" src="images/wf-ani_logo_light.png">
   </picture>
 </h1>
 
