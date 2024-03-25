@@ -96,7 +96,7 @@ Note the "`--`" long name arguments (e.g., `--help`, `--input`, `--outdir`) are 
 
 These are the most pertinent options for this workflow:
 
-#### Required parameters
+### Required parameters
 
 ```console
   ============================================
@@ -131,7 +131,7 @@ These are the most pertinent options for this workflow:
                           Recognized arguments are: blast, fastani, skani. [Default: blast]
 ```
 
-#### Additional parameters
+### Additional parameters
 
 View help menu of all workflow options:
 
