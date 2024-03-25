@@ -16,7 +16,7 @@
 
 ## Install workflow
 
-```
+```bash
 # Load Nextflow
 module load nextflow
 
