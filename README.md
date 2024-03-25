@@ -160,7 +160,7 @@ Please see the [output documentation](docs/output.md) for a table of all outputs
 
 Q: It failed, how do I find out what went wrong?
 
-A: View file contents in the `<outdir>/log` directory.
+A: View file contents in the `<outdir>/pipeline_info` directory.
 
 ## Contributions and Support
 
