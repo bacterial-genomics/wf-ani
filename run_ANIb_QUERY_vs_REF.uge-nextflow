@@ -6,7 +6,6 @@
 SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
 
 # Define script usage
-
 usage() {
   echo "
 Usage: ${0##*/} QueryInput ReferenceDirectory [OutputDirectory] [-h|--help]
@@ -97,17 +96,29 @@ if [[ $# -lt 2  || $# -gt 4 ]]; then
 fi
 
 # Confirm we are on a host that can submit jobs
-if [ ${HOSTNAME%%.*} == 'biolinux' ] || \
-  [ ${HOSTNAME%%.*} == 'login02' ] || \
-  [ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]; then
+# if [ ${HOSTNAME%%.*} == 'biolinux' ] || \
+#   [ ${HOSTNAME%%.*} == 'login02' ] || \
+#   [ ${HOSTNAME%%.*} == 'rosalind01' ] || \
+#   [ ${HOSTNAME%%.*} == 'rosalind02' ] || \
+#   [ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]; then
+#   :
+# else
+#   echo -e "${RED_TXT}ERROR:${COLOR_OFF} must be on aspen, rosalind, or biolinux" >&2
+#   exit 1
+# fi
+
+if [[ ${HOSTNAME%%.*} == 'rosalind02' ]] || \
+   [[ ${HOSTNAME%%.*} =~ ^rosalind(-[0-9]+)?$ ]] || \
+   [[ ${HOSTNAME%%.*} == 'login02' ]] || \
+   [[ ${HOSTNAME%%.*} == 'biolinux' ]] || \
+   [[ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'rosalind-' ]] || \
+   [[ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]]; then
   :
-elif [ ${HOSTNAME%%.*} == 'rosalind01' ]; then
-  echo -e "${RED_TXT}ERROR:${COLOR_OFF} cannot submit jobs on Rosalind head node!" >&2
-  exit 1
 else
   echo -e "${RED_TXT}ERROR:${COLOR_OFF} must be on aspen, rosalind, or biolinux" >&2
   exit 1
 fi
+
 
 # I/O handling
 if [[ $1 =~ .+[[:space:]].+ ]]; then
@@ -259,7 +270,7 @@ fi
 
 # Check for specific nextflow logfile for this workflow, which
 #  means this nextflow workflow has been ran before in the specified outpath.
-if [ -d "${OUT}/pipeline_info" ] && \
+if [ -d "${OUT}/log" ] && \
   [ -f $(find "${OUT}" -maxdepth 1 -name "nextflow_log*" | grep -q '.') ]; then
   prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
 fi
@@ -288,45 +299,18 @@ if [ ${#found_files[@]} -lt 1 ]; then
   exit 1
 fi
 
-# Array of extensions
-extensions=(.fasta .fas .fa .fsa .fna .gbff .gbf .gbk .gb .gz)
-
 # Add basename of FastA/Genbank files to $submitted
 submitted=()
 for (( i=0; i<${#found_files[@]}; i++ )); do
   # Remove _genomic and .extension from filenames
   ifh=${found_files[i]}
-  base=$(basename ${ifh} | sed 's/_genomic//1')
-
-  for ext in ${extensions[@]}; do
-    base=$(echo $base | sed "s/$ext//g")
-  done
-
+  base=$(basename ${ifh} | sed 's/\.fa.*//g' | sed 's/\.fna.*//g' | sed 's/_genomic//1')
   if [[ "${submitted[*]}" =~ " ${base} " ]]; then
     echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
     exit 1
   fi
   submitted+=(${base})
 done
-
-# Prompt user if >10 samples to prevent accidentally performing ANI on too many
-if [[ ${#submitted[@]} -ge 10 ]]; then
-  echo -e "${YELLOW_TXT}\nWARNING: ${#submitted[@]} samples have been identified:\n${COLOR_OFF}"
-  for f in ${submitted[@]}; do
-    echo -e "${YELLOW_TXT}${f}${COLOR_OFF}"
-  done | xargs -L3 | column -t
-
-  # Prompt user to verify submission of large sample set
-  echo -e "${RED_BG}"
-  read -p "Do you want to continue submitting ${#submitted[@]} samples? (yes|no) " -n 1 -r
-  echo -e "${COLOR_OFF}"
-  if [[ $REPLY =~ ^[yY] ]]; then
-    echo -e "\nContinuing to submit ${#submitted[@]} samples as ${#submitted[@]} pairings...\n"
-  else
-    echo -e "${RED_TXT}\nSubmission cancelled ${COLOR_OFF}"
-    exit 0
-  fi
-fi
 
 # Prompt user if >300,000 comparisons as it may not complete on Rosalind HPC
 if [[ ${#submitted[@]} -ge 300000 ]]; then
@@ -345,10 +329,8 @@ if [[ ${#submitted[@]} -ge 300000 ]]; then
 fi
 
 # Get node number - <=230 = biolinux, >=231 = rosalind
+# The new Rosalind RHEL8 uses "rosalind-<INT>" node names not "node<int>" instead
 NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
-
-module load nextflow
-nextflow pull bacterial-genomics/wf-ani -r main
 
 # If FastQ files are able to be submitted, submit and display basenames
 if [[ ${#submitted[@]} -ge 2 ]] && \
@@ -359,41 +341,42 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
-    -v ANI="blast" \
-    -v TYPE="QUERY_vs_REFDIR" \
-    -m ba \
+    -m bae \
     -q all.q \
-    -o ${OUT}/pipeline_info \
-    -e ${OUT}/pipeline_info \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ANIb_QUERY_vs_REF.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
-  [[ ${NODE_NUM} -ge 231 ]]; then
-  # Submit Nextflow pipeline to Rosalind HPC
+  # Submit Nextflow pipeline to Rosalind HPC with AGE 2024.1.0 (v8.9.0)
+  # Red Hat Enterprise Linux release 8.10 (Ootpa)
+  [[ ${HOSTNAME%%.*} == 'rosalind02' ]] || \
+  [[ "${HOSTNAME%%.*}" =~ ^rosalind-[0-9]+$ ]] || \
+  # Submit Nextflow pipeline to Rosalind HPC with AGE Sep 2021 (v8.7.0)
+  # CentOS Linux release 7.9.2009 (Core)
+  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
+  [[ "${HOSTNAME%%.*}" =~ ^node[0-9]+$ ]]; then
   qsub \
     -v OUT=${OUT} \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
-    -v ANI="blast" \
-    -v TYPE="QUERY_vs_REFDIR" \
-    -m ba \
+    -m bae \
     -q all.q \
-    -o ${OUT}/pipeline_info \
-    -e ${OUT}/pipeline_info \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
-    -l max_runtime=72:00:00 \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_ANIb_QUERY_vs_REF.uge-nextflow
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
@@ -414,5 +397,5 @@ for elem in "${submitted[@]}"; do
 done | xargs -L3 | column -t
 echo -e "${COLOR_OFF}"
 
-# Set up log directory in OUT directory
-mkdir -p ${OUT}/pipeline_info
+# Make log directory in OUT directory
+mkdir -p ${OUT}/log

@@ -13,7 +13,7 @@ Usage: ${0##*/} InputDirectory [OutputDirectory] [-h|--help]
 
 Required:
 <InputDirectory>      Path to FastA and GenBank formatted files ending in:
-                      {fa,fas,fsa,fna,fasta,gb,gbk,gbf,gbff}
+                      {fa,fas,fsa,fna,fasta} and {gb,gbk,gbf,gbff}
                       with optional .gz compression.
 
   Sample names are extracted from file names, omitting file extensions.
@@ -93,15 +93,15 @@ if [[ $# -lt 1  || $# -gt 2 ]]; then
 fi
 
 # Confirm we are on a host that can submit jobs
-if [ ${HOSTNAME%%.*} == 'biolinux' ] || \
-  [ ${HOSTNAME%%.*} == 'login02' ] || \
-  [ $(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g') == 'node' ]; then
+if [ "${HOSTNAME%%.*}" == 'biolinux' ] || \
+  [ "${HOSTNAME%%.*}" == 'login02' ] || \
+  [ "${HOSTNAME%%.*}" == 'rosalind01' ] || \
+  [ "${HOSTNAME%%.*}" == 'rosalind02' ] || \
+  [ "$(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g')" == 'rosalind-' ] || \
+  [ "$(echo ${HOSTNAME%%.*} | sed 's/[0-9]//g')" == 'node' ]; then
   :
-elif [ ${HOSTNAME%%.*} == 'rosalind01' ]; then
-  echo -e "${RED_TXT}ERROR:${COLOR_OFF} cannot submit jobs on Rosalind head node!" >&2
-  exit 1
 else
-  echo -e "${RED_TXT}ERROR:${COLOR_OFF} must be on aspen, rosalind, or biolinux." >&2
+  echo -e "${RED_TXT}ERROR:${COLOR_OFF} must be on rosalind, aspen, or biolinux" >&2
   exit 1
 fi
 
@@ -210,7 +210,7 @@ fi
 
 # Check for specific nextflow logfile for this workflow, which
 #  means this nextflow workflow has been ran before in the specified outpath.
-if [ -d "${OUT}/pipeline_info" ] && \
+if [ -d "${OUT}/log" ] && \
   [ -f $(find "${OUT}" -maxdepth 1 -name "nextflow_log*" | grep -q '.') ]; then
   prompt_if_previous_nextflow_run "${OUT}" "nextflow_log"
 fi
@@ -239,20 +239,12 @@ if [ ${#found_files[@]} -lt 2 ]; then
   exit 1
 fi
 
-# Array of extensions
-extensions=(.fasta .fas .fa .fsa .fna .gbff .gbf .gbk .gb .gz)
-
 # Get basename (prefix) of files to submit jobs
 submitted=()
 for (( i=0; i<${#found_files[@]}; i++ )); do
   # Remove _genomic and .extension from filenames
   ifh=${found_files[i]}
-  base=$(basename ${ifh} | sed 's/_genomic//1')
-
-  for ext in ${extensions[@]}; do
-    base=$(echo $base | sed "s/$ext//g")
-  done
-
+  base=$(basename ${ifh} | sed 's/[.].*//g' | sed 's/_genomic//1')
   if [[ "${submitted[*]}" =~ " ${base} " ]]; then
     echo -e "${RED_TXT}ERROR:${COLOR_OFF} ${base} sample name occurs more than once" >&2
     exit 1
@@ -301,9 +293,6 @@ fi
 # Get node number - <=230 = biolinux, >=231 = rosalind
 NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
 
-module load nextflow
-nextflow pull bacterial-genomics/wf-ani -r main
-
 # If FastQ files are able to be submitted, submit and display basenames
 if [[ ${#submitted[@]} -ge 2 ]] && \
   [[ ${HOSTNAME%%.*} == 'biolinux' || 'login02' ]] || \
@@ -312,40 +301,42 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
   qsub \
     -v IN=${IN} \
     -v OUT=${OUT} \
-    -v ANI="skani" \
-    -v TYPE="ALL_vs_ALL" \
     -m ba \
     -q all.q \
-    -o ${OUT}/pipeline_info \
-    -e ${OUT}/pipeline_info \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -N ANI_${pairings} \
     -v LAB_HOME=${LAB_HOME} \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_skani_ALL_vs_ALL.uge-nextflow
 
 elif [[ ${#submitted[@]} -ge 2 ]] && \
-  [[ ${NODE_NUM} -ge 231 ]]; then
-  # Submit Nextflow pipeline to Rosalind HPC
+  # Submit Nextflow pipeline to Rosalind HPC with AGE 2024.1.0 (v8.9.0)
+  # Red Hat Enterprise Linux release 8.10 (Ootpa)
+  [[ ${HOSTNAME%%.*} == 'rosalind02' ]] || \
+  [[ "${HOSTNAME%%.*}" =~ ^rosalind-[0-9]+$ ]] || \
+  # Submit Nextflow pipeline to Rosalind HPC with AGE Sep 2021 (v8.7.0)
+  # CentOS Linux release 7.9.2009 (Core)
+  [[ ${HOSTNAME%%.*} == 'rosalind01' ]] || \
+  [[ "${HOSTNAME%%.*}" =~ ^node[0-9]+$ ]]; then
   qsub \
     -v IN=${IN} \
     -v OUT=${OUT} \
-    -v ANI="skani" \
-    -v TYPE="ALL_vs_ALL" \
-    -m ba \
+    -m bae \
     -q all.q \
-    -o ${OUT}/pipeline_info \
-    -e ${OUT}/pipeline_info \
+    -o ${OUT}/log \
+    -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${pairings} \
-    -l max_runtime=72:00:00 \
+    -l h_rt=72:00:00 \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
-    ${HOME}/.nextflow/assets/bacterial-genomics/wf-ani/_run_ani.uge-nextflow
+    ${LAB_HOME}/workflows/wf-ani/_run_skani_ALL_vs_ALL.uge-nextflow
 
 else
   echo -e "${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
@@ -362,4 +353,4 @@ done | xargs -L3 | column -t
 echo -e "${COLOR_OFF}"
 
 # Set up log directory in OUT directory
-mkdir -p ${OUT}/pipeline_info
+mkdir -p ${OUT}/log
