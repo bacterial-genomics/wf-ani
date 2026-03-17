@@ -63,7 +63,7 @@ nextflow run main.nf \
   --input INPUT_DIRECTORY \
   --outdir OUTPUT_DIRECTORY \
   --max_cpus 4 \
-  --max_memory 16
+  --max_memory 16.GB
 ```
 
 ### Help menu of all options:
