@@ -11,7 +11,7 @@ else
   HPC='aspen_hpc'
 fi
 
-module load nextflow
+module --ignore-cache load nextflow
 nextflow \
   -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
   run \

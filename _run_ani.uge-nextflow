@@ -12,7 +12,7 @@ else
   HPC='aspen_hpc'
 fi
 
-module load nextflow
+module --ignore-cache load nextflow
 
 if [[ ${TYPE} =~ QUERY.* ]]; then
   nextflow \

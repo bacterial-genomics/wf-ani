@@ -11,7 +11,7 @@ else
   HPC='aspen_hpc'
 fi
 
-module load nextflow
+module --ignore-cache load nextflow
 nextflow \
   -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
   run \
@@ -23,7 +23,7 @@ nextflow \
   -profile ${HPC} \
   --query ${QUERY} \
   --refdir ${REFERENCE} \
-  --outdir ${OUT} 
+  --outdir ${OUT}
 
 # Check for errors and add to errors.tsv
 # Get nextflow run name
