@@ -301,8 +301,8 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
   qsub \
     -v IN=${IN} \
     -v OUT=${OUT} \
-    -m ba \
-    -q all.q \
+    -m bae \
+    -q long.q \
     -o ${OUT}/log \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
@@ -326,13 +326,13 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v IN=${IN} \
     -v OUT=${OUT} \
     -m bae \
-    -q all.q \
+    -q long.q \
     -o ${OUT}/log \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${pairings} \
-    -l h_rt=72:00:00 \
+    -l h_rt=672:00:00 \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
