@@ -349,7 +349,7 @@ if [[ ${#submitted[@]} -ge 2 ]] && \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
     -m bae \
-    -q all.q \
+    -q long.q \
     -o ${OUT}/log \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
@@ -374,12 +374,13 @@ elif [[ ${#submitted[@]} -ge 2 ]] && \
     -v QUERY=${QUERY} \
     -v REFERENCE=${REFERENCE} \
     -m bae \
-    -q all.q \
+    -q long.q \
     -o ${OUT}/log \
     -e ${OUT}/log \
     -M ${USER}@cdc.gov \
     -v LAB_HOME=${LAB_HOME} \
     -N ANI_${#submitted[@]} \
+    -l h_rt=672:00:00 \
     -v SINGULARITY_TMPDIR=${SINGULARITY_TMPDIR} \
     -v SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
     -v NXF_SINGULARITY_CACHEDIR=${SINGULARITY_CACHEDIR} \
