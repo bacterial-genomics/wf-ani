@@ -1,7 +1,7 @@
 process ANI_BLAST_BIOPYTHON {
 
-    label "process_high"
-    tag( "${base1}-${base2}" )
+    label "process_low"
+    tag( "${base1},${base2}" )
     container "gregorysprenger/blast-plus-biopython@sha256:dc6a4cd2d3675b6782dbe88a0852663a7f9406670b4178867b8b230eb3be0d0d"
 
     input:
@@ -26,16 +26,16 @@ process ANI_BLAST_BIOPYTHON {
 
     # Skip comparison if precomputed value exists
     ANI=""
-    if [ -s "!{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
-      msg "INFO: Found precomputed !{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base1}-!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
-    elif [ -s "!{params.outdir}/ANI/BLAST/!{base2}-!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
+    if [ -s "!{params.outdir}/ANI/BLAST/!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" ]; then
+      msg "INFO: Found precomputed !{params.outdir}/ANI/BLAST/!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" >&2
+      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base1},!{base2}/ani.!{base1},!{base2}.stats.tab" | cut -f 3 | sed 's/%//1')
+    elif [ -s "!{params.outdir}/ANI/BLAST/!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" ]; then
       msg "INFO: Found precomputed !{params.outdir}/ANI/BLAST/!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" >&2
-      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base2}-!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
+      ANI=$(grep ',' "!{params.outdir}/ANI/BLAST/!{base2},!{base1}/ani.!{base2},!{base1}.stats.tab" | cut -f 3 | sed 's/%//1')
     fi
     if [[ ! -z ${ANI} ]]; then
       if [[ "${ANI%.*}" -ge 0 && "${ANI%.*}" -le 100 ]]; then
-        msg "INFO: Found ANI ${ANI} for !{base1}-!{base2}; skipping the comparison" >&2
+        msg "INFO: Found ANI ${ANI} for !{base1},!{base2}; skipping the comparison" >&2
         exit 0
       fi
     fi

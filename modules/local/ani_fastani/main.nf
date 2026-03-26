@@ -1,7 +1,7 @@
 process ANI_FASTANI {
 
-    label "process_high"
-    tag( "${base1}-${base2}" )
+    label "process_low"
+    tag( "${base1},${base2}" )
     container "gregorysprenger/fastani@sha256:047dbb5bd779bd12c98258c2b5570c4d30c33582203c94786b0901149e233eaa"
 
     input:
@@ -9,8 +9,8 @@ process ANI_FASTANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("fastani.${base1}-${base2}.tsv*")
-    path("fastani.${base1}-${base2}.tsv") , emit: ani_stats
+    path("fastani.${base1},${base2}.tsv*")
+    path("fastani.${base1},${base2}.tsv") , emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")                  , emit: versions
 
@@ -28,7 +28,7 @@ process ANI_FASTANI {
     fastANI \
       --ref "assemblies/!{filename1}" \
       --query "assemblies/!{filename2}" \
-      --output "fastani.!{base1}-!{base2}.tsv" \
+      --output "fastani.!{base1},!{base2}.tsv" \
       !{matrix} \
       --visualize \
       --threads !{task.cpus} \
@@ -37,11 +37,11 @@ process ANI_FASTANI {
       --minFraction !{params.fastani_minimum_fraction}
 
     # Clean up fastani.out file
-    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" "fastani.!{base1}-!{base2}.tsv"
-    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" "fastani.!{base1}-!{base2}.tsv"
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/1" "fastani.!{base1},!{base2}.tsv"
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/1" "fastani.!{base1},!{base2}.tsv"
 
     # Add column headings
-    sed -i '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' "fastani.!{base1}-!{base2}.tsv"
+    sed -i '1i Reference\tQuery\tANI (%)\tAligned Matches\tTotal Sequence Fragments' "fastani.!{base1},!{base2}.tsv"
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":

@@ -1,7 +1,7 @@
 process ANI_SKANI {
 
-    label "process_high"
-    tag( "${base1}-${base2}" )
+    label "process_low"
+    tag( "${base1},${base2}" )
     container "gregorysprenger/skani@sha256:f775f114281a7bd647467a13b90d243ec32ab3f7763c5dbeb06be5e35a842bb6"
 
     input:
@@ -9,7 +9,7 @@ process ANI_SKANI {
     path(asm)           , stageAs: 'assemblies/*'
 
     output:
-    path("skani.${base1}-${base2}.tsv"), emit: ani_stats
+    path("skani.${base1},${base2}.tsv"), emit: ani_stats
     path(".command.{out,err}")
     path("versions.yml")               , emit: versions
 
@@ -49,7 +49,7 @@ process ANI_SKANI {
     skani dist \
       -q "assemblies/!{filename1}" \
       -r "assemblies/!{filename2}" \
-      -o "skani.!{base1}-!{base2}.tsv" \
+      -o "skani.!{base1},!{base2}.tsv" \
       -v \
       !{speed} \
       !{median} \
@@ -65,9 +65,9 @@ process ANI_SKANI {
       -m !{params.skani_marker_compression_factor} \
       --min-af !{params.skani_minimum_alignment_fraction}
 
-    # Clean up skani.!{base1}-!{base2}.tsv file
-    sed -i "s/assemblies\\/!{filename1}/!{base1}/g" "skani.!{base1}-!{base2}.tsv"
-    sed -i "s/assemblies\\/!{filename2}/!{base2}/g" "skani.!{base1}-!{base2}.tsv"
+    # Clean up skani.!{base1},!{base2}.tsv file
+    sed -i "s/assemblies\\/!{filename1}/!{base1}/1" "skani.!{base1},!{base2}.tsv"
+    sed -i "s/assemblies\\/!{filename2}/!{base2}/1" "skani.!{base1},!{base2}.tsv"
 
     cat <<-END_VERSIONS > versions.yml
     "!{task.process}":
