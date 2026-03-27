@@ -3,19 +3,37 @@
 SCRIPT_NAME="$(basename ${0#_} .uge-nextflow)"
 
 # Set profile
-# Get node number - <=230 = biolinux, >=231 = rosalind
-NODE_NUM=$(echo ${HOSTNAME%%.*} | sed 's/node//1')
-if [[ ${NODE_NUM} -ge 231 ]]; then
+# Get node number: >=231 = old rosalind, <=230 = biolinux/aspen
+# The new Rosalind RHEL8 uses "rosalind-<INT>" node names not "node<int>" instead
+echo "jobid:  ${SCRIPT_NAME}"
+echo "hostname:  ${HOSTNAME}"
+echo "system:  $(uname -a)"
+echo -e "distro and version:\n$(lsb_release -a | sed 's/^/    /')"
+
+NODE_NUM="$(echo ${HOSTNAME%%.*} | sed 's/node//1')"
+echo "node_num:  $NODE_NUM"
+if [[ "${NODE_NUM}" =~ ^rosalind-[0-9]+$ ]]; then
+  echo "INFO: using rosalind_hpc_age profile ..."
+  HPC='rosalind_hpc_age'
+elif [[ "${NODE_NUM}" =~ ^?[0-9]+$ ]] && [[ ${NODE_NUM} -ge 95 ]]; then
+  echo "INFO: using rosalind_hpc profile ..."
   HPC='rosalind_hpc'
-else
+elif [[ "${NODE_NUM}" =~ ^?[0-9]+$ ]] && [[ ${NODE_NUM} -lt 95 ]]; then
+  echo "INFO: using aspen_hpc profile ..."
   HPC='aspen_hpc'
+else
+  # No regex matches to node<int> Aspen, Biolinux, Rosalind or to rosalind-<INT>
+  echo -e "\n${RED_TXT}Biolinux/Aspen/Rosalind HPC is not detected.\nSubmission cancelled. ${COLOR_OFF}"
+  exit 1
 fi
+
+time_stamp="$(date '+%Y-%b-%d_%a_%H-%M-%S')"
 
 module --ignore-cache load nextflow
 nextflow \
-  -log ${OUT}/nextflow_log.${SCRIPT_NAME}.txt \
+  -log ${OUT}/nextflow_log.${time_stamp}.txt \
   run \
-  ${LAB_HOME}/workflows/wf-ani/main.nf \
+  "${LAB_HOME}/workflows/wf-ani/main.nf" \
   -w /scicomp/scratch/${USER}/work \
   -N ${USER}@cdc.gov \
   --ani blast \
@@ -23,6 +41,7 @@ nextflow \
   -profile ${HPC} \
   --input ${IN} \
   --outdir ${OUT} \
+  --step_size 1000 \
   -resume
 
 # Check for errors and add to errors.tsv
