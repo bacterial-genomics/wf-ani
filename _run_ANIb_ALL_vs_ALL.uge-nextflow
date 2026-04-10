@@ -37,6 +37,7 @@ nextflow \
   -w /scicomp/scratch/${USER}/work \
   -N ${USER}@cdc.gov \
   --ani blast \
+  --min_ACGT_fraction 0.90 \
   -ansi-log false \
   -profile ${HPC} \
   --input ${IN} \
