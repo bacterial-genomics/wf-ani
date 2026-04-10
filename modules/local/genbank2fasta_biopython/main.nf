@@ -21,28 +21,28 @@ process GENBANK2FASTA_BIOPYTHON {
         msg "Converting ${file}.."
         export file
 
-        python -c '
-        import os
-        import gzip
-        from Bio import SeqIO
+        python -c "
+import os
+import gzip
+from Bio import SeqIO
 
-        genbank = os.environ["file"]
-        fasta = genbank.split('.')[0]
-        fasta = fasta + ".fna"
+genbank = os.environ['file']
+fasta = genbank.split('.')[0]
+fasta = fasta + '.fna'
 
-        if genbank.endswith('.gz'):
-          ifh = gzip.open(genbank)
-        else
-          ifh = open(genbank)
+if genbank.endswith('.gz'):
+    ifh = gzip.open(genbank)
+else:
+    ifh = open(genbank)
 
-        ofh = open(fasta, 'w')
+ofh = open(fasta, 'w')
 
-        SeqIO.write(SeqIO.parse(ifh, "genbank"), ofh, "fasta")
+SeqIO.write(SeqIO.parse(ifh, 'genbank'), ofh, 'fasta')
 
-        # Close files
-        ifh.close()
-        ofh.close()
-        '
+# Close files
+ifh.close()
+ofh.close()
+"
 
         # Clean up genbank files
         rm ${file}
